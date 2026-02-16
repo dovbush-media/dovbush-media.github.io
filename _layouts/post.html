@@ -2,25 +2,149 @@
 layout: default
 ---
 
-<article class="post">
+<div class="post-layout">
+  <!-- Main Post Content -->
+  <article class="post-main">
     <header class="post-header">
-        <h1 class="post-title">{{ page.title }}</h1>
-        <div class="post-meta-info">
-            <span class="post-date">{{ page.date | date: "%d %B %Y" }}</span>
-            {% if page.category %}
-            <span class="post-category">{{ page.category }}</span>
-            {% endif %}
-            {% if page.author %}
-            <span class="post-author">{{ page.author }}</span>
-            {% endif %}
-        </div>
+      <h1>{{ page.title }}</h1>
+      {% if page.cover %}
+      <img src="{{ page.cover }}" alt="{{ page.title }}" class="post-cover">
+      {% endif %}
     </header>
 
-    <div class="post-content">
-        {% if page.image %}
-        <img src="{{ page.image }}" alt="{{ page.title }}">
-        {% endif %}
-        
-        {{ content }}
+    <div class="post-body">
+      {{ content }}
     </div>
-</article>
+
+    <!-- Share Section -->
+    <div class="share-section">
+      <h3 class="share-title">Поділитися статтею</h3>
+      <div class="share-buttons">
+        <button class="share-btn telegram" aria-label="Поділитися в Telegram">
+          <i class="fab fa-telegram"></i>
+        </button>
+        <button class="share-btn facebook" aria-label="Поділитися в Facebook">
+          <i class="fab fa-facebook"></i>
+        </button>
+        <button class="share-btn twitter" aria-label="Поділитися в Twitter">
+          <i class="fab fa-twitter"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Post Footer Meta -->
+    <div class="post-footer-meta">
+      <div class="meta-left">
+        <span><i class="far fa-calendar"></i> {{ page.date | date: "%d.%m.%Y" }}</span>
+        <span><i class="far fa-comments"></i> <span class="comments-count">0</span> коментарів</span>
+      </div>
+      <div class="meta-right">
+        <span><i class="fas fa-folder"></i> {{ page.category }}</span>
+      </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments-section">
+      <h2 class="comments-title">Коментарі</h2>
+      
+      <form class="comment-form">
+        <div class="form-group">
+          <label for="name">Ім'я *</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="comment">Коментар *</label>
+          <textarea id="comment" name="comment" rows="5" required></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Додати коментар</button>
+      </form>
+      
+      <div class="comments-list">
+        <!-- Comments will be loaded here -->
+      </div>
+    </div>
+
+    <!-- Post Navigation -->
+    <nav class="post-navigation">
+      {% if page.previous %}
+      <a href="{{ page.previous.url }}" class="nav-btn prev">
+        <i class="fas fa-arrow-left"></i> Новіша публікація
+      </a>
+      {% else %}
+      <div></div>
+      {% endif %}
+      
+      <a href="/" class="nav-btn home">
+        <i class="fas fa-home"></i> Головна
+      </a>
+      
+      {% if page.next %}
+      <a href="{{ page.next.url }}" class="nav-btn next">
+        Старіша публікація <i class="fas fa-arrow-right"></i>
+      </a>
+      {% else %}
+      <div></div>
+      {% endif %}
+    </nav>
+
+    <!-- Popular Posts Section -->
+    <div class="popular-posts">
+      <div class="popular-header">
+        <h2 class="popular-title">Популярні статті</h2>
+        <div class="popular-controls">
+          <button class="popular-btn up" aria-label="Прокрутити вгору">
+            <i class="fas fa-chevron-up"></i>
+          </button>
+          <button class="popular-btn down" aria-label="Прокрутити вниз">
+            <i class="fas fa-chevron-down"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="popular-list">
+        {% for post in site.posts limit:5 %}
+        {% if post.url != page.url %}
+        <article class="latest-item">
+          <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}" class="latest-image">
+          <div class="latest-content">
+            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+            <p>{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+            <div class="latest-meta">
+              <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+              <span><i class="fas fa-folder"></i> {{ post.category }}</span>
+              <span><i class="far fa-comments"></i> 0</span>
+            </div>
+          </div>
+        </article>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="post-sidebar">
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">Читайте також</h3>
+      
+      {% assign related_posts = site.posts | where: "category", page.category | limit: 5 %}
+      {% for post in related_posts %}
+      {% if post.url != page.url %}
+      <article class="sidebar-post">
+        <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}">
+        <div>
+          <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
+        </div>
+      </article>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </aside>
+</div>
