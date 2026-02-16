@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway # Використовуємо шлюз Netlify, щоб не було помилок 404
+  name: git-gateway
+  repo: dovbush-media/dovbush-media.github.io
   branch: main
 
 media_folder: "assets/images"
@@ -8,13 +9,13 @@ public_folder: "/assets/images"
 collections:
   - name: "posts"
     label: "Пости про ігри"
-    folder: "_posts" # Папка, куди будуть зберігатися файли
+    folder: "_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - {label: "Заголовок", name: "title", widget: "string"}
-      - {label: "Дата публікації", name: "date", widget: "datetime"}
+      - {label: "Дата", name: "date", widget: "datetime"}
       - {label: "Layout", name: "layout", widget: "hidden", default: "default"}
-      - {label: "Картинка (URL)", name: "image", widget: "string"}
-      - {label: "Категорія", name: "category", widget: "select", options: ["Знижки", "Новини", "Огляди"]}
+      - {label: "Картинка URL", name: "image", widget: "string"}
+      - {label: "Категорія", name: "category", widget: "select", options: ["Знижки", "Новини"]}
       - {label: "Текст поста", name: "body", widget: "markdown"}
