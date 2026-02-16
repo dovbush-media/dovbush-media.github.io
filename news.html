@@ -1,0 +1,57 @@
+---
+layout: default
+title: Новини - DovbushHub
+description: Останні новини української ігрової індустрії
+---
+
+<div class="category-header">
+  <h1 class="category-title">Новини</h1>
+  <p class="category-description">
+    Найсвіжіші події та анонси з світу українських відеоігор
+  </p>
+</div>
+
+<div class="posts-list">
+  {% assign news_posts = site.posts | where: "category", "Новини" %}
+  
+  {% if news_posts.size == 0 %}
+    <!-- Demo posts if no actual posts -->
+    {% for i in (1..10) %}
+    <article class="latest-item">
+      <img src="https://via.placeholder.com/300x169/0f0f0f/ffffff?text=Новина+{{ i }}" alt="Новина {{ i }}" class="latest-image">
+      <div class="latest-content">
+        <h3><a href="#">Українська студія анонсувала нову амбітну гру</a></h3>
+        <p>Вітчизняні розробники представили трейлер свого нового проекту, який обіцяє стати одним з найбільших релізів року. Гра поєднує елементи RPG та action-adventure у унікальному сеттингу.</p>
+        <div class="latest-meta">
+          <span><i class="far fa-calendar"></i> {{ "now" | date: "%d.%m.%Y" }}</span>
+          <span><i class="fas fa-folder"></i> Новини</span>
+          <span><i class="far fa-comments"></i> {{ i | times: 3 }}</span>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  {% else %}
+    {% for post in news_posts %}
+    <article class="latest-item">
+      <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}" class="latest-image">
+      <div class="latest-content">
+        <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+        <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+        <div class="latest-meta">
+          <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+          <span><i class="fas fa-folder"></i> {{ post.category }}</span>
+          <span><i class="far fa-comments"></i> 0</span>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<div class="pagination">
+  <a href="#" class="page-btn">← Попередня</a>
+  <a href="#" class="page-btn active">1</a>
+  <a href="#" class="page-btn">2</a>
+  <a href="#" class="page-btn">3</a>
+  <a href="#" class="page-btn">Наступна →</a>
+</div>
