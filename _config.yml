@@ -1,0 +1,46 @@
+title: DovbushHub
+description: Український ігровий блог про відеоігри
+url: https://yourusername.github.io
+baseurl: /DovbushHub
+
+# Build settings
+markdown: kramdown
+theme: jekyll-theme-minimal
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /:categories/:year/:month/:day/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      category: "Новини"
+
+# Exclude files
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Permalink structure
+permalink: /:categories/:year/:month/:day/:title/
+
+# Timezone
+timezone: Europe/Kiev
+
+# Language
+lang: uk
