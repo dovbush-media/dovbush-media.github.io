@@ -1,83 +1,241 @@
 ---
 layout: default
+title: DovbushHub - Український ігровий блог
+description: Український ігровий блог про відеоігри, новини індустрії, огляди та інтерв'ю
 ---
 
-<div class="main-layout">
-    <!-- Articles Feed -->
-    <section class="articles-feed">
-        {% for post in site.posts limit:10 %}
-        <article class="article-card">
-            {% if post.image %}
-            <img src="{{ post.image }}" alt="{{ post.title }}" class="article-thumbnail">
-            {% else %}
-            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=280&h=180&fit=crop" alt="{{ post.title }}" class="article-thumbnail">
-            {% endif %}
-            <div class="article-content">
-                <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-                <p class="article-description">{{ post.description | default: post.excerpt | strip_html | truncate: 120 }}</p>
-                <div class="article-meta">
-                    <span class="date">{{ post.date | date: "%d %B %Y" }}</span>
-                    {% if post.category %}
-                    <span class="category">{{ post.category }}</span>
-                    {% endif %}
-                </div>
+<!-- News Section -->
+<section class="section-slider" id="news">
+  <div class="section-header">
+    <h2 class="section-title">Новини</h2>
+    <div class="slider-controls">
+      <button class="slider-btn prev" aria-label="Попередній слайд">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="slider-btn next" aria-label="Наступний слайд">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  
+  <div class="slider-wrapper">
+    <div class="slider-track">
+      {% assign news_posts = site.posts | where: "category", "Новини" | limit: 8 %}
+      {% if news_posts.size == 0 %}
+        <!-- Demo cards if no posts -->
+        {% for i in (1..6) %}
+        <article class="post-card">
+          <img src="https://via.placeholder.com/350x197/0f0f0f/ffffff?text=Новина+{{ i }}" alt="Новина {{ i }}" class="post-image">
+          <div class="post-content">
+            <h3 class="post-title">Нова українська гра отримала престижну нагороду</h3>
+            <p class="post-excerpt">Українські розробники продовжують дивувати світ своїми креативними та якісними проектами в індустрії відеоігор.</p>
+            <div class="post-meta">
+              <span class="post-date"><i class="far fa-calendar"></i> 15.02.2026</span>
+              <span class="post-comments"><i class="far fa-comments"></i> 12</span>
             </div>
+          </div>
         </article>
         {% endfor %}
-    </section>
-
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="widget">
-            <h3 class="widget-title">Популярні статті</h3>
-            <ul>
-                {% for post in site.posts limit:5 %}
-                <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div class="widget widget-comments">
-            <h3 class="widget-title">Останні коментарі</h3>
-            <ul>
-                <li class="comment-item">
-                    <div class="comment-author">Олег:</div>
-                    <div class="comment-text">"Чудовий огляд!"</div>
-                </li>
-                <li class="comment-item">
-                    <div class="comment-author">Марина:</div>
-                    <div class="comment-text">"Цікаві новинки!"</div>
-                </li>
-                <li class="comment-item">
-                    <div class="comment-author">Ігор:</div>
-                    <div class="comment-text">"Чекаю на реліз!"</div>
-                </li>
-            </ul>
-        </div>
-    </aside>
-</div>
-
-<!-- Carousel Section -->
-<section class="carousel-section">
-    <div class="container">
-        <h2>Останні матеріали</h2>
-        <div class="carousel-container">
-            <button class="carousel-nav prev" onclick="scrollCarousel(-1)">‹</button>
-            <div class="carousel" id="carousel">
-                {% for post in site.posts limit:8 %}
-                <div class="carousel-item">
-                    {% if post.image %}
-                    <img src="{{ post.image }}" alt="{{ post.title }}">
-                    {% else %}
-                    <img src="https://images.unsplash.com/photo-{{ forloop.index }}?w=280&h=180&fit=crop" alt="{{ post.title }}">
-                    {% endif %}
-                    <div class="carousel-caption">
-                        <a href="{{ post.url | relative_url }}" style="color: white; text-decoration: none;">{{ post.title | truncate: 40 }}</a>
-                    </div>
-                </div>
-                {% endfor %}
+      {% else %}
+        {% for post in news_posts %}
+        <article class="post-card">
+          <a href="{{ post.url }}">
+            <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}" class="post-image">
+            <div class="post-content">
+              <h3 class="post-title">{{ post.title }}</h3>
+              <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+              <div class="post-meta">
+                <span class="post-date"><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+                <span class="post-comments"><i class="far fa-comments"></i> 0</span>
+              </div>
             </div>
-            <button class="carousel-nav next" onclick="scrollCarousel(1)">›</button>
-        </div>
+          </a>
+        </article>
+        {% endfor %}
+      {% endif %}
     </div>
+  </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="section-slider" id="reviews">
+  <div class="section-header">
+    <h2 class="section-title">Огляди</h2>
+    <div class="slider-controls">
+      <button class="slider-btn prev" aria-label="Попередній слайд">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="slider-btn next" aria-label="Наступний слайд">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  
+  <div class="slider-wrapper">
+    <div class="slider-track">
+      {% assign review_posts = site.posts | where: "category", "Огляди" | limit: 8 %}
+      {% if review_posts.size == 0 %}
+        <!-- Demo cards -->
+        {% for i in (1..6) %}
+        <article class="post-card">
+          <img src="https://via.placeholder.com/350x197/0f0f0f/0057b7?text=Огляд+{{ i }}" alt="Огляд {{ i }}" class="post-image">
+          <div class="post-content">
+            <h3 class="post-title">Детальний огляд української RPG-гри</h3>
+            <p class="post-excerpt">Розбираємо геймплей, графіку, сюжет та унікальні особливості нового релізу від українських розробників.</p>
+            <div class="post-meta">
+              <span class="post-date"><i class="far fa-calendar"></i> 14.02.2026</span>
+              <span class="post-comments"><i class="far fa-comments"></i> 24</span>
+            </div>
+          </div>
+        </article>
+        {% endfor %}
+      {% else %}
+        {% for post in review_posts %}
+        <article class="post-card">
+          <a href="{{ post.url }}">
+            <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}" class="post-image">
+            <div class="post-content">
+              <h3 class="post-title">{{ post.title }}</h3>
+              <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+              <div class="post-meta">
+                <span class="post-date"><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+                <span class="post-comments"><i class="far fa-comments"></i> 0</span>
+              </div>
+            </div>
+          </a>
+        </article>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Interviews Section -->
+<section class="section-slider" id="interviews">
+  <div class="section-header">
+    <h2 class="section-title">Інтерв'ю</h2>
+    <div class="slider-controls">
+      <button class="slider-btn prev" aria-label="Попередній слайд">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="slider-btn next" aria-label="Наступний слайд">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  
+  <div class="slider-wrapper">
+    <div class="slider-track">
+      {% assign interview_posts = site.posts | where: "category", "Інтерв'ю" | limit: 8 %}
+      {% if interview_posts.size == 0 %}
+        <!-- Demo cards -->
+        {% for i in (1..6) %}
+        <article class="post-card">
+          <img src="https://via.placeholder.com/350x197/0f0f0f/ffd700?text=Інтерв'ю+{{ i }}" alt="Інтерв'ю {{ i }}" class="post-image">
+          <div class="post-content">
+            <h3 class="post-title">Розмова з творцями хітового інді-проекту</h3>
+            <p class="post-excerpt">Дізнаємося про процес створення гри, виклики розробки та плани на майбутнє від самих авторів.</p>
+            <div class="post-meta">
+              <span class="post-date"><i class="far fa-calendar"></i> 13.02.2026</span>
+              <span class="post-comments"><i class="far fa-comments"></i> 18</span>
+            </div>
+          </div>
+        </article>
+        {% endfor %}
+      {% else %}
+        {% for post in interview_posts %}
+        <article class="post-card">
+          <a href="{{ post.url }}">
+            <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}" class="post-image">
+            <div class="post-content">
+              <h3 class="post-title">{{ post.title }}</h3>
+              <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+              <div class="post-meta">
+                <span class="post-date"><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+                <span class="post-comments"><i class="far fa-comments"></i> 0</span>
+              </div>
+            </div>
+          </a>
+        </article>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Tops Section -->
+<section class="section-slider" id="tops">
+  <div class="section-header">
+    <h2 class="section-title">Топи</h2>
+    <div class="slider-controls">
+      <button class="slider-btn prev" aria-label="Попередній слайд">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="slider-btn next" aria-label="Наступний слайд">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  
+  <div class="slider-wrapper">
+    <div class="slider-track">
+      {% assign top_posts = site.posts | where: "category", "Топи" | limit: 8 %}
+      {% if top_posts.size == 0 %}
+        <!-- Demo cards -->
+        {% for i in (1..6) %}
+        <article class="post-card">
+          <img src="https://via.placeholder.com/350x197/0f0f0f/ff3366?text=Топ+{{ i }}" alt="Топ {{ i }}" class="post-image">
+          <div class="post-content">
+            <h3 class="post-title">Топ-10 українських ігор 2025 року</h3>
+            <p class="post-excerpt">Підбірка найкращих релізів від вітчизняних розробників, які варто обов'язково спробувати.</p>
+            <div class="post-meta">
+              <span class="post-date"><i class="far fa-calendar"></i> 12.02.2026</span>
+              <span class="post-comments"><i class="far fa-comments"></i> 35</span>
+            </div>
+          </div>
+        </article>
+        {% endfor %}
+      {% else %}
+        {% for post in top_posts %}
+        <article class="post-card">
+          <a href="{{ post.url }}">
+            <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}" class="post-image">
+            <div class="post-content">
+              <h3 class="post-title">{{ post.title }}</h3>
+              <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+              <div class="post-meta">
+                <span class="post-date"><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+                <span class="post-comments"><i class="far fa-comments"></i> 0</span>
+              </div>
+            </div>
+          </a>
+        </article>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Latest Posts Section -->
+<section class="latest-posts">
+  <h2 class="latest-posts-title">Останні статті</h2>
+  
+  <div class="latest-list">
+    {% for post in site.posts limit: 5 %}
+    <article class="latest-item">
+      <img src="{{ post.cover | default: 'https://via.placeholder.com/300x169/0f0f0f/ffffff?text=Post' }}" alt="{{ post.title }}" class="latest-image">
+      <div class="latest-content">
+        <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+        <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+        <div class="latest-meta">
+          <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+          <span><i class="fas fa-folder"></i> {{ post.category }}</span>
+          <span><i class="far fa-comments"></i> 0</span>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  
+  <button class="load-more-btn">Показати більше</button>
 </section>
