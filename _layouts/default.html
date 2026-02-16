@@ -1,1 +1,26 @@
-
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }} | Dovbush Media</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; line-height: 1.6; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { border-bottom: 1px solid #30363d; padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
+        h1 { color: #58a6ff; }
+        img { max-width: 100%; border-radius: 8px; display: block; margin: 20px auto; }
+        .post-content { background: #161b22; padding: 30px; border-radius: 12px; border: 1px solid #30363d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dovbush Media</h1>
+            <nav><a href="/" style="color: #58a6ff;">Головна</a></nav>
+        </header>
+        
+        <div class="post-content">
+            {{ content }} </div>
+    </div>
+</body>
+</html>
