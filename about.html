@@ -1,0 +1,82 @@
+---
+layout: default
+title: Про сайт - DovbushHub
+description: Про DovbushHub - український ігровий блог
+---
+
+<div class="post-layout">
+  <article class="post-main">
+    <header class="post-header">
+      <h1>Про DovbushHub</h1>
+    </header>
+
+    <div class="post-body">
+      <h2>Хто ми?</h2>
+      <p>
+        DovbushHub - це український ігровий блог, присвячений вітчизняній індустрії відеоігор. 
+        Ми слідкуємо за новинами, пишемо огляди, беремо інтерв'ю у розробників та складаємо 
+        рейтинги найкращих українських ігор.
+      </p>
+
+      <h2>Наша місія</h2>
+      <p>
+        Ми віримо, що українська ігрова індустрія заслуговує на увагу та підтримку. Наша мета - 
+        популяризувати вітчизняні відеоігри, розповідати про талановитих українських розробників 
+        та допомагати гравцям відкривати для себе нові цікаві проекти.
+      </p>
+
+      <h2>Що ми робимо?</h2>
+      <p>
+        На DovbushHub ви знайдете:
+      </p>
+      <p>
+        <strong>Новини</strong> - найсвіжіші події з світу української ігрової індустрії
+      </p>
+      <p>
+        <strong>Огляди</strong> - детальний аналіз українських ігор
+      </p>
+      <p>
+        <strong>Інтерв'ю</strong> - розмови з розробниками про їхні проекти
+      </p>
+      <p>
+        <strong>Топи</strong> - рейтинги та підбірки найкращих ігор
+      </p>
+
+      <h2>Зв'язок з нами</h2>
+      <p>
+        Маєте цікаву інформацію, хочете поділитися своїм проектом або просто поспілкуватися? 
+        Пишіть нам у соціальних мережах!
+      </p>
+
+      <div class="share-section">
+        <h3 class="share-title">Слідкуйте за нами</h3>
+        <div class="share-buttons">
+          <a href="https://t.me/dovbushhub" class="share-btn telegram" target="_blank" rel="noopener">
+            <i class="fab fa-telegram"></i>
+          </a>
+          <a href="https://youtube.com/@dovbushhub" class="share-btn" style="background: #ff0000;" target="_blank" rel="noopener">
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a href="https://instagram.com/dovbushhub" class="share-btn" style="background: #e1306c;" target="_blank" rel="noopener">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <aside class="post-sidebar">
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">Популярні статті</h3>
+      
+      {% for post in site.posts limit: 5 %}
+      <article class="sidebar-post">
+        <img src="{{ post.cover | default: 'https://via.placeholder.com/80x80/0f0f0f/ffffff?text=Post' }}" alt="{{ post.title }}">
+        <div>
+          <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </aside>
+</div>
