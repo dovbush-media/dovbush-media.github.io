@@ -1,0 +1,56 @@
+---
+layout: default
+title: Інтерв'ю - DovbushHub
+description: Розмови з розробниками українських ігор
+---
+
+<div class="category-header">
+  <h1 class="category-title">Інтерв'ю</h1>
+  <p class="category-description">
+    Ексклюзивні розмови з творцями українських відеоігор
+  </p>
+</div>
+
+<div class="posts-list">
+  {% assign interview_posts = site.posts | where: "category", "Інтерв'ю" %}
+  
+  {% if interview_posts.size == 0 %}
+    <!-- Demo posts -->
+    {% for i in (1..6) %}
+    <article class="latest-item">
+      <img src="https://via.placeholder.com/300x169/0f0f0f/ffd700?text=Інтерв'ю+{{ i }}" alt="Інтерв'ю {{ i }}" class="latest-image">
+      <div class="latest-content">
+        <h3><a href="#">Розмова з лідером української геймдев-студії</a></h3>
+        <p>У цьому інтерв'ю ми поговорили з засновником однієї з найуспішніших українських студій про їхній шлях, виклики індустрії та плани на майбутнє. Дізнайтеся про закулісся створення хітових ігор.</p>
+        <div class="latest-meta">
+          <span><i class="far fa-calendar"></i> {{ "now" | date: "%d.%m.%Y" }}</span>
+          <span><i class="fas fa-folder"></i> Інтерв'ю</span>
+          <span><i class="far fa-comments"></i> {{ i | times: 4 }}</span>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  {% else %}
+    {% for post in interview_posts %}
+    <article class="latest-item">
+      <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}" class="latest-image">
+      <div class="latest-content">
+        <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+        <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+        <div class="latest-meta">
+          <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+          <span><i class="fas fa-folder"></i> {{ post.category }}</span>
+          <span><i class="far fa-comments"></i> 0</span>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<div class="pagination">
+  <a href="#" class="page-btn">← Попередня</a>
+  <a href="#" class="page-btn active">1</a>
+  <a href="#" class="page-btn">2</a>
+  <a href="#" class="page-btn">Наступна →</a>
+</div>
