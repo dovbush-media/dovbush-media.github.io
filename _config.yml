@@ -1,0 +1,6 @@
+title: DovbushHub
+description: Ігровий портал про знижки та новини
+url: "https://dovbush-media.github.io"
+theme: null # Ми пишемо свій дизайн, тому вбудовані теми нам не треба
+markdown: kramdown
+permalink: /:title/ # Щоб посилання були красивими: dovbush-media.github.io/bioshock
