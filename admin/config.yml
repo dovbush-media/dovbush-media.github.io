@@ -1,5 +1,5 @@
 backend:
-  name: github
+  name: git-gateway
   repo: dovbush-media/dovbush-media.github.io # Твій репозиторій
   branch: main
 
