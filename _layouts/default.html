@@ -2,25 +2,49 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>{{ page.title }} | Dovbush Media</title>
-    <style>
-        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; line-height: 1.6; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; }
-        header { border-bottom: 1px solid #30363d; padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
-        h1 { color: #58a6ff; }
-        img { max-width: 100%; border-radius: 8px; display: block; margin: 20px auto; }
-        .post-content { background: #161b22; padding: 30px; border-radius: 12px; border: 1px solid #30363d; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} - {% endif %}DovbushHub</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Dovbush Media</h1>
-            <nav><a href="/" style="color: #58a6ff;">Головна</a></nav>
-        </header>
-        
-        <div class="post-content">
-            {{ content }} </div>
-    </div>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><a href="{{ '/' | relative_url }}" style="color: inherit; text-decoration: none;">DovbushHub</a></h1>
+                <div class="logo-underline"></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ '/' | relative_url }}">Головна</a></li>
+                    <li><a href="#">Українські ігри</a></li>
+                    <li><a href="#">Огляди</a></li>
+                    <li><a href="#">Новини</a></li>
+                    <li><a href="#">Роздачі</a></li>
+                    <li><a href="#">Про нас</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {{ content }}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">DovbushHub © 2026</div>
+                <div class="footer-links">
+                    <a href="#">Telegram</a>
+                    <span>|</span>
+                    <a href="#">Контакти</a>
+                    <span>|</span>
+                    <a href="#">Політика</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
 </html>
