@@ -1,5 +1,5 @@
 backend:
-  name: git-gateway
+  name: github
   repo: dovbush-media/dovbush-media.github.io
   branch: main
 
@@ -18,4 +18,4 @@ collections:
       - {label: "Layout", name: "layout", widget: "hidden", default: "default"}
       - {label: "Картинка URL", name: "image", widget: "string"}
       - {label: "Категорія", name: "category", widget: "select", options: ["Знижки", "Новини"]}
-      - {label: "Текст поста", name: "body", widget: "markdown"}
+      - {label: "Текст", name: "body", widget: "markdown"}
