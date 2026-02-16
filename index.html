@@ -43,19 +43,29 @@
             <p>Новини українського геймдеву</p>
         </header>
 
-        <article class="post-item">
-            <div class="post-image">
-                <img src="https://via.placeholder.com/300x170" alt="Сталкер 2">
+        <div class="container">
+    <header>
+        <h1>Dovbush Hub</h1>
+        <p>Новини українського геймдеву</p>
+    </header>
+
+    {% for post in site.posts %}
+    <article class="post-item">
+        <div class="post-image">
+            <img src="{{ post.image | default: 'https://via.placeholder.com/300x170' }}" alt="{{ post.title }}">
+        </div>
+        <div class="post-content">
+            <a href="{{ post.url }}" class="post-title">{{ post.title }}</a>
+            <div class="post-excerpt">
+                {{ post.excerpt | strip_html | truncatewords: 30 }}
             </div>
-            <div class="post-content">
-                <a href="#" class="post-title">Логістика як мистецтво: Українська Age After Age</a>
-                <div class="post-excerpt">
-                    Розробники з Farom Studio готують справжній виклик для фанатів Anno та Settlers...
-                </div>
-                <div class="post-meta">08 лютого 2026 • Розділ: Новини</div>
-                <a href="#" class="read-more">Читати далі →</a>
+            <div class="post-meta">
+                {{ post.date | date: "%d.%m.%Y" }} • Розділ: {{ post.category }}
             </div>
-        </article>
+            <a href="{{ post.url }}" class="read-more">Читати далі →</a>
+        </div>
+    </article>
+    {% endfor %}
     </div>
 </body>
 </html>
