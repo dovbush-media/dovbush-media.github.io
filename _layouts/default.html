@@ -1,50 +1,102 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ page.description | default: 'DovbushHub - Український ігровий блог про відеоігри, новини індустрії, огляди та інтерв\'ю' }}">
+  <meta name="keywords" content="українські ігри, відеоігри, огляди ігор, новини ігор, ігрова індустрія">
+  <meta name="author" content="DovbushHub">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ page.title | default: 'DovbushHub' }}">
+  <meta property="og:description" content="{{ page.description | default: 'Український ігровий блог' }}">
+  <meta property="og:image" content="{{ page.image | default: '/assets/images/og-image.jpg' }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="website">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title | default: 'DovbushHub' }}">
+  <meta name="twitter:description" content="{{ page.description | default: 'Український ігровий блог' }}">
+  <meta name="twitter:image" content="{{ page.image | default: '/assets/images/og-image.jpg' }}">
+  
+  <title>{{ page.title | default: 'DovbushHub - Український ігровий блог' }}</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1><a href="{{ '/' | relative_url }}" style="color: inherit; text-decoration: none;">DovbushHub</a></h1>
-                <div class="logo-underline"></div>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="{{ '/' | relative_url }}">Головна</a></li>
-                    <li><a href="#">Українські ігри</a></li>
-                    <li><a href="#">Огляди</a></li>
-                    <li><a href="#">Новини</a></li>
-                    <li><a href="#">Роздачі</a></li>
-                    <li><a href="#">Про нас</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+  
+  <!-- Vyshyvanka Header -->
+  <header class="vyshyvanka-header">
+    <div class="header-content">
+      <h1 class="logo">DovbushHub</h1>
+    </div>
+  </header>
 
-    <main class="container">
-        {{ content }}
-    </main>
+  <!-- Main Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="burger-menu">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </div>
+      
+      <ul class="nav-menu">
+        <li><a href="/" {% if page.url == "/" %}class="active"{% endif %}><i class="fas fa-home"></i> Головна</a></li>
+        <li><a href="/news.html" {% if page.url contains "news" %}class="active"{% endif %}>Новини</a></li>
+        <li><a href="/reviews.html" {% if page.url contains "reviews" %}class="active"{% endif %}>Огляди</a></li>
+        <li><a href="/interviews.html" {% if page.url contains "interviews" %}class="active"{% endif %}>Інтерв'ю</a></li>
+        <li><a href="/tops.html" {% if page.url contains "tops" %}class="active"{% endif %}>Топи</a></li>
+        <li><a href="/about.html" {% if page.url contains "about" %}class="active"{% endif %}>Про сайт</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="copyright">DovbushHub © 2026</div>
-                <div class="footer-links">
-                    <a href="#">Telegram</a>
-                    <span>|</span>
-                    <a href="#">Контакти</a>
-                    <span>|</span>
-                    <a href="#">Політика</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <!-- Main Content -->
+  <main>
+    {{ content }}
+  </main>
 
-    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-info">
+        <p>&copy; 2026 DovbushHub. Всі права захищені.</p>
+      </div>
+      
+      <div class="footer-links">
+        <a href="/privacy.html">Політика конфіденційності</a>
+        <a href="/terms.html">Правила користування</a>
+      </div>
+      
+      <div class="social-links">
+        <a href="https://t.me/dovbushhub" class="social-link" target="_blank" rel="noopener" aria-label="Telegram">
+          <i class="fab fa-telegram"></i>
+        </a>
+        <a href="https://youtube.com/@dovbushhub" class="social-link" target="_blank" rel="noopener" aria-label="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a href="https://instagram.com/dovbushhub" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript -->
+  <script src="/assets/js/main.js"></script>
 </body>
 </html>
