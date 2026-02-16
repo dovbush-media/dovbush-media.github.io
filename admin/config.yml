@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: dovbush-media/dovbush-media.github.io
+  repo: dovbush-media/dovbush-media.github.io # Твій репозиторій
   branch: main
 
 media_folder: "assets/images"
@@ -18,4 +18,4 @@ collections:
       - {label: "Layout", name: "layout", widget: "hidden", default: "default"}
       - {label: "Картинка URL", name: "image", widget: "string"}
       - {label: "Категорія", name: "category", widget: "select", options: ["Знижки", "Новини"]}
-      - {label: "Текст", name: "body", widget: "markdown"}
+      - {label: "Текст поста", name: "body", widget: "markdown"}
