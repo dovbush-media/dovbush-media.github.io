@@ -48,33 +48,29 @@ body {
    ======================================== */
 
 .vyshyvanka-header {
-  width: 100%;
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-yellow) 100%);
-  padding: 1.5rem 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.vyshyvanka-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    /* Хрестики */
-    linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.2) 48%, rgba(255,255,255,0.2) 52%, transparent 52%),
-    linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.2) 48%, rgba(255,255,255,0.2) 52%, transparent 52%),
-    /* Ромби */
-    linear-gradient(45deg, transparent 30%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.15) 35%, transparent 35%, transparent 65%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0.15) 70%, transparent 70%),
-    linear-gradient(-45deg, transparent 30%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.15) 35%, transparent 35%, transparent 65%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0.15) 70%, transparent 70%),
-    /* Вертикальні лінії */
-    repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(255,255,255,0.1) 15px, rgba(255,255,255,0.1) 17px),
-    /* Горизонтальні лінії */
-    repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(0,0,0,0.1) 15px, rgba(0,0,0,0.1) 17px);
-  background-size: 20px 20px, 20px 20px, 40px 40px, 40px 40px, 100% 100%, 100% 100%;
-  opacity: 0.6;
+    /* Вказуємо шлях до фото */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/images/header-bg.jpg');
+    
+    /* Робимо так, щоб фото заповнювало весь простір */
+    background-size: cover;
+    
+    /* Центруємо зображення */
+    background-position: center;
+    
+    /* Фіксуємо фон, щоб він не "їздив" (опціонально) */
+    background-attachment: scroll;
+    
+    /* Додаємо мінімальну висоту, якщо шапка занадто вузька */
+    min-height: 300px;
+    
+    /* Залишаємо білий колір тексту, щоб його було видно на фоні */
+    color: #ffffff;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .header-content {
