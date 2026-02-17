@@ -71,7 +71,7 @@ description: Про DovbushHub - український ігровий блог
       
       {% for post in site.posts limit: 5 %}
       <article class="sidebar-post">
-        <img src="{{ post.cover | default: 'https://via.placeholder.com/80x80/0f0f0f/ffffff?text=Post' }}" alt="{{ post.title }}">
+        <img src="{{ post.cover }}" alt="{{ post.title }}">
         <div>
           <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
         </div>
