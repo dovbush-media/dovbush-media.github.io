@@ -267,6 +267,10 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.post-card a {
+  text-decoration: none;
+  color: inherit;
+}
 
 .post-excerpt {
   color: var(--text-secondary);
