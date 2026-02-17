@@ -64,6 +64,27 @@
         <li><a href="/tops" {% if page.url contains "tops" %}class="active"{% endif %}>Топи</a></li>
         <li><a href="/uagames" {% if page.url contains "uagames" %}class="active"{% endif %}>Каталог ігор</a></li>
         <li><a href="/about" {% if page.url contains "about" %}class="active"{% endif %}>Про сайт</a></li>
+        <li class="search-container">
+          <button class="search-btn" aria-label="Пошук">
+            <i class="fas fa-search"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay">
+    <div class="search-box">
+      <div class="search-input-wrapper">
+        <input type="text" class="search-input" placeholder="Введіть запит для пошуку..." autocomplete="off">
+        <button class="search-close" aria-label="Закрити пошук">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="search-results"></div>
+    </div>
+  </div>
       </ul>
   </nav>
 
