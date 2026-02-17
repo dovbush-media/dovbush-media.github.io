@@ -179,6 +179,7 @@ body {
 .section-slider {
   padding: 4rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
 }
 
 .section-header {
@@ -212,6 +213,7 @@ body {
 .slider-controls {
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
 
 .slider-btn {
@@ -226,13 +228,45 @@ body {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  opacity: 1;
+  visibility: visible;
 }
 
-.slider-btn:hover {
+.slider-btn:disabled,
+.slider-btn.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.slider-btn:hover:not(:disabled) {
   background: var(--accent-blue);
   border-color: var(--accent-blue);
   transform: scale(1.1);
   box-shadow: 0 0 20px rgba(0, 87, 183, 0.5);
+}
+
+/* Кнопка "Читати далі" */
+.slider-more-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow));
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.slider-more-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--glow);
 }
 
 .slider-wrapper {
@@ -240,12 +274,89 @@ body {
   margin: 0 auto;
   padding: 0 2rem;
   overflow: hidden;
+  position: relative;
 }
 
 .slider-track {
   display: flex;
   gap: 2rem;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: pan-y pinch-zoom;
+}
+
+/* Позиціонування стрілок по боках */
+.section-slider .slider-btn.prev {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(24, 24, 24, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.section-slider .slider-btn.next {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(24, 24, 24, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.section-slider .slider-btn.prev:hover,
+.section-slider .slider-btn.next:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Адаптивність для мобільних */
+@media (max-width: 768px) {
+  .section-slider {
+    padding: 2rem 0;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .slider-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .section-slider .slider-btn.prev,
+  .section-slider .slider-btn.next {
+    display: none; /* Ховаємо стрілки на мобільних, бо є свайп */
+  }
+  
+  .slider-wrapper {
+    padding: 0 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .slider-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .slider-track {
+    transition: none; /* Вимикаємо transition для нативного свайпу */
+  }
+  
+  .post-card {
+    scroll-snap-align: start;
+  }
+  
+  .slider-more-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ========================================
