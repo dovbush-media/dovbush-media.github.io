@@ -49,7 +49,7 @@ body {
 
 .vyshyvanka-header {
     /* Вказуємо шлях до фото */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/images/header-bg.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/images/header-bg.png');
     
     /* Робимо так, щоб фото заповнювало весь простір */
     background-size: cover;
