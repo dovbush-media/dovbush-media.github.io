@@ -11,11 +11,10 @@ description: Рейтинги та підбірки найкращих укра�
   </p>
 </div>
 
-<div class="posts-list">
+<div class="posts-list" id="postsList">
   {% assign top_posts = site.posts | where: "category", "Топи" %}
-  
   {% for post in top_posts %}
-  <article class="latest-item">
+  <article class="latest-item" data-post-index="{{ forloop.index0 }}">
     <img src="{{ post.cover }}" alt="{{ post.title }}" class="latest-image">
     <div class="latest-content">
       <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
@@ -30,9 +29,14 @@ description: Рейтинги та підбірки найкращих укра�
   {% endfor %}
 </div>
 
-<div class="pagination">
-  <a href="#" class="page-btn">← Попередня</a>
-  <a href="#" class="page-btn active">1</a>
-  <a href="#" class="page-btn">2</a>
-  <a href="#" class="page-btn">Наступна →</a>
-</div>
+<div class="pagination" id="pagination"></div>
+<script>
+(function(){
+  const PER = 6; let cur = 1;
+  const posts = Array.from(document.querySelectorAll("#postsList .latest-item"));
+  const total = Math.ceil(posts.length / PER);
+  function show(p){ cur=p; const s=(p-1)*PER; posts.forEach((el,i)=>el.style.display=(i>=s&&i<s+PER)?"":"none"); render(); window.scrollTo({top:0,behavior:"smooth"}); }
+  function render(){ const pag=document.getElementById("pagination"); if(total<=1){pag.innerHTML="";return;} let h=""; h+=cur>1?`<button class="page-btn" onclick="goPage(${cur-1})">← Попередня</button>`:`<button class="page-btn" disabled style="opacity:.35;cursor:not-allowed">← Попередня</button>`; for(let i=1;i<=total;i++) h+=`<button class="page-btn${i===cur?" active":""}" onclick="goPage(${i})">${i}</button>`; h+=cur<total?`<button class="page-btn" onclick="goPage(${cur+1})">Наступна →</button>`:`<button class="page-btn" disabled style="opacity:.35;cursor:not-allowed">Наступна →</button>`; pag.innerHTML=h; }
+  window.goPage=show; if(posts.length>0) show(1);
+})();
+</script>
