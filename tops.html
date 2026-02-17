@@ -14,38 +14,20 @@ description: Рейтинги та підбірки найкращих укра�
 <div class="posts-list">
   {% assign top_posts = site.posts | where: "category", "Топи" %}
   
-  {% if top_posts.size == 0 %}
-    <!-- Demo posts -->
-    {% for i in (1..6) %}
-    <article class="latest-item">
-      <img src="https://via.placeholder.com/300x169/0f0f0f/ff3366?text=Топ+{{ i }}" alt="Топ {{ i }}" class="latest-image">
-      <div class="latest-content">
-        <h3><a href="#">Топ-10 українських інді-ігор всіх часів</a></h3>
-        <p>Зібрали для вас найяскравіші приклади українського інді-гейм-дизайну. Від атмосферних платформерів до захопливих логічних головоломок - ці проекти варто спробувати кожному.</p>
-        <div class="latest-meta">
-          <span><i class="far fa-calendar"></i> {{ "now" | date: "%d.%m.%Y" }}</span>
-          <span><i class="fas fa-folder"></i> Топи</span>
-          <span><i class="far fa-comments"></i> {{ i | times: 7 }}</span>
-        </div>
+  {% for post in top_posts %}
+  <article class="latest-item">
+    <img src="{{ post.cover }}" alt="{{ post.title }}" class="latest-image">
+    <div class="latest-content">
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+      <div class="latest-meta">
+        <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+        <span><i class="fas fa-folder"></i> {{ post.category }}</span>
+        <span><i class="far fa-comments"></i> 0</span>
       </div>
-    </article>
-    {% endfor %}
-  {% else %}
-    {% for post in top_posts %}
-    <article class="latest-item">
-      <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}" class="latest-image">
-      <div class="latest-content">
-        <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-        <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-        <div class="latest-meta">
-          <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
-          <span><i class="fas fa-folder"></i> {{ post.category }}</span>
-          <span><i class="far fa-comments"></i> 0</span>
-        </div>
-      </div>
-    </article>
-    {% endfor %}
-  {% endif %}
+    </div>
+  </article>
+  {% endfor %}
 </div>
 
 <div class="pagination">
