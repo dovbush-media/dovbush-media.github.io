@@ -410,5 +410,99 @@ document.addEventListener('DOMContentLoaded', function() {
       return text.replace(regex, '<mark style="background: var(--accent-yellow); color: var(--bg-primary); padding: 2px 4px; border-radius: 3px;">$1</mark>');
     }
   }
+  // Initialize all sliders з покращеною логікою
+const sliders = document.querySelectorAll('.section-slider');
+
+sliders.forEach(slider => {
+  const track = slider.querySelector('.slider-track');
+  const prevBtn = slider.querySelector('.slider-btn.prev');
+  const nextBtn = slider.querySelector('.slider-btn.next');
+  const cards = slider.querySelectorAll('.post-card');
+  
+  if (!track || cards.length === 0) return;
+  
+  let currentPosition = 0;
+  const cardWidth = cards[0].offsetWidth + 32; // card width + gap
+  const visibleCards = Math.floor(slider.offsetWidth / cardWidth);
+  const maxScroll = cards.length - visibleCards;
+  
+  function updateButtons() {
+    if (prevBtn && nextBtn) {
+      // Ховаємо кнопку prev якщо на початку
+      if (currentPosition === 0) {
+        prevBtn.classList.add('hidden');
+      } else {
+        prevBtn.classList.remove('hidden');
+      }
+      
+      // Ховаємо кнопку next якщо в кінці
+      if (Math.abs(currentPosition / cardWidth) >= maxScroll) {
+        nextBtn.classList.add('hidden');
+      } else {
+        nextBtn.classList.remove('hidden');
+      }
+    }
+  }
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentPosition < 0) {
+        currentPosition += cardWidth;
+        track.style.transform = `translateX(${currentPosition}px)`;
+        updateButtons();
+      }
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (Math.abs(currentPosition / cardWidth) < maxScroll) {
+        currentPosition -= cardWidth;
+        track.style.transform = `translateX(${currentPosition}px)`;
+        updateButtons();
+      }
+    });
+  }
+  
+  // Touch swipe для мобільних
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  
+  track.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+  
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0 && Math.abs(currentPosition / cardWidth) < maxScroll) {
+        // Swipe left - next
+        currentPosition -= cardWidth;
+        track.style.transform = `translateX(${currentPosition}px)`;
+      } else if (diff < 0 && currentPosition < 0) {
+        // Swipe right - prev
+        currentPosition += cardWidth;
+        track.style.transform = `translateX(${currentPosition}px)`;
+      }
+      updateButtons();
+    }
+  }
+  
+  updateButtons();
+  
+  // Recalculate on window resize
+  window.addEventListener('resize', () => {
+    currentPosition = 0;
+    track.style.transform = `translateX(0)`;
+    updateButtons();
+  });
+});
   console.log('🎮 DovbushHub initialized successfully!');
 });
