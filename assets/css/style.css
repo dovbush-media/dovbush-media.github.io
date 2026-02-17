@@ -856,6 +856,10 @@ body {
    ПОПУЛЯРНІ / ЧИТАЙТЕ ТАКОЖ
    ======================================== */
 
+/* ========================================
+   ПОПУЛЯРНІ / ЧИТАЙТЕ ТАКОЖ
+   ======================================== */
+
 .popular-posts {
   margin: 0;
   padding: 3rem;
@@ -906,10 +910,37 @@ body {
 }
 
 .popular-list .latest-item {
-  min-width: 350px;
-  max-width: 350px;
+  min-width: 250px;
+  max-width: 250px;
   flex-shrink: 0;
   scroll-snap-align: start;
+}
+
+.popular-list .latest-item .latest-image {
+  height: 140px;
+}
+
+.popular-list .latest-item .latest-content {
+  padding: 1rem;
+}
+
+.popular-list .latest-item .latest-content h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.popular-list .latest-item .latest-content p {
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.popular-list .latest-item .latest-meta {
+  font-size: 0.75rem;
+  gap: 1rem;
 }
 
 /* ========================================
