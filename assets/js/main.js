@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Initialize all sliders
+  // Initialize all sliders з покращеною логікою
   const sliders = document.querySelectorAll('.section-slider');
   
   sliders.forEach(slider => {
@@ -32,14 +32,23 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPosition = 0;
     const cardWidth = cards[0].offsetWidth + 32; // card width + gap
     const visibleCards = Math.floor(slider.offsetWidth / cardWidth);
-    const maxPosition = -(cards.length - visibleCards) * cardWidth;
+    const maxScroll = cards.length - visibleCards;
     
     function updateButtons() {
       if (prevBtn && nextBtn) {
-        prevBtn.disabled = currentPosition === 0;
-        nextBtn.disabled = currentPosition <= maxPosition;
-        prevBtn.style.opacity = currentPosition === 0 ? '0.3' : '1';
-        nextBtn.style.opacity = currentPosition <= maxPosition ? '0.3' : '1';
+        // Ховаємо кнопку prev якщо на початку
+        if (currentPosition === 0) {
+          prevBtn.classList.add('hidden');
+        } else {
+          prevBtn.classList.remove('hidden');
+        }
+        
+        // Ховаємо кнопку next якщо в кінці
+        if (Math.abs(currentPosition / cardWidth) >= maxScroll) {
+          nextBtn.classList.add('hidden');
+        } else {
+          nextBtn.classList.remove('hidden');
+        }
       }
     }
     
@@ -55,12 +64,43 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
-        if (currentPosition > maxPosition) {
+        if (Math.abs(currentPosition / cardWidth) < maxScroll) {
           currentPosition -= cardWidth;
           track.style.transform = `translateX(${currentPosition}px)`;
           updateButtons();
         }
       });
+    }
+    
+    // Touch swipe для мобільних
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    track.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    track.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+    
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      const diff = touchStartX - touchEndX;
+      
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0 && Math.abs(currentPosition / cardWidth) < maxScroll) {
+          // Swipe left - next
+          currentPosition -= cardWidth;
+          track.style.transform = `translateX(${currentPosition}px)`;
+        } else if (diff < 0 && currentPosition < 0) {
+          // Swipe right - prev
+          currentPosition += cardWidth;
+          track.style.transform = `translateX(${currentPosition}px)`;
+        }
+        updateButtons();
+      }
     }
     
     updateButtons();
@@ -73,51 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Popular Posts Vertical Slider
-  const popularSection = document.querySelector('.popular-posts');
-  if (popularSection) {
-    const list = popularSection.querySelector('.popular-list');
-    const upBtn = popularSection.querySelector('.popular-btn.up');
-    const downBtn = popularSection.querySelector('.popular-btn.down');
-    const items = popularSection.querySelectorAll('.latest-item');
-    
-    if (list && items.length > 0) {
-      let currentPos = 0;
-      const itemHeight = items[0].offsetHeight + 24; // height + gap
-      const maxPos = -(items.length - 3) * itemHeight;
-      
-      function updatePopularButtons() {
-        if (upBtn && downBtn) {
-          upBtn.disabled = currentPos === 0;
-          downBtn.disabled = currentPos <= maxPos;
-          upBtn.style.opacity = currentPos === 0 ? '0.3' : '1';
-          downBtn.style.opacity = currentPos <= maxPos ? '0.3' : '1';
-        }
-      }
-      
-      if (upBtn) {
-        upBtn.addEventListener('click', () => {
-          if (currentPos < 0) {
-            currentPos += itemHeight;
-            list.style.transform = `translateY(${currentPos}px)`;
-            updatePopularButtons();
-          }
-        });
-      }
-      
-      if (downBtn) {
-        downBtn.addEventListener('click', () => {
-          if (currentPos > maxPos) {
-            currentPos -= itemHeight;
-            list.style.transform = `translateY(${currentPos}px)`;
-            updatePopularButtons();
-          }
-        });
-      }
-      
-      updatePopularButtons();
-    }
-  }
+  // Popular Posts Vertical Slider (не потрібен, бо тепер горизонтальний)
+  // Код видалено
 
   // Smooth Scroll for Anchor Links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -222,19 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Load More Button
-  const loadMoreBtn = document.querySelector('.load-more-btn');
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', function() {
-      // In a real implementation, this would load more posts
-      this.textContent = 'Завантаження...';
-      setTimeout(() => {
-        this.textContent = 'Показати більше';
-        alert('У реальній версії тут завантажуватимуться нові пости');
-      }, 1000);
-    });
-  }
-
   // Keyboard Navigation for Sliders
   document.addEventListener('keydown', (e) => {
     const focusedSlider = document.querySelector('.section-slider:focus-within');
@@ -242,9 +226,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const prevBtn = focusedSlider.querySelector('.slider-btn.prev');
       const nextBtn = focusedSlider.querySelector('.slider-btn.next');
       
-      if (e.key === 'ArrowLeft' && prevBtn) {
+      if (e.key === 'ArrowLeft' && prevBtn && !prevBtn.classList.contains('hidden')) {
         prevBtn.click();
-      } else if (e.key === 'ArrowRight' && nextBtn) {
+      } else if (e.key === 'ArrowRight' && nextBtn && !nextBtn.classList.contains('hidden')) {
         nextBtn.click();
       }
     }
@@ -289,7 +273,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
-// Image Lightbox для постів
+
+  // Image Lightbox для постів
   const postBody = document.querySelector('.post-body');
   if (postBody) {
     // Створюємо lightbox
@@ -313,6 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
       this.classList.remove('active');
     });
   }
+
   // Scroll to Top Button
   const scrollTopBtn = document.querySelector('.scroll-to-top');
   
@@ -332,6 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
   // Search Functionality
   const searchBtn = document.querySelector('.search-btn');
   const searchOverlay = document.querySelector('.search-overlay');
@@ -410,99 +397,6 @@ document.addEventListener('DOMContentLoaded', function() {
       return text.replace(regex, '<mark style="background: var(--accent-yellow); color: var(--bg-primary); padding: 2px 4px; border-radius: 3px;">$1</mark>');
     }
   }
-  // Initialize all sliders з покращеною логікою
-const sliders = document.querySelectorAll('.section-slider');
 
-sliders.forEach(slider => {
-  const track = slider.querySelector('.slider-track');
-  const prevBtn = slider.querySelector('.slider-btn.prev');
-  const nextBtn = slider.querySelector('.slider-btn.next');
-  const cards = slider.querySelectorAll('.post-card');
-  
-  if (!track || cards.length === 0) return;
-  
-  let currentPosition = 0;
-  const cardWidth = cards[0].offsetWidth + 32; // card width + gap
-  const visibleCards = Math.floor(slider.offsetWidth / cardWidth);
-  const maxScroll = cards.length - visibleCards;
-  
-  function updateButtons() {
-    if (prevBtn && nextBtn) {
-      // Ховаємо кнопку prev якщо на початку
-      if (currentPosition === 0) {
-        prevBtn.classList.add('hidden');
-      } else {
-        prevBtn.classList.remove('hidden');
-      }
-      
-      // Ховаємо кнопку next якщо в кінці
-      if (Math.abs(currentPosition / cardWidth) >= maxScroll) {
-        nextBtn.classList.add('hidden');
-      } else {
-        nextBtn.classList.remove('hidden');
-      }
-    }
-  }
-  
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      if (currentPosition < 0) {
-        currentPosition += cardWidth;
-        track.style.transform = `translateX(${currentPosition}px)`;
-        updateButtons();
-      }
-    });
-  }
-  
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      if (Math.abs(currentPosition / cardWidth) < maxScroll) {
-        currentPosition -= cardWidth;
-        track.style.transform = `translateX(${currentPosition}px)`;
-        updateButtons();
-      }
-    });
-  }
-  
-  // Touch swipe для мобільних
-  let touchStartX = 0;
-  let touchEndX = 0;
-  
-  track.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  });
-  
-  track.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  });
-  
-  function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0 && Math.abs(currentPosition / cardWidth) < maxScroll) {
-        // Swipe left - next
-        currentPosition -= cardWidth;
-        track.style.transform = `translateX(${currentPosition}px)`;
-      } else if (diff < 0 && currentPosition < 0) {
-        // Swipe right - prev
-        currentPosition += cardWidth;
-        track.style.transform = `translateX(${currentPosition}px)`;
-      }
-      updateButtons();
-    }
-  }
-  
-  updateButtons();
-  
-  // Recalculate on window resize
-  window.addEventListener('resize', () => {
-    currentPosition = 0;
-    track.style.transform = `translateX(0)`;
-    updateButtons();
-  });
-});
   console.log('🎮 DovbushHub initialized successfully!');
 });
