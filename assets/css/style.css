@@ -63,9 +63,18 @@ body {
   right: 0;
   bottom: 0;
   background-image: 
-    repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px),
-    repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px);
-  opacity: 0.5;
+    /* Хрестики */
+    linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.2) 48%, rgba(255,255,255,0.2) 52%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.2) 48%, rgba(255,255,255,0.2) 52%, transparent 52%),
+    /* Ромби */
+    linear-gradient(45deg, transparent 30%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.15) 35%, transparent 35%, transparent 65%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0.15) 70%, transparent 70%),
+    linear-gradient(-45deg, transparent 30%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.15) 35%, transparent 35%, transparent 65%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0.15) 70%, transparent 70%),
+    /* Вертикальні лінії */
+    repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(255,255,255,0.1) 15px, rgba(255,255,255,0.1) 17px),
+    /* Горизонтальні лінії */
+    repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(0,0,0,0.1) 15px, rgba(0,0,0,0.1) 17px);
+  background-size: 20px 20px, 20px 20px, 40px 40px, 40px 40px, 100% 100%, 100% 100%;
+  opacity: 0.6;
 }
 
 .header-content {
@@ -91,7 +100,6 @@ body {
 .logo:hover {
   transform: scale(1.05);
 }
-
 /* ========================================
    НАВІГАЦІЯ
    ======================================== */
