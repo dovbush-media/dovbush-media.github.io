@@ -54,14 +54,12 @@
         <span class="burger-line"></span>
       </div>
       
-      <ul class="nav-menu">
-        <li><a href="{{ site.baseurl }}/" {% if page.url == "/" %}class="active"{% endif %}><i class="fas fa-home"></i> Головна</a></li>
-        <li><a href="{{ site.baseurl }}/news.html" {% if page.url contains "news" %}class="active"{% endif %}>Новини</a></li>
-        <li><a href="{{ site.baseurl }}/reviews.html" {% if page.url contains "reviews" %}class="active"{% endif %}>Огляди</a></li>
-        <li><a href="{{ site.baseurl }}/interviews.html" {% if page.url contains "interviews" %}class="active"{% endif %}>Інтерв'ю</a></li>
-        <li><a href="{{ site.baseurl }}/tops.html" {% if page.url contains "tops" %}class="active"{% endif %}>Топи</a></li>
-        <li><a href="{{ site.baseurl }}/about.html" {% if page.url contains "about" %}class="active"{% endif %}>Про сайт</a></li>
-      </ul>
+      <li><a href="/" {% if page.url == "/" %}class="active"{% endif %}><i class="fas fa-home"></i> Головна</a></li>
+        <li><a href="/news.html" {% if page.url contains "news" %}class="active"{% endif %}>Новини</a></li>
+        <li><a href="/reviews.html" {% if page.url contains "reviews" %}class="active"{% endif %}>Огляди</a></li>
+        <li><a href="/interviews.html" {% if page.url contains "interviews" %}class="active"{% endif %}>Інтерв'ю</a></li>
+        <li><a href="/tops.html" {% if page.url contains "tops" %}class="active"{% endif %}>Топи</a></li>
+        <li><a href="/about.html" {% if page.url contains "about" %}class="active"{% endif %}>Про сайт</a></li>
     </div>
   </nav>
 
