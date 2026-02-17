@@ -1,18 +1,33 @@
+/* ========================================
+   ЗМІННІ КОЛЬОРІВ ТА СТИЛІВ
+   ======================================== */
+
 :root {
+  /* Фонові кольори */
   --bg-primary: #0f0f0f;
   --bg-secondary: #1a1a1a;
   --bg-card: #181818;
+  
+  /* Кольори тексту */
   --text-primary: #ffffff;
   --text-secondary: #b0b0b0;
+  
+  /* Акцентні кольори */
   --accent-blue: #0057b7;
   --accent-yellow: #ffd700;
   --accent-red: #ff3366;
   --accent-green: #00ff88;
   --accent-purple: #9d4edd;
+  
+  /* Радіуси та ефекти */
   --border-radius: 14px;
   --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   --glow: 0 0 20px rgba(255, 215, 0, 0.3);
 }
+
+/* ========================================
+   БАЗОВІ СТИЛІ
+   ======================================== */
 
 * {
   margin: 0;
@@ -28,7 +43,10 @@ body {
   overflow-x: hidden;
 }
 
-/* Vyshyvanka Header */
+/* ========================================
+   ШАПКА САЙТУ - Вишиванка
+   ======================================== */
+
 .vyshyvanka-header {
   width: 100%;
   background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-yellow) 100%);
@@ -67,9 +85,17 @@ body {
   color: var(--bg-primary);
   text-shadow: 2px 2px 0 rgba(255,255,255,0.3);
   letter-spacing: -1px;
+  transition: all 0.3s ease;
 }
 
-/* Navigation */
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* ========================================
+   НАВІГАЦІЯ
+   ======================================== */
+
 .main-nav {
   background: var(--bg-secondary);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -83,12 +109,15 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
+  display: flex;
+  align-items: center;
 }
 
 .nav-menu {
   display: flex;
   list-style: none;
   gap: 0.5rem;
+  flex: 1;
 }
 
 .nav-menu li {
@@ -124,6 +153,7 @@ body {
   transform: scaleX(1);
 }
 
+/* Різні кольори для кожного пункту меню */
 .nav-menu li:nth-child(1) a::after { background: var(--accent-blue); }
 .nav-menu li:nth-child(2) a::after { background: var(--accent-yellow); }
 .nav-menu li:nth-child(3) a::after { background: var(--accent-red); }
@@ -136,7 +166,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* Burger Menu */
+/* Burger Menu для мобільних */
 .burger-menu {
   display: none;
   flex-direction: column;
@@ -152,7 +182,10 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Section Slider */
+/* ========================================
+   СЛАЙДЕРИ РОЗДІЛІВ
+   ======================================== */
+
 .section-slider {
   padding: 4rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -225,9 +258,14 @@ body {
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Post Card */
+/* ========================================
+   КАРТКИ ПОСТІВ У СЛАЙДЕРАХ
+   ======================================== */
+
 .post-card {
   min-width: 350px;
+  max-width: 350px;
+  flex-shrink: 0;
   background: var(--bg-card);
   border-radius: var(--border-radius);
   overflow: hidden;
@@ -242,9 +280,14 @@ body {
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
 }
 
+.post-card a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .post-image {
   width: 100%;
-  aspect-ratio: 16/9;
+  height: 197px;
   object-fit: cover;
   transition: all 0.3s ease;
 }
@@ -266,10 +309,6 @@ body {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-.post-card a {
-  text-decoration: none;
-  color: inherit;
 }
 
 .post-excerpt {
@@ -298,31 +337,30 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.post-date {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
+.post-date,
 .post-comments {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-/* Latest Posts Section */
+/* ========================================
+   СЕКЦІЯ ОСТАННІХ СТАТЕЙ
+   ======================================== */
+
 .latest-posts {
   max-width: 1400px;
   margin: 0 auto;
   padding: 4rem 2rem;
+  text-align: center;
 }
 
 .latest-posts-title {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 3rem;
-  text-align: center;
   position: relative;
+  display: inline-block;
 }
 
 .latest-posts-title::after {
@@ -352,6 +390,7 @@ body {
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: var(--shadow);
+  text-align: left;
 }
 
 .latest-item:hover {
@@ -378,6 +417,16 @@ body {
   line-height: 1.3;
 }
 
+.latest-content h3 a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.latest-content h3 a:hover {
+  color: var(--accent-blue);
+}
+
 .latest-content p {
   color: var(--text-secondary);
   margin-bottom: 1rem;
@@ -391,6 +440,7 @@ body {
   color: var(--text-secondary);
 }
 
+/* Кнопка "Показати більше" */
 .load-more-btn {
   display: inline-block;
   margin: 3rem auto 0;
@@ -412,7 +462,10 @@ body {
   box-shadow: var(--glow);
 }
 
-/* Footer */
+/* ========================================
+   ФУТЕР
+   ======================================== */
+
 .main-footer {
   background: var(--bg-secondary);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -475,67 +528,14 @@ body {
   box-shadow: 0 5px 15px rgba(0, 87, 183, 0.4);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .burger-menu {
-    display: flex;
-  }
+/* ========================================
+   СТОРІНКА ПОСТА
+   ======================================== */
 
-  .nav-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--bg-secondary);
-    flex-direction: column;
-    gap: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-  }
-
-  .nav-menu.active {
-    max-height: 500px;
-  }
-
-  .nav-menu a::after {
-    left: 1.5rem;
-    right: 1.5rem;
-  }
-
-  .post-card {
-    min-width: 280px;
-  }
-
-  .latest-item {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 2rem;
-  }
-
-  .footer-info {
-    text-align: center;
-  }
-
-  .footer-links {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .social-links {
-    justify-content: center;
-  }
-}
-
-/* Post Page Styles */
 .post-layout {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
   display: grid;
   grid-template-columns: 1fr 350px;
   gap: 3rem;
@@ -544,36 +544,43 @@ body {
 .post-main {
   background: var(--bg-card);
   border-radius: var(--border-radius);
-  padding: 3rem;
+  padding: 0;
   box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.post-header {
+  padding: 3rem 3rem 2rem;
 }
 
 .post-header h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 2rem;
   line-height: 1.2;
   text-shadow: 0 2px 10px rgba(0, 87, 183, 0.3);
+  max-width: 900px;
 }
 
 .post-cover {
   width: 100%;
   aspect-ratio: 16/9;
-  border-radius: var(--border-radius);
   object-fit: cover;
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow);
+  margin-bottom: 0;
+  display: block;
 }
 
 .post-body {
   font-size: 1.1rem;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--text-secondary);
+  padding: 3rem;
+  max-width: 800px;
 }
 
 .post-body h2 {
   font-size: 2rem;
-  margin: 2rem 0 1rem;
+  margin: 2.5rem 0 1.5rem;
   color: var(--text-primary);
   padding-left: 1.5rem;
   border-left: 4px solid var(--accent-blue);
@@ -581,7 +588,7 @@ body {
 
 .post-body h3 {
   font-size: 1.5rem;
-  margin: 1.5rem 0 0.75rem;
+  margin: 2rem 0 1rem;
   color: var(--text-primary);
   padding-left: 1rem;
   border-left: 3px solid var(--accent-yellow);
@@ -591,7 +598,15 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* Sidebar */
+.post-body strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ========================================
+   SIDEBAR
+   ======================================== */
+
 .post-sidebar {
   position: sticky;
   top: 100px;
@@ -631,6 +646,7 @@ body {
   height: 80px;
   object-fit: cover;
   border-radius: 8px;
+  flex-shrink: 0;
 }
 
 .sidebar-post h4 {
@@ -642,12 +658,25 @@ body {
   overflow: hidden;
 }
 
-/* Share Buttons */
+.sidebar-post h4 a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.sidebar-post:hover h4 a {
+  color: var(--accent-blue);
+}
+
+/* ========================================
+   КНОПКИ ШЕРИНГУ
+   ======================================== */
+
 .share-section {
-  margin: 3rem 0;
-  padding: 2rem;
+  margin: 0;
+  padding: 2.5rem 3rem;
   background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--border-radius);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
 }
 
@@ -677,31 +706,26 @@ body {
   transition: all 0.3s ease;
 }
 
-.share-btn.telegram {
-  background: #0088cc;
-}
-
-.share-btn.facebook {
-  background: #1877f2;
-}
-
-.share-btn.twitter {
-  background: #1da1f2;
-}
+.share-btn.telegram { background: #0088cc; }
+.share-btn.facebook { background: #1877f2; }
+.share-btn.twitter { background: #1da1f2; }
 
 .share-btn:hover {
   transform: scale(1.15);
   box-shadow: 0 0 25px currentColor;
 }
 
-/* Post Footer Meta */
+/* ========================================
+   МЕТА-ІНФОРМАЦІЯ ПОСТА
+   ======================================== */
+
 .post-footer-meta {
   display: flex;
   justify-content: space-between;
-  padding: 1.5rem;
+  padding: 2rem 3rem;
   background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--border-radius);
-  margin: 2rem 0;
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .meta-left,
@@ -712,12 +736,15 @@ body {
   color: var(--text-secondary);
 }
 
-/* Comments Section */
+/* ========================================
+   СЕКЦІЯ КОМЕНТАРІВ
+   ======================================== */
+
 .comments-section {
-  margin: 3rem 0;
-  padding: 2rem;
+  margin: 0;
+  padding: 3rem;
   background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--border-radius);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .comments-title {
@@ -750,6 +777,7 @@ body {
   color: var(--text-primary);
   font-size: 1rem;
   transition: all 0.3s ease;
+  font-family: inherit;
 }
 
 .form-group input:focus,
@@ -777,15 +805,18 @@ body {
   box-shadow: var(--glow);
 }
 
-/* Post Navigation */
+/* ========================================
+   НАВІГАЦІЯ МІЖ ПОСТАМИ
+   ======================================== */
+
 .post-navigation {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   gap: 2rem;
-  margin: 3rem 0;
-  padding: 2rem;
+  margin: 0;
+  padding: 3rem;
   background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--border-radius);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-btn {
@@ -817,12 +848,20 @@ body {
   border: none;
 }
 
-/* Popular Posts */
+.nav-btn.home:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* ========================================
+   ПОПУЛЯРНІ / ЧИТАЙТЕ ТАКОЖ
+   ======================================== */
+
 .popular-posts {
-  margin: 3rem 0;
-  padding: 2rem;
+  margin: 0;
+  padding: 3rem;
   background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--border-radius);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .popular-header {
@@ -838,39 +877,45 @@ body {
 }
 
 .popular-controls {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.popular-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-primary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.popular-btn:hover {
-  background: var(--accent-blue);
-  border-color: var(--accent-blue);
-  transform: scale(1.1);
+  display: none;
 }
 
 .popular-list {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-height: 600px;
-  overflow: hidden;
+  flex-direction: row;
+  gap: 2rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Category Page */
+.popular-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.popular-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.popular-list::-webkit-scrollbar-thumb {
+  background: var(--accent-blue);
+  border-radius: 4px;
+}
+
+.popular-list .latest-item {
+  min-width: 350px;
+  max-width: 350px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+/* ========================================
+   СТОРІНКИ КАТЕГОРІЙ
+   ======================================== */
+
 .category-header {
   max-width: 1400px;
   margin: 0 auto;
@@ -905,7 +950,10 @@ body {
   background: var(--bg-card);
 }
 
-/* Pagination */
+/* ========================================
+   ПАГІНАЦІЯ
+   ======================================== */
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -934,50 +982,7 @@ body {
 }
 
 /* ========================================
-   АНІМАЦІЇ
-   ======================================== */
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-/* Фіксована ширина для карток у слайдерах з анімацією */
-.post-card.fade-in {
-  min-width: 350px;
-  max-width: 350px;
-  flex-shrink: 0;
-}
-
-/* ========================================
-   АДАПТИВНІСТЬ
-   ======================================== */
-
-@media (max-width: 1024px) {
-  .post-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .post-sidebar {
-    position: static;
-  }
-
-  .post-navigation {
-    grid-template-columns: 1fr;
-  }
-}
-/* ========================================
-   МЕДІА В ПОСТАХ - Оптимізація фото/відео
+   МЕДІА В ПОСТАХ
    ======================================== */
 
 .post-body img,
@@ -991,11 +996,11 @@ body {
   cursor: pointer;
 }
 
-/* Lightbox для збільшення зображень */
 .post-body img:hover {
   opacity: 0.9;
 }
 
+/* Lightbox для збільшення зображень */
 .image-lightbox {
   display: none;
   position: fixed;
@@ -1041,6 +1046,9 @@ body {
   transition: all 0.3s ease;
   z-index: 1000;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .scroll-to-top.visible {
@@ -1052,7 +1060,8 @@ body {
   transform: translateY(-5px);
   box-shadow: 0 6px 20px rgba(0, 87, 183, 0.5);
 }
-  /* ========================================
+
+/* ========================================
    ПОШУК
    ======================================== */
 
@@ -1073,6 +1082,7 @@ body {
 
 .search-btn:hover {
   color: var(--accent-blue);
+  transform: scale(1.1);
 }
 
 .search-overlay {
@@ -1082,7 +1092,7 @@ body {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.95);
-  z-index: 1000;
+  z-index: 1001;
   display: none;
   align-items: center;
   justify-content: center;
@@ -1117,6 +1127,7 @@ body {
   border-radius: 8px;
   color: var(--text-primary);
   font-size: 1.1rem;
+  font-family: inherit;
 }
 
 .search-input:focus {
@@ -1145,6 +1156,20 @@ body {
 .search-results {
   max-height: 400px;
   overflow-y: auto;
+}
+
+.search-results::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-results::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+  background: var(--accent-blue);
+  border-radius: 4px;
 }
 
 .search-result-item {
@@ -1180,12 +1205,98 @@ body {
   text-align: center;
   color: var(--text-secondary);
   padding: 2rem;
+  font-size: 1.1rem;
 }
+
 /* ========================================
-   МОБІЛЬНА АДАПТИВНІСТЬ - Покращена
+   АНІМАЦІЇ
+   ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.post-card.fade-in {
+  min-width: 350px;
+  max-width: 350px;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   АДАПТИВНІСТЬ ДЛЯ ПЛАНШЕТІВ
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .post-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .post-sidebar {
+    position: static;
+  }
+
+  .post-navigation {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr auto 1fr;
+  }
+}
+
+/* ========================================
+   АДАПТИВНІСТЬ ДЛЯ МОБІЛЬНИХ
    ======================================== */
 
 @media (max-width: 768px) {
+  /* Шапка */
+  .logo {
+    font-size: 2rem;
+  }
+  
+  /* Навігація */
+  .burger-menu {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    flex-direction: column;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .nav-menu.active {
+    max-height: 500px;
+  }
+
+  .nav-menu a::after {
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+  
+  .search-container {
+    margin-left: 0;
+    order: -1;
+  }
+  
   /* Заголовки */
   .section-title {
     font-size: 1.5rem;
@@ -1199,12 +1310,8 @@ body {
     font-size: 2.5rem;
   }
   
-  /* Пости в слайдерах */
-  .post-card {
-    min-width: 280px;
-    max-width: 280px;
-  }
-  
+  /* Картки постів */
+  .post-card,
   .post-card.fade-in {
     min-width: 280px;
     max-width: 280px;
@@ -1223,17 +1330,66 @@ body {
     height: 200px;
   }
   
-  /* Post page */
+  /* Сторінка поста */
+  .post-layout {
+    padding: 2rem 1rem;
+  }
+  
+  .post-header {
+    padding: 2rem 1.5rem 1rem;
+  }
+  
   .post-header h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
   
   .post-main {
-    padding: 1.5rem;
+    padding: 0;
   }
   
   .post-body {
     font-size: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .post-body h2 {
+    font-size: 1.5rem;
+  }
+  
+  .post-body h3 {
+    font-size: 1.25rem;
+  }
+  
+  .share-section,
+  .post-footer-meta,
+  .comments-section {
+    padding: 1.5rem;
+  }
+  
+  /* Навігація між постами */
+  .post-navigation {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .nav-btn {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Популярні пости */
+  .popular-posts {
+    padding: 1.5rem;
+  }
+  
+  .popular-title {
+    font-size: 1.5rem;
+  }
+  
+  .popular-list .latest-item {
+    min-width: 280px;
+    max-width: 280px;
   }
   
   /* Footer */
@@ -1254,21 +1410,42 @@ body {
     gap: 1rem;
   }
   
-  /* Navigation на мобілці */
-  .post-navigation {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  /* Кнопка вгору */
+  .scroll-to-top {
+    bottom: 1rem;
+    right: 1rem;
+    width: 45px;
+    height: 45px;
   }
   
-  .nav-btn {
-    padding: 1rem;
+  /* Пошук */
+  .search-box {
+    padding: 1.5rem;
   }
   
-  /* Popular posts на мобілці */
-  .popular-list {
-    gap: 1rem;
+  .search-input {
+    font-size: 1rem;
   }
-  
+}
+
+/* Дуже маленькі екрани */
+@media (max-width: 480px) {
+  .post-card,
+  .post-card.fade-in,
   .popular-list .latest-item {
-    min-width: 100%;
+    min-width: 250px;
+    max-width: 250px;
   }
+  
+  .post-image {
+    height: 141px;
+  }
+  
+  .section-slider {
+    padding: 2rem 0;
+  }
+  
+  .latest-posts {
+    padding: 2rem 1rem;
+  }
+}
