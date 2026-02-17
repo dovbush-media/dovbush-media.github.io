@@ -974,3 +974,46 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* ========================================
+   МЕДІА В ПОСТАХ - Оптимізація фото/відео
+   ======================================== */
+
+.post-body img,
+.post-body iframe,
+.post-body video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2rem auto;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+/* Lightbox для збільшення зображень */
+.post-body img:hover {
+  opacity: 0.9;
+}
+
+.image-lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-lightbox.active {
+  display: flex;
+}
+
+.image-lightbox img {
+  max-width: 90%;
+  max-height: 90vh;
+  object-fit: contain;
+}
