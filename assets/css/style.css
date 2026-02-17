@@ -175,13 +175,10 @@ body {
 /* ========================================
    СЛАЙДЕРИ РОЗДІЛІВ
    ======================================== */
-
 .section-slider {
   padding: 4rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  position: relative;
 }
-
 .section-header {
   max-width: 1400px;
   margin: 0 auto 2rem;
@@ -190,14 +187,12 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-
 .section-title {
   font-size: 2rem;
   font-weight: 700;
   position: relative;
   padding-left: 1.5rem;
 }
-
 .section-title::before {
   content: '';
   position: absolute;
@@ -209,13 +204,10 @@ body {
   background: linear-gradient(180deg, var(--accent-blue), var(--accent-yellow));
   border-radius: 3px;
 }
-
 .slider-controls {
   display: flex;
   gap: 1rem;
-  align-items: center;
 }
-
 .slider-btn {
   width: 45px;
   height: 45px;
@@ -228,22 +220,23 @@ body {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  opacity: 1;
-  visibility: visible;
 }
-
-.slider-btn:disabled,
-.slider-btn.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.slider-btn:hover:not(:disabled) {
+.slider-btn:hover {
   background: var(--accent-blue);
   border-color: var(--accent-blue);
   transform: scale(1.1);
   box-shadow: 0 0 20px rgba(0, 87, 183, 0.5);
+}
+.slider-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  overflow: hidden;
+}
+.slider-track {
+  display: flex;
+  gap: 2rem;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 
