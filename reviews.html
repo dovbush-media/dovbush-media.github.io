@@ -14,38 +14,20 @@ description: Детальні огляди українських відеоіг
 <div class="posts-list">
   {% assign review_posts = site.posts | where: "category", "Огляди" %}
   
-  {% if review_posts.size == 0 %}
-    <!-- Demo posts -->
-    {% for i in (1..8) %}
-    <article class="latest-item">
-      <img src="https://via.placeholder.com/300x169/0f0f0f/0057b7?text=Огляд+{{ i }}" alt="Огляд {{ i }}" class="latest-image">
-      <div class="latest-content">
-        <h3><a href="#">Детальний огляд української action-RPG</a></h3>
-        <p>Розбираємо всі аспекти нової української гри: від механік бою до проробки світу. Чи варто витрачати час на цей проект? Давайте з'ясуємо разом у цьому детальному огляді.</p>
-        <div class="latest-meta">
-          <span><i class="far fa-calendar"></i> {{ "now" | date: "%d.%m.%Y" }}</span>
-          <span><i class="fas fa-folder"></i> Огляди</span>
-          <span><i class="far fa-comments"></i> {{ i | times: 5 }}</span>
-        </div>
+  {% for post in review_posts %}
+  <article class="latest-item">
+    <img src="{{ post.cover }}" alt="{{ post.title }}" class="latest-image">
+    <div class="latest-content">
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+      <div class="latest-meta">
+        <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+        <span><i class="fas fa-folder"></i> {{ post.category }}</span>
+        <span><i class="far fa-comments"></i> 0</span>
       </div>
-    </article>
-    {% endfor %}
-  {% else %}
-    {% for post in review_posts %}
-    <article class="latest-item">
-      <img src="{{ post.cover | default: '/assets/images/placeholder.jpg' }}" alt="{{ post.title }}" class="latest-image">
-      <div class="latest-content">
-        <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-        <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-        <div class="latest-meta">
-          <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
-          <span><i class="fas fa-folder"></i> {{ post.category }}</span>
-          <span><i class="far fa-comments"></i> 0</span>
-        </div>
-      </div>
-    </article>
-    {% endfor %}
-  {% endif %}
+    </div>
+  </article>
+  {% endfor %}
 </div>
 
 <div class="pagination">
