@@ -65,6 +65,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     updateButtons();
     
+    // Touch swipe для мобільних
+    let touchStartX = 0;
+    track.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0 && currentPosition > maxPosition) {
+          currentPosition -= cardWidth;
+        } else if (diff < 0 && currentPosition < 0) {
+          currentPosition += cardWidth;
+        }
+        track.style.transform = `translateX(${currentPosition}px)`;
+        updateButtons();
+      }
+    }, { passive: true });
+    
     // Recalculate on window resize
     window.addEventListener('resize', () => {
       currentPosition = 0;
@@ -411,44 +429,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Touch swipe для мобільних
-  let touchStartX = 0;
-  let touchEndX = 0;
-  
-  track.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  });
-  
-  track.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  });
-  
-  function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0 && Math.abs(currentPosition / cardWidth) < maxScroll) {
-        // Swipe left - next
-        currentPosition -= cardWidth;
-        track.style.transform = `translateX(${currentPosition}px)`;
-      } else if (diff < 0 && currentPosition < 0) {
-        // Swipe right - prev
-        currentPosition += cardWidth;
-        track.style.transform = `translateX(${currentPosition}px)`;
-      }
-      updateButtons();
-    }
-  }
-  
-  updateButtons();
-  
-  // Recalculate on window resize
-  window.addEventListener('resize', () => {
-    currentPosition = 0;
-    track.style.transform = `translateX(0)`;
-    updateButtons();
-  });
   console.log('🎮 DovbushHub initialized successfully!');
 });
