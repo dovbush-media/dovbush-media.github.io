@@ -92,22 +92,15 @@ layout: default
       {% endif %}
     </nav>
 
-    <!-- Popular Posts Section -->
+    <!-- Read Also Section -->
     <div class="popular-posts">
       <div class="popular-header">
-        <h2 class="popular-title">Популярні статті</h2>
-        <div class="popular-controls">
-          <button class="popular-btn up" aria-label="Прокрутити вгору">
-            <i class="fas fa-chevron-up"></i>
-          </button>
-          <button class="popular-btn down" aria-label="Прокрутити вниз">
-            <i class="fas fa-chevron-down"></i>
-          </button>
-        </div>
+        <h2 class="popular-title">Читайте також</h2>
       </div>
       
       <div class="popular-list">
-        {% for post in site.posts limit:5 %}
+        {% assign related_posts = site.posts | sample: 5 %}
+        {% for post in related_posts %}
         {% if post.url != page.url %}
         <article class="latest-item">
           <img src="{{ post.cover }}" alt="{{ post.title }}" class="latest-image">
@@ -130,10 +123,9 @@ layout: default
   <!-- Sidebar -->
   <aside class="post-sidebar">
     <div class="sidebar-section">
-      <h3 class="sidebar-title">Читайте також</h3>
+      <h3 class="sidebar-title">Популярні статті</h3>
       
-      {% assign related_posts = site.posts | sample: 5 %}
-      {% for post in related_posts %}
+      {% for post in site.posts limit:5 %}
       {% if post.url != page.url %}
       <article class="sidebar-post">
         <img src="{{ post.cover }}" alt="{{ post.title }}">
