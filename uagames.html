@@ -1,0 +1,628 @@
+---
+layout: default
+title: Каталог Українських ігор
+description: Каталог Українських ігор та моніторинг цін
+---
+<style>
+  :root { 
+    --ua-blue: #0057b7; 
+    --ua-gold: #ffd700; 
+    --steam-dark: #171a21; 
+    --steam-light: #2a475e;
+    --accent: #66c0f4;
+    --text-main: #c7d5e0;
+    --text-hover: #ffffff;
+    --input-bg: rgba(0, 0, 0, 0.25);
+    --card-bg: rgba(22, 32, 45, 0.65);
+    --card-hover: rgba(42, 71, 94, 0.85);
+    --border-color: rgba(62, 108, 141, 0.4);
+  }
+
+  body { 
+    background: radial-gradient(circle at center top, #1b2838 0%, #0f1216 100%);
+    background-attachment: fixed;
+    color: var(--text-main); 
+    font-family: 'Motiva Sans', 'Arial', sans-serif; 
+    margin: 0; 
+    min-height: 100vh;
+    font-size: 15px;
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #0f1216; }
+  ::-webkit-scrollbar-thumb { background: #3d6c8d; border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  .catalog-container { 
+    max-width: 1140px; 
+    margin: 0 auto; 
+    padding: 30px 20px; 
+  }
+
+  /* КНОПКА ФІЛЬТРІВ */
+  .filter-toggle-wrapper {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .btn-filter-toggle {
+    background: linear-gradient(to right, #2a475e, #1b2838);
+    color: var(--accent);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-filter-toggle:hover {
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(102, 192, 244, 0.3);
+  }
+
+  .btn-filter-toggle .icon {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .btn-filter-toggle.active .icon {
+    transform: rotate(180deg);
+  }
+
+  /* ПАНЕЛЬ ФІЛЬТРІВ */
+  .filter-panel {
+    display: none;
+    background: rgba(30, 40, 55, 0.7);
+    backdrop-filter: blur(12px);
+    padding: 25px; 
+    border-radius: 10px; 
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+    margin-bottom: 30px; 
+    flex-wrap: wrap; gap: 20px;
+    align-items: flex-end;
+    animation: fadeInSlide 0.4s ease forwards;
+  }
+
+  .filter-panel.show {
+    display: flex;
+  }
+
+  @keyframes fadeInSlide {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1 1 160px; }
+  
+  .filter-group label { 
+    font-size: 12px; 
+    color: var(--accent); 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(102, 192, 244, 0.3);
+  }
+
+  .filter-group input[type="text"], 
+  .filter-group input[type="number"], 
+  .filter-group select {
+    background: var(--input-bg); 
+    border: 1px solid var(--border-color); 
+    color: #fff; 
+    padding: 10px 12px; 
+    border-radius: 5px; 
+    outline: none; 
+    font-size: 13px; 
+    width: 100%; 
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+  }
+
+  .filter-group input:focus, .filter-group select:focus {
+    border-color: var(--accent);
+    background: rgba(0,0,0,0.45);
+    box-shadow: 0 0 10px rgba(102, 192, 244, 0.25);
+  }
+
+  .filter-group input[type="range"] { -webkit-appearance: none; background: transparent; width: 100%; padding: 6px 0; }
+  .filter-group input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 6px; background: #101822; border-radius: 3px; border: 1px solid #3d6c8d; }
+  .filter-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--accent); cursor: pointer; margin-top: -6px; box-shadow: 0 0 6px #000; }
+  
+  .range-val { display: flex; justify-content: space-between; font-size: 11px; color: var(--accent); margin-top: 4px; font-weight: bold; }
+
+  .catalog-header {
+    display: grid; 
+    grid-template-columns: 120px 1fr 80px 140px 80px 130px; 
+    gap: 15px; 
+    padding: 12px 20px; 
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #1b2838 0%, #2a475e 100%);
+    border-radius: 6px; 
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-col { 
+    font-size: 12px; font-weight: 800; color: var(--text-main); 
+    text-transform: uppercase; cursor: pointer; user-select: none; 
+    letter-spacing: 0.8px; transition: color 0.2s;
+  }
+  .header-col:hover { color: #fff; text-shadow: 0 0 10px var(--accent); }
+
+  .game-row { 
+    background: var(--card-bg); 
+    margin-bottom: 10px; 
+    border-radius: 6px; 
+    display: grid; 
+    grid-template-columns: 120px 1fr 80px 140px 80px 130px; 
+    gap: 15px; 
+    align-items: center; 
+    cursor: pointer; 
+    transition: all 0.25s ease-in-out; 
+    border: 1px solid transparent; 
+    overflow: hidden;
+    min-height: 70px;
+  }
+  
+  .game-row:hover { 
+    background: linear-gradient(90deg, rgba(62, 89, 121, 0.45) 0%, rgba(42, 71, 94, 0.7) 100%);
+    border-color: rgba(102, 192, 244, 0.4); 
+    transform: scale(1.005) translateX(4px); 
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+    z-index: 2;
+  }
+  
+  .game-img-small { 
+    width: 120px; height: 68px; 
+    object-fit: cover; flex-shrink: 0; 
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+  }
+  
+  .game-main-info { 
+    padding: 8px 0; 
+    font-weight: 600; 
+    color: var(--text-hover); 
+    font-size: 17px; 
+    line-height: 1.25;
+    text-shadow: 1px 1px 3px rgba(0,0,0,1);
+    word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* --- НОВІ СТИЛІ ДЛЯ СТАТУСІВ (Updated) --- */
+  
+  /* Early Access Badge у списку (після назви) */
+  .badge-ea-list {
+    background: linear-gradient(90deg, #0057b7, #1a44c2);
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .status-text-upcoming {
+    color: #88929a;
+    font-style: italic;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  /* Для Demo */
+  .status-demo { 
+    background: #3d6c8d; 
+    color: #fff; 
+    padding: 4px 8px; 
+    border-radius: 2px; 
+    font-size: 13px;
+    display: inline-block;
+  }
+  .status-demo:hover { background: #4f82a8; }
+
+
+  .col-center { text-align: center; color: #88929a; font-size: 14px; }
+  .col-rating { 
+    text-align: center; font-weight: bold; font-size: 15px; 
+    background: rgba(0,0,0,0.4); padding: 4px 6px; border-radius: 4px;
+    width: 40px; margin: 0 auto;
+  }
+  
+  .game-price-block { 
+    padding-right: 15px; display: flex; justify-content: flex-end; align-items: center; gap: 10px; 
+  }
+  .list-old-price { color: #6a7780; text-decoration: line-through; font-size: 12px; }
+  .list-new-price { color: #fff; font-size: 16px; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
+  .list-discount-box { 
+    color: #beee11; padding: 4px 6px; font-weight: bold; border-radius: 3px; font-size: 13px; 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  }
+
+  /* MODAL STYLES */
+  #gameModal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(10px); overflow-y: auto; }
+  .modal-content { background: #1b2838; max-width: 940px; margin: 40px auto; border-radius: 4px; position: relative; border: 1px solid #3d6c8d; padding: 20px; box-shadow: 0 0 60px rgba(0,0,0,0.9); }
+  .steam-gallery { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+  .main-view-container { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 2px; overflow: hidden; border: 1px solid #000; }
+  #mainView { width: 100%; height: 100%; object-fit: contain; }
+  .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 15px 10px; cursor: pointer; font-size: 24px; transition: 0.3s; z-index: 20; }
+  .arrow-left { left: 0; border-radius: 0 4px 4px 0; }
+  .arrow-right { right: 0; border-radius: 4px 0 0 4px; }
+  .nav-arrow:hover { background: var(--accent); color: #000; }
+  .thumbs-container { display: flex; gap: 6px; margin-top: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: thin; }
+  .thumb-img { width: 116px; height: 65px; object-fit: cover; cursor: pointer; border: 2px solid transparent; opacity: 0.6; flex-shrink: 0; transition: 0.2s; }
+  .thumb-img:hover { opacity: 1; }
+  .thumb-img.active { border-color: var(--accent); opacity: 1; }
+  .side-info { display: flex; flex-direction: column; gap: 15px; }
+  .price-card { background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.4)); padding: 15px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+  .btn-steam { background: linear-gradient(90deg, #47bfff 0%, #1a44c2 100%); color: #fff; text-align: center; padding: 14px; text-decoration: none; border-radius: 2px; display: block; font-weight: bold; margin-top: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); transition: filter 0.2s; }
+  .btn-steam:hover { filter: brightness(1.2); }
+  .sys-req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #16202d; padding: 15px; margin-top: 20px; font-size: 12px; border-radius: 4px; }
+
+  /* --- МОБІЛЬНА ОПТИМІЗАЦІЯ --- */
+  
+  @media screen and (max-width: 850px) {
+    .catalog-container { padding: 15px 10px; }
+    .catalog-header { display: none; }
+    .game-row {
+      /* Перемикаємо на одну колонку для вертикальної структури */
+      grid-template-columns: 1fr; 
+      grid-template-areas: 
+        "title"
+        "img"
+        "price";
+      gap: 12px; 
+      padding: 15px; 
+      height: auto;
+      align-items: start;
+    }
+
+    .game-img-small {
+      grid-area: img;
+      width: 100%; /* Картинка на всю ширину картки */
+      height: 160px; 
+      border-radius: 6px;
+      mask-image: none;
+      object-fit: cover;
+    }
+
+    .game-main-info { grid-area: title; font-size: 15px; padding: 0; }
+    .col-center, .col-rating { display: none; }
+    .game-main-info::after {
+      content: attr(data-year);
+      font-size: 12px; color: var(--accent);
+    }
+    .game-price-block {
+      grid-area: price; justify-content: space-between;
+      padding: 8px 5px 0 5px; border-top: 1px solid rgba(255,255,255,0.05);
+      width: 100%; box-sizing: border-box;
+    }
+    .filter-group { flex: 1 1 40%; }
+    .modal-content { margin: 10px; padding: 15px; width: calc(100% - 20px); }
+    .steam-gallery { grid-template-columns: 1fr; }
+    .sys-req-grid { grid-template-columns: 1fr; }
+    .thumb-img { width: 80px; height: 45px; }
+    .nav-arrow { padding: 10px 5px; font-size: 20px; }
+    .list-new-price { font-size: 18px; }
+  }
+
+  @media screen and (max-width: 480px) {
+    .filter-group { flex: 1 1 100%; }
+  }
+
+   
+</style>
+
+
+<div class="catalog-container">
+  <div class="filter-toggle-wrapper">
+    <button class="btn-filter-toggle" onclick="toggleFilters(this)">
+      <span class="icon">▼</span>
+      <span id="toggleText">Показати фільтри</span>
+    </button>
+  </div>
+
+  <div class="filter-panel" id="filterPanel">
+    <div class="filter-group"><label>Пошук за назвою</label><input id="searchName" oninput="renderCatalog()" placeholder="Введіть назву..." type="text" /></div>
+    <div class="filter-group"><label>Жанр</label><select id="filterGenre" onchange="renderCatalog()"><option value="">Всі жанри</option></select></div>
+    <div class="filter-group"><label>Теги</label><select id="filterTags" onchange="renderCatalog()"><option value="">Всі теги</option></select></div>
+    <div class="filter-group"><label>Рік</label><div style="display: flex; gap: 8px;"><select id="yearFrom" onchange="renderCatalog()"><option value="">Від</option></select><select id="yearTo" onchange="renderCatalog()"><option value="">До</option></select></div></div>
+    <div class="filter-group"><label>Ціна (₴)</label><div style="display: flex; gap: 8px;"><input id="priceFrom" oninput="renderCatalog()" type="number" /><input id="priceTo" oninput="renderCatalog()" type="number" /></div></div>
+    <div class="filter-group"><label>Рейтинг (%)</label><input id="filterRating" max="100" oninput="updateRangeLabel(this); renderCatalog()" type="range" value="0" /><div class="range-val"><span>0%</span><span id="ratingVal">Усі</span><span>100%</span></div></div>
+    <div class="filter-group"><label>Знижка (%)</label><input id="filterDiscount" max="100" oninput="updateRangeLabel(this); renderCatalog()" type="range" value="0" /><div class="range-val"><span>0%</span><span id="discountVal">Будь-яка</span><span>100%</span></div></div>
+    <div class="filter-group"><label>Статус</label><select id="priceStatus" onchange="renderCatalog()"><option value="">Всі</option><option value="histLow">Історичний Мінімум</option><option value="low2Y">Мінімум за 2 роки</option></select></div>
+  </div>
+
+  <div class="catalog-header">
+    <div></div> <div class="header-col" onclick="setSort('title')">Назва</div>
+    <div class="header-col col-center" onclick="setSort('year')">Рік</div>
+    <div class="header-col col-center" onclick="setSort('genre')">Жанр</div>
+    <div class="header-col col-center" onclick="setSort('rating')">Відгуки</div>
+    <div class="header-col" onclick="setSort('price')" style="text-align: right;">Ціна</div>
+  </div>
+
+  <div id="catalogList">Завантаження...</div>
+</div>
+
+<div id="gameModal">
+  <div class="modal-content">
+    <span onclick="closeModal()" style="color: white; cursor: pointer; font-size: 35px; position: absolute; right: 15px; top: 5px; z-index: 100;">×</span>
+    <div id="modalData"></div>
+  </div>
+</div>
+
+<script>
+  const fbUrl = "https://dovbushhub-default-rtdb.europe-west1.firebasedatabase.app/games.json";
+  let games = {};
+  let currentScreens = [];
+  let currentIdx = 0;
+  let currentSortField = 'title';
+  let sortDirection = 1;
+
+  function toggleFilters(btn) {
+    const panel = document.getElementById('filterPanel');
+    const text = document.getElementById('toggleText');
+    const isShowing = panel.classList.toggle('show');
+    btn.classList.toggle('active');
+    text.innerText = isShowing ? 'Сховати фільтри' : 'Показати фільтри';
+  }
+
+  function fixDate(d) { return (!d || d === "" || d === "-") ? 'TBA' : new Date(d).toLocaleDateString('uk-UA'); }
+  function getYearNum(d) { let y = new Date(d).getFullYear(); return isNaN(y) ? 0 : y; }
+  function updateRangeLabel(el) { document.getElementById(el.id === 'filterRating' ? 'ratingVal' : 'discountVal').innerText = el.value > 0 ? el.value + '%' : (el.id === 'filterRating' ? 'Усі' : 'Будь-яка'); }
+
+  function setSort(field) {
+    if (currentSortField === field) { sortDirection *= -1; } 
+    else { currentSortField = field; sortDirection = 1; }
+    renderCatalog();
+  }
+
+  async function loadGames() {
+    try {
+      const res = await fetch(fbUrl);
+      games = await res.json();
+      populateDropdowns();
+      renderCatalog();
+    } catch (e) { document.getElementById('catalogList').innerText = "Помилка завантаження даних."; }
+  }
+
+  function populateDropdowns() {
+    const genres = new Set(), tags = new Set(), years = new Set();
+    Object.values(games).forEach(g => {
+      if (g.genre) { g.genre.split(',').forEach(v => genres.add(v.trim())); }
+      if (g.tags) g.tags.split(',').forEach(t => tags.add(t.trim()));
+      let y = getYearNum(g.releaseDate); if (y) years.add(y);
+    });
+    const fill = (id, set) => [...set].sort().forEach(v => document.getElementById(id).add(new Option(v, v)));
+    fill('filterGenre', genres); fill('filterTags', tags);
+    [...years].sort((a,b)=>b-a).forEach(y => { document.getElementById('yearFrom').add(new Option(y, y)); document.getElementById('yearTo').add(new Option(y, y)); });
+  }
+
+  function renderCatalog() {
+    const f = {
+      name: document.getElementById('searchName').value.toLowerCase(),
+      genre: document.getElementById('filterGenre').value,
+      tag: document.getElementById('filterTags').value,
+      yFrom: document.getElementById('yearFrom').value,
+      yTo: document.getElementById('yearTo').value,
+      pFrom: parseFloat(document.getElementById('priceFrom').value) || 0,
+      pTo: parseFloat(document.getElementById('priceTo').value) || 999999,
+      rating: parseInt(document.getElementById('filterRating').value),
+      discount: parseInt(document.getElementById('filterDiscount').value),
+      status: document.getElementById('priceStatus').value
+    };
+
+    let list = Object.values(games).filter(g => {
+      const y = getYearNum(g.releaseDate);
+      let matchStatus = true;
+      if (f.status === 'histLow') matchStatus = g.currentPrice <= g.histLow;
+      if (f.status === 'low2Y') matchStatus = g.currentPrice <= g.low2Y;
+      const matchGenre = !f.genre || (g.genre && g.genre.split(',').map(s => s.trim()).includes(f.genre));
+
+      return g.title.toLowerCase().includes(f.name) && 
+             matchGenre && 
+             (!f.tag || (g.tags && g.tags.includes(f.tag))) && 
+             (!f.yFrom || y >= f.yFrom) && 
+             (!f.yTo || y <= f.yTo) && 
+             ( (g.stage === 'Upcoming' || g.stage === 'Demo') ? true : (g.currentPrice >= f.pFrom && g.currentPrice <= f.pTo) ) && 
+             (g.rating || 0) >= f.rating && 
+             (g.discount || 0) >= f.discount && 
+             matchStatus;
+    });
+
+    list.sort((a, b) => {
+      let valA, valB;
+      switch (currentSortField) {
+        case 'year': valA = getYearNum(a.releaseDate); valB = getYearNum(b.releaseDate); break;
+        case 'price': valA = a.currentPrice; valB = b.currentPrice; break;
+        case 'rating': valA = a.rating || 0; valB = b.rating || 0; break;
+        case 'genre': valA = a.genre || ''; valB = b.genre || ''; break;
+        default: valA = a.title.toLowerCase(); valB = b.title.toLowerCase();
+      }
+      return valA < valB ? -1 * sortDirection : (valA > valB ? 1 * sortDirection : 0);
+    });
+
+    document.getElementById('catalogList').innerHTML = list.map(g => {
+      const cleanTitle = g.title.replace(/UA_DEV|UA/g, '').trim();
+      const year = getYearNum(g.releaseDate) || '—';
+      const ratingColor = (g.rating >= 80) ? '#66C0F4' : (g.rating >= 50 ? '#A3A3A3' : '#A13D2D');
+      let discountColor = (g.currentPrice <= g.histLow) ? "#00a2ff" : (g.currentPrice <= g.low2Y ? "#4c6b22" : "#8a2a2a");
+      
+      const stage = g.stage || 'Released';
+      
+      // Назва + EA Бейдж (ПІСЛЯ назви)
+      let titleHtml = cleanTitle;
+      if (stage.includes('Early Access')) {
+        titleHtml += ` <span class="badge-ea-list">(У дочасному доступі)</span>`;
+      }
+
+      // Логіка відображення ціни
+      let priceHtml = '';
+
+      if (stage.includes('Upcoming')) {
+        // Upcoming: пишемо Незабаром
+        priceHtml = `<div class="status-text-upcoming">Незабаром</div>`;
+      } 
+      else if (stage.includes('Demo')) {
+        priceHtml = `<div class="status-block"><span class="status-demo">Завантажити Демо</span></div>`;
+      } 
+      else if (stage.includes('Free')) {
+        // Free: зелений прямокутник
+        riceHtml = `<div class="status-text-upcoming">Безкоштовно</div>`;
+      }
+      else {
+        // Released або Early Access
+        // Якщо ціна 0 - показуємо Free
+        if (g.currentPrice === 0) {
+           priceHtml = `<span class="badge-free-list">Безкоштовно</span>`;
+        } else if (g.discount > 0) {
+           priceHtml = `
+              <div class="list-discount-box" style="background: ${discountColor}">-${g.discount}%</div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                <span class="list-old-price">${g.basePrice} ₴</span>
+                <span class="list-new-price">${g.currentPrice} ₴</span>
+              </div>`;
+        } else {
+           priceHtml = `<span class="list-new-price">${g.currentPrice} ₴</span>`;
+        }
+      }
+
+      return `
+        <div class="game-row" onclick="openGame('${g.appId}')">
+          <img src="${g.img}" class="game-img-small">
+          <div class="game-main-info" data-rating="${g.rating || '-'}">
+            ${titleHtml}
+          </div>
+          <div class="col-center">${year}</div>
+          <div class="col-center" style="font-size:12px">${g.genre || '-'}</div>
+          <div class="col-rating" style="color:${g.rating ? ratingColor : '#888'}">${g.rating || '-'}</div>
+          <div class="game-price-block">
+            ${priceHtml}
+          </div>
+        </div>`;
+    }).join('') || '<div style="text-align:center; padding:50px; color:#88929a;">Нічого не знайдено.</div>';
+  }
+
+  function openGame(id) {
+    const g = games[id];
+    currentScreens = g.screenshots || [];
+    currentIdx = 0;
+    const dp = g.devPublisher ? g.devPublisher.split(',') : ['Н/Д', 'Н/Д'];
+    const reqs = g.sysReq ? g.sysReq.split('||') : ["Не вказано", "Дивіться в Steam"];
+    
+    // Обробка дати та Upcoming
+    const stage = g.stage || 'Released';
+    let displayDate = fixDate(g.releaseDate);
+    
+    if (stage.includes('Upcoming')) {
+        // Парсинг дати з поля "Upcoming, 2026"
+        const parts = stage.split(',');
+        if (parts.length > 1) {
+             displayDate = parts[1].trim(); // Беремо все після коми
+        }
+    }
+
+    // Обробка ціни та відображення історії в модальному вікні
+    let mainPriceDisplay = '';
+    let showHistory = true;
+
+    if (stage.includes('Upcoming')) {
+        mainPriceDisplay = 'Незабаром';
+        showHistory = false; // ховаємо історію
+    } 
+    else if (stage.includes('Demo')) {
+         mainPriceDisplay = 'Демо';
+         showHistory = false;
+    }
+    else if (stage.includes('Free')) {
+         mainPriceDisplay = 'Безкоштовно';
+         showHistory = false;
+    }
+    else {
+        // Це Released або Early Access
+        if (g.currentPrice === 0) {
+            mainPriceDisplay = 'Безкоштовно';
+            showHistory = false;
+        } else {
+            // Звичайна ціна
+            if (g.discount > 0) {
+                mainPriceDisplay = `<span style="color:#88929a; text-decoration:line-through; font-size:14px;">${g.basePrice} ₴</span> <span style="font-size:24px; font-weight:bold; color:#fff; text-shadow:0 0 10px rgba(255,255,255,0.2);">${g.currentPrice} ₴</span>`;
+            } else {
+                mainPriceDisplay = `<span style="font-size:24px; font-weight:bold; color:#fff; text-shadow:0 0 10px rgba(255,255,255,0.2);">${g.currentPrice} ₴</span>`;
+            }
+        }
+    }
+
+    // Бейдж Early Access в заголовку модалки
+    let modalTitleHtml = g.title.replace(/UA_DEV|UA/g, '').trim();
+    if (stage.includes('Early Access')) {
+        modalTitleHtml += ` <span style="background: linear-gradient(90deg, #0057b7, #1a44c2); color: #fff; font-size: 14px; padding: 2px 8px; border-radius: 4px; vertical-align: middle;">У дочасному доступі</span>`;
+    }
+
+    document.getElementById('modalData').innerHTML = `
+      <h2 style="margin:0 0 15px 0; color:#fff; font-size: 24px; text-shadow: 0 0 10px rgba(0,0,0,0.5);">${modalTitleHtml}</h2>
+      <div class="steam-gallery">
+        <div>
+          <div class="main-view-container">
+            <button class="nav-arrow arrow-left" onclick="changeSlide(-1)">&#10094;</button>
+            <img id="mainView" src="${currentScreens.length ? currentScreens[0] : g.img}">
+            <button class="nav-arrow arrow-right" onclick="changeSlide(1)">&#10095;</button>
+          </div>
+          <div class="thumbs-container">${currentScreens.map((src, i) => `<img src="${src}" class="thumb-img ${i===0?'active':''}" onclick="updateView(${i}, this)">`).join('')}</div>
+        </div>
+        <div class="side-info">
+          <img src="${g.img}" style="width:100%; border-radius:2px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
+          <div style="font-size:12px;">
+            <div style="margin-bottom:6px"><b style="color:#67c1f5">Жанр:</b> ${g.genre || 'Гра'}</div>
+            <div style="margin-bottom:6px"><b style="color:#67c1f5">Розробник:</b> ${dp[0]?.trim() || 'Н/Д'}</div>
+            <div style="margin-bottom:6px"><b style="color:#67c1f5">Видавець:</b> ${dp[1]?.trim() || dp[0]?.trim() || 'Н/Д'}</div>
+            <div style="margin-bottom:6px"><b style="color:#67c1f5">Відгуки Steam:</b> <span style="color:#ffd700; font-weight:bold">${g.rating || '—'}</span><span style="color:#ffd700; font-weight:bold">${'%'}</span></div>
+            <div><b style="color:#67c1f5">Реліз:</b> ${displayDate}</div>
+          </div>
+          <div class="price-card">
+             <div style="display:flex; align-items:baseline; gap:10px;">
+               ${g.discount > 0 && showHistory ? `<span style="background:#4c6b22; color:#beee11; padding:2px 6px; border-radius:2px; font-weight:bold; box-shadow: 0 2px 4px rgba(0,0,0,0.5);">-${g.discount}%</span>` : ''}
+               <div style="display:flex; flex-direction:column;">
+                 ${typeof mainPriceDisplay === 'string' && !mainPriceDisplay.includes('<span') ? `<span style="font-size:24px; font-weight:bold; color:#fff; text-shadow:0 0 10px rgba(255,255,255,0.2);">${mainPriceDisplay}</span>` : mainPriceDisplay}
+               </div>
+             </div>
+             
+             ${showHistory ? `
+             <div style="font-size:11px; margin-top:10px; color:#88929a; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+               Історичний мін: <span style="color:var(--ua-gold)">${g.histLow || g.currentPrice} ₴</span> (${fixDate(g.histLowDate)})<br>
+               Мін за 2 роки: <span style="color:#fff">${g.low2Y || g.currentPrice} ₴</span>
+             </div>` : ''}
+
+             <a href="${g.link}" target="_blank" class="btn-steam">🛒 СТОРІНКА В STEAM</a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px; color:#acb2b8; line-height:1.6; font-size:14px;">${g.description || ''}</div>
+      <div class="sys-req-grid">
+        <div><b style="color:#fff; border-bottom:1px solid #3d6c8d; display:block; margin-bottom:8px">Мінімальні:</b>${reqs[0].replace(/\n/g, '<br>')}</div>
+        <div><b style="color:#fff; border-bottom:1px solid #3d6c8d; display:block; margin-bottom:8px">Рекомендовані:</b>${reqs[1] ? reqs[1].replace(/\n/g, '<br>') : '—'}</div>
+      </div>
+    `;
+    document.getElementById('gameModal').style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+
+  function updateView(idx, el) { currentIdx = idx; document.getElementById('mainView').src = currentScreens[idx]; document.querySelectorAll('.thumb-img').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
+  function changeSlide(step) { if (!currentScreens.length) return; currentIdx = (currentIdx + step + currentScreens.length) % currentScreens.length; document.getElementById('mainView').src = currentScreens[currentIdx]; const thumbs = document.querySelectorAll('.thumb-img'); thumbs.forEach(i => i.classList.remove('active')); thumbs[currentIdx].classList.add('active'); thumbs[currentIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
+  function closeModal() { document.getElementById('gameModal').style.display = "none"; document.body.style.overflow = "auto"; }
+  window.onclick = (e) => { if(e.target == document.getElementById('gameModal')) closeModal(); }
+  loadGames();
+</script>
