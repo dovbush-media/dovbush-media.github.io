@@ -132,7 +132,7 @@ layout: default
     <div class="sidebar-section">
       <h3 class="sidebar-title">Читайте також</h3>
       
-      {% assign related_posts = site.posts | where: "category", page.category | limit: 5 %}
+      {% assign related_posts = site.posts | sample: 5 %}
       {% for post in related_posts %}
       {% if post.url != page.url %}
       <article class="sidebar-post">
