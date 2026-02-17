@@ -313,5 +313,102 @@ document.addEventListener('DOMContentLoaded', function() {
       this.classList.remove('active');
     });
   }
+  // Scroll to Top Button
+  const scrollTopBtn = document.querySelector('.scroll-to-top');
+  
+  if (scrollTopBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    });
+    
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+  // Search Functionality
+  const searchBtn = document.querySelector('.search-btn');
+  const searchOverlay = document.querySelector('.search-overlay');
+  const searchInput = document.querySelector('.search-input');
+  const searchClose = document.querySelector('.search-close');
+  const searchResults = document.querySelector('.search-results');
+  
+  if (searchBtn && searchOverlay) {
+    // Відкрити пошук
+    searchBtn.addEventListener('click', () => {
+      searchOverlay.classList.add('active');
+      setTimeout(() => searchInput.focus(), 300);
+    });
+    
+    // Закрити пошук
+    searchClose.addEventListener('click', () => {
+      searchOverlay.classList.remove('active');
+      searchInput.value = '';
+      searchResults.innerHTML = '';
+    });
+    
+    // Закрити при кліку поза вікном
+    searchOverlay.addEventListener('click', (e) => {
+      if (e.target === searchOverlay) {
+        searchOverlay.classList.remove('active');
+        searchInput.value = '';
+        searchResults.innerHTML = '';
+      }
+    });
+    
+    // Пошук при введенні
+    searchInput.addEventListener('input', function() {
+      const query = this.value.toLowerCase().trim();
+      
+      if (query.length < 2) {
+        searchResults.innerHTML = '';
+        return;
+      }
+      
+      // Отримуємо всі пости (потрібно згенерувати JSON)
+      fetch('/search.json')
+        .then(response => response.json())
+        .then(posts => {
+          const filtered = posts.filter(post => {
+            return post.title.toLowerCase().includes(query) ||
+                   post.excerpt.toLowerCase().includes(query) ||
+                   post.content.toLowerCase().includes(query) ||
+                   post.category.toLowerCase().includes(query);
+          });
+          
+          displayResults(filtered, query);
+        })
+        .catch(() => {
+          searchResults.innerHTML = '<div class="search-no-results">Помилка пошуку</div>';
+        });
+    });
+    
+    function displayResults(posts, query) {
+      if (posts.length === 0) {
+        searchResults.innerHTML = '<div class="search-no-results">Нічого не знайдено</div>';
+        return;
+      }
+      
+      const html = posts.slice(0, 10).map(post => `
+        <a href="${post.url}" class="search-result-item">
+          <div class="search-result-title">${highlightText(post.title, query)}</div>
+          <div class="search-result-excerpt">${highlightText(post.excerpt, query)}</div>
+        </a>
+      `).join('');
+      
+      searchResults.innerHTML = html;
+    }
+    
+    function highlightText(text, query) {
+      const regex = new RegExp(`(${query})`, 'gi');
+      return text.replace(regex, '<mark style="background: var(--accent-yellow); color: var(--bg-primary); padding: 2px 4px; border-radius: 3px;">$1</mark>');
+    }
+  }
   console.log('🎮 DovbushHub initialized successfully!');
 });
