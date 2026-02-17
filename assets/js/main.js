@@ -289,6 +289,29 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
-
+// Image Lightbox для постів
+  const postBody = document.querySelector('.post-body');
+  if (postBody) {
+    // Створюємо lightbox
+    const lightbox = document.createElement('div');
+    lightbox.className = 'image-lightbox';
+    document.body.appendChild(lightbox);
+    
+    // Обробка кліків на зображення
+    postBody.querySelectorAll('img').forEach(img => {
+      img.addEventListener('click', function(e) {
+        e.preventDefault();
+        const imgClone = this.cloneNode();
+        lightbox.innerHTML = '';
+        lightbox.appendChild(imgClone);
+        lightbox.classList.add('active');
+      });
+    });
+    
+    // Закриття lightbox
+    lightbox.addEventListener('click', function() {
+      this.classList.remove('active');
+    });
+  }
   console.log('🎮 DovbushHub initialized successfully!');
 });
