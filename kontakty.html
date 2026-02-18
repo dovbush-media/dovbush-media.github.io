@@ -51,18 +51,4 @@ keywords: контакти DovbushHub, співпраця ігри, ігрови
   </ul>
 </div>
 </article>
-  <aside class="post-sidebar">
-    <div class="sidebar-section">
-      <h3 class="sidebar-title">Популярні статті</h3>
-      
-      {% for post in site.posts limit: 5 %}
-      <article class="sidebar-post">
-        <img src="{{ post.cover }}" alt="{{ post.title }}">
-        <div>
-          <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
-        </div>
-      </article>
-      {% endfor %}
-    </div>
-  </aside>
 </div>
