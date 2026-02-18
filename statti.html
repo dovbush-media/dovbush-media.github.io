@@ -1,19 +1,17 @@
 ---
 layout: default
-title: Інтерв'ю - DovbushHub
-description: Розмови з розробниками українських ігор
+title: Статті - DovbushHub
+description: Ця категорія містить статті про ігри та ігрову індустрію. Це чутки, власний погляд на ситуації, розмови з розробниками ігор
 ---
-
 <div class="category-header">
-  <h1 class="category-title">Інтерв'ю</h1>
+  <h1 class="category-title">Статті</h1>
   <p class="category-description">
-    Ексклюзивні розмови з творцями українських відеоігор
+    Ця категорія містить статті про ігри та ігрову індустрію. Це чутки, власний погляд на ситуації, розмови з розробниками ігор
   </p>
 </div>
-
 <div class="posts-list" id="postsList">
-  {% assign interview_posts = site.posts | where: "category", "Інтерв'ю" %}
-  {% for post in interview_posts %}
+  {% assign statti_posts = site.posts | where: "category", "Статті" %}
+  {% for post in statti_posts %}
   <article class="latest-item" data-post-index="{{ forloop.index0 }}">
     <img src="{{ post.cover }}" alt="{{ post.title }}" class="latest-image">
     <div class="latest-content">
@@ -28,7 +26,6 @@ description: Розмови з розробниками українських �
   </article>
   {% endfor %}
 </div>
-
 <div class="pagination" id="pagination"></div>
 <script>
 (function(){
