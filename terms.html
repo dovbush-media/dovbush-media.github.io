@@ -61,19 +61,4 @@ keywords: правила DovbushHub, кодекс геймера, бан за с
       <p style="text-align: right; margin-top: 30px;"><b>Дякуємо за дотримання правил! Приємного відпочинку. 🦾</b></p>
     </div>
   </article>
-
-  <aside class="post-sidebar">
-    <div class="sidebar-section">
-      <h3 class="sidebar-title">Популярні статті</h3>
-      
-      {% for post in site.posts limit: 5 %}
-      <article class="sidebar-post">
-        <img src="{{ post.cover }}" alt="{{ post.title }}">
-        <div>
-          <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
-        </div>
-      </article>
-      {% endfor %}
-    </div>
-  </aside>
 </div>
