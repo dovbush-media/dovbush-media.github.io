@@ -101,7 +101,7 @@ description: Український ігровий блог про відеоі�
 <!-- Interviews Section -->
 <section class="section-slider" id="interviews">
   <div class="section-header">
-    <h2 class="section-title">Інтерв'ю</h2>
+    <h2 class="section-title">Статті</h2>
   </div>
   
   <!-- Стрілки -->
@@ -114,8 +114,8 @@ description: Український ігровий блог про відеоі�
   
   <div class="slider-wrapper">
     <div class="slider-track">
-      {% assign interview_posts = site.posts | where: "category", "Інтерв'ю" %}
-      {% for post in interview_posts %}
+      {% assign statti_posts = site.posts | where: "category", "Статті" %}
+      {% for post in statti_posts %}
       <article class="post-card">
         <a href="{{ post.url }}">
           <img src="{{ post.cover }}" alt="{{ post.title }}" class="post-image">
@@ -133,11 +133,11 @@ description: Український ігровий блог про відеоі�
       
       <!-- Кнопка "Читати далі" як останній слайд -->
       <article class="post-card read-more-card">
-        <a href="/interviews" class="read-more-link">
+        <a href="/statti" class="read-more-link">
           <div class="read-more-content">
             <i class="fas fa-arrow-right"></i>
             <h3>Читати далі</h3>
-            <p>Всі інтерв'ю</p>
+            <p>Всі статті</p>
           </div>
         </a>
       </article>
@@ -194,7 +194,7 @@ description: Український ігровий блог про відеоі�
 
 <!-- Latest Posts Section -->
 <section class="latest-posts">
-  <h2 class="latest-posts-title">Останні статті</h2>
+  <h2 class="latest-posts-title">Останнє на сайті</h2>
   
   <div class="latest-list">
     {% for post in site.posts limit: 5 %}
