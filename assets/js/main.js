@@ -430,4 +430,17 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   console.log('🎮 DovbushHub initialized successfully!');
+
+  // Клікабельні latest-item картки (вся картка відкриває статтю)
+  document.querySelectorAll('.latest-item').forEach(item => {
+    const link = item.querySelector('h3 a, .latest-content a');
+    if (link) {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', function(e) {
+        // Якщо клік по самому посиланню — не втручатись
+        if (e.target.closest('a')) return;
+        window.location.href = link.getAttribute('href');
+      });
+    }
+  });
 });
