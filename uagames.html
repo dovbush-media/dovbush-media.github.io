@@ -18,16 +18,7 @@ description: Каталог Українських ігор та монітор�
     --border-color: rgba(62, 108, 141, 0.4);
   }
 
-  body { 
-    background: radial-gradient(circle at center top, #1b2838 0%, #0f1216 100%);
-    background-attachment: fixed;
-    color: var(--text-main); 
-    font-family: 'Motiva Sans', 'Arial', sans-serif; 
-    margin: 0; 
-    min-height: 100vh;
-    font-size: 15px;
-  }
-
+  /* Скрол тільки для каталогу, не глобальний */
   ::-webkit-scrollbar { width: 10px; }
   ::-webkit-scrollbar-track { background: #0f1216; }
   ::-webkit-scrollbar-thumb { background: #3d6c8d; border-radius: 5px; }
@@ -36,7 +27,9 @@ description: Каталог Українських ігор та монітор�
   .catalog-container { 
     max-width: 1140px; 
     margin: 0 auto; 
-    padding: 30px 20px; 
+    padding: 30px 20px;
+    color: var(--text-main);
+    font-size: 15px;
   }
 
   /* КНОПКА ФІЛЬТРІВ */
@@ -278,49 +271,58 @@ description: Каталог Українських ігор та монітор�
     .catalog-container { padding: 15px 10px; }
     .catalog-header { display: none; }
     .game-row {
-      /* Перемикаємо на одну колонку для вертикальної структури */
-      grid-template-columns: 1fr; 
+      grid-template-columns: 1fr;
       grid-template-areas: 
-        "title"
         "img"
+        "title"
         "price";
-      gap: 12px; 
-      padding: 15px; 
+      gap: 0;
+      padding: 0 0 12px 0;
       height: auto;
       align-items: start;
+      overflow: hidden;
     }
 
     .game-img-small {
       grid-area: img;
-      width: 100%; /* Картинка на всю ширину картки */
-      height: 160px; 
-      border-radius: 6px;
+      width: 100%;
+      height: 140px;
+      border-radius: 6px 6px 0 0;
       mask-image: none;
       object-fit: cover;
+      display: block;
     }
 
-    .game-main-info { grid-area: title; font-size: 15px; padding: 0; }
+    .game-main-info {
+      grid-area: title;
+      font-size: 14px;
+      padding: 10px 12px 4px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
     .col-center, .col-rating { display: none; }
-    .game-main-info::after {
-      content: attr(data-year);
-      font-size: 12px; color: var(--accent);
-    }
     .game-price-block {
-      grid-area: price; justify-content: space-between;
-      padding: 8px 5px 0 5px; border-top: 1px solid rgba(255,255,255,0.05);
-      width: 100%; box-sizing: border-box;
+      grid-area: price;
+      justify-content: flex-start;
+      padding: 4px 12px 0 12px;
+      border-top: none;
+      width: 100%;
+      box-sizing: border-box;
+      flex-wrap: wrap;
+      gap: 6px;
     }
-    .filter-group { flex: 1 1 40%; }
-    .modal-content { margin: 10px; padding: 15px; width: calc(100% - 20px); }
+    .list-new-price { font-size: 15px; }
+    .filter-group { flex: 1 1 45%; }
+    .modal-content { margin: 10px; padding: 15px; width: calc(100% - 20px); box-sizing: border-box; }
     .steam-gallery { grid-template-columns: 1fr; }
     .sys-req-grid { grid-template-columns: 1fr; }
     .thumb-img { width: 80px; height: 45px; }
     .nav-arrow { padding: 10px 5px; font-size: 20px; }
-    .list-new-price { font-size: 18px; }
   }
 
   @media screen and (max-width: 480px) {
     .filter-group { flex: 1 1 100%; }
+    .game-img-small { height: 120px; }
   }
 
    
