@@ -1,6 +1,38 @@
 ---
 layout: default
 ---
+<!-- Schema.org JSON-LD для статей -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ page.title | escape }}",
+  "description": "{{ page.excerpt | strip_html | escape }}",
+  "image": "{{ page.cover | default: page.image | default: site.url | append: '/assets/images/og-image.jpg' }}",
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.date | date_to_xmlschema }}",
+  "author": {
+    "@type": "Organization",
+    "name": "DovbushHub",
+    "url": "{{ site.url }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DovbushHub",
+    "url": "{{ site.url }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.url }}/assets/images/favicon.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ site.url }}{{ page.url }}"
+  },
+  "inLanguage": "uk",
+  "keywords": "{% if page.tags %}{{ page.tags | join: ', ' }}{% else %}українські ігри, відеоігри{% endif %}"
+}
+</script>
 
 <div class="post-layout">
   <!-- Main Post Content -->
