@@ -1636,3 +1636,37 @@ body {
 .giscus {
   margin-top: 1rem;
 }
+
+/* ========================================
+   BREADCRUMBS
+   ======================================== */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 3rem 0;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.breadcrumbs a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumbs a:hover {
+  color: var(--accent-yellow);
+}
+
+.breadcrumb-sep {
+  color: var(--text-secondary);
+  opacity: 0.4;
+  font-size: 0.7rem;
+}
+
+.breadcrumb-current {
+  color: var(--accent-yellow);
+  font-weight: 500;
+}
