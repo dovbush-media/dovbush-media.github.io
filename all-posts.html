@@ -21,7 +21,6 @@ description: Всі статті блогу DovbushHub
       <div class="latest-meta">
         <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
         <span><i class="fas fa-folder"></i> {{ post.category }}</span>
-        <span class="post-category"><i class="fas fa-folder-open"></i> {{ post.categories | first | default: "Допис" }}</span>
       </div>
     </div>
   </article>
