@@ -45,13 +45,19 @@
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center;
+  background-position: center top;   /* фокус на верхній частині фото (обличчя, логотипи) */
+  background-repeat: no-repeat;
   background-color: #0a0a1a;
-  transform: scale(1.06);
+  transform: scale(1.04);            /* менший зум — менше розтягування */
   animation: heroBgZoom 10s ease forwards;
 }
 @keyframes heroBgZoom {
   to { transform: scale(1.0); }
+}
+
+/* Коли фото немає — красивий темний градієнт */
+.hero-cinema__bg:not([style*="url"]) {
+  background-image: linear-gradient(145deg, #0a0a1a 0%, #0d0d1f 50%, #1a0a00 100%);
 }
 
 /* Анімована сітка */
@@ -117,11 +123,15 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2.5rem 5rem;
+  /* padding-top: простір від хедера; padding-bottom: відступ знизу */
+  padding: 100px 2.5rem 4rem;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 2rem;
+  /* Гарантуємо що контент залишається в межах */
+  min-height: 0;
+  box-sizing: border-box;
 }
 
 /* Контент */
@@ -148,12 +158,16 @@
 
 .hero-cinema__title {
   font-family: 'Bebas Neue', 'Impact', sans-serif;
-  font-size: clamp(3.5rem, 8.5vw, 8.5rem);
-  line-height: 0.92;
+  /* Менший діапазон: мін 2.6rem (мобайл), максимум 5.5rem (великий екран) */
+  font-size: clamp(2.6rem, 5vw, 5.5rem);
+  line-height: 1.0;
   letter-spacing: 0.01em;
   color: #fff;
   opacity: 0;
   animation: heroFadeUp 0.7s 0.5s forwards;
+  /* Обмежуємо висоту щоб не вилазив за межі */
+  max-height: 45vh;
+  overflow: hidden;
 }
 
 .hero-cinema__excerpt {
@@ -585,13 +599,13 @@
 }
 .ua-banner__inner {
   border-radius: 20px;
-  padding: 4rem;
+  padding: 3.5rem 4rem;
   background: linear-gradient(135deg, #0057b7 0%, #003d82 50%, #001840 100%);
   position: relative;
   overflow: hidden;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  justify-content: space-between;
   gap: 3rem;
 }
 .ua-banner__inner::before {
@@ -868,14 +882,17 @@
    ────────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .tab-grid { grid-template-columns: repeat(2, 1fr); }
+  /* UA banner — приховуємо іконки на середніх екранах */
+  .ua-banner__inner { grid-template-columns: 1fr; }
+  .ua-banner__icons { display: none; }
 }
 
 @media (max-width: 900px) {
   /* Hero */
   .hero-cinema { height: 80svh; }
   .hero-cinema__stats { display: none; }
-  .hero-cinema__inner { padding: 0 1.5rem 4rem; }
-  .hero-cinema__title { font-size: clamp(2.8rem, 10vw, 5rem); }
+  .hero-cinema__inner { padding: 80px 1.5rem 3.5rem; }
+  .hero-cinema__title { font-size: clamp(2.2rem, 8vw, 3.5rem); max-height: none; }
 
   /* Editorial grid */
   .editorial { padding: 3rem 1.5rem; }
@@ -884,8 +901,8 @@
     grid-template-rows: auto;
     min-height: unset;
   }
-  .ed-card--main { grid-row: auto; min-height: 320px; }
-  .ed-card--small { min-height: 200px; }
+  .ed-card--main { grid-row: auto; min-height: 300px; }
+  .ed-card--small { min-height: 180px; }
 
   /* Tabs */
   .tabs-section { padding: 3rem 0; }
@@ -894,9 +911,8 @@
 
   /* UA Banner */
   .ua-banner { padding: 3rem 1.5rem; }
-  .ua-banner__inner { flex-direction: column; padding: 2.5rem; }
-  .ua-banner__icons { display: none; }
-  .ua-banner__title { font-size: 1.9rem; }
+  .ua-banner__inner { padding: 2.5rem; }
+  .ua-banner__title { font-size: 1.8rem; }
 
   /* Stream */
   .latest-stream { padding: 0 1.5rem 3rem; }
