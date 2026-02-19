@@ -3,7 +3,37 @@ layout: default
 title: DovbushHub - Український ігровий блог
 description: Український ігровий блог про відеоігри, новини індустрії, огляди та інтерв'ю
 ---
+<!-- HERO БЛОК -->
+{% assign hero_post = site.posts | where: "featured", true | first %}
+{% unless hero_post %}
+  {% assign hero_post = site.posts.first %}
+{% endunless %}
 
+{% if hero_post %}
+<section class="hero-section">
+  <div class="hero-bg" style="background-image: url('{{ hero_post.cover }}');"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <span class="hero-category">
+      <i class="fas fa-star"></i> {{ hero_post.category }}
+    </span>
+    <h1 class="hero-title">{{ hero_post.title }}</h1>
+    <p class="hero-excerpt">{{ hero_post.excerpt | strip_html | truncatewords: 25 }}</p>
+    <div class="hero-meta">
+      <span><i class="far fa-calendar"></i> {{ hero_post.date | date: "%d.%m.%Y" }}</span>
+    </div>
+    <a href="{{ hero_post.url }}" class="hero-btn">
+      Читати <i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span>Гортай</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
+{% endif %}
 <!-- News Section -->
 <section class="section-slider" id="news">
   <div class="section-header">
