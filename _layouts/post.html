@@ -84,7 +84,6 @@ layout: default
     <div class="post-footer-meta">
       <div class="meta-left">
         <span><i class="far fa-calendar"></i> {{ page.date | date: "%d.%m.%Y" }}</span>
-        <span class="post-category"><i class="fas fa-folder-open"></i> {{ post.categories | first | default: "Допис" }}</span>
       </div>
       <div class="meta-right">
         <span><i class="fas fa-folder"></i> {{ page.category }}</span>
@@ -158,7 +157,6 @@ layout: default
             <div class="latest-meta">
               <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
               <span><i class="fas fa-folder"></i> {{ post.category }}</span>
-              <span><i class="far fa-comments"></i> 0</span>
             </div>
           </div>
         </article>
