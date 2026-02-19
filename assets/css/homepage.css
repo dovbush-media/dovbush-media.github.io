@@ -34,9 +34,9 @@
 .hero-cinema {
   position: relative;
   height: 100svh;
-  min-height: 580px;
+  min-height: 600px;
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
   overflow: hidden;
 }
 
@@ -123,20 +123,27 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  /* padding-top: простір від хедера; padding-bottom: відступ знизу */
-  padding: 100px 2.5rem 4rem;
+  /* flex-column: контент складається вертикально і притиснутий донизу */
+  padding: 80px 2.5rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;   /* вміст іде знизу вгору */
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* Нижній рядок: текст + статистика поруч */
+.hero-cinema__bottom-row {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 2rem;
-  /* Гарантуємо що контент залишається в межах */
-  min-height: 0;
-  box-sizing: border-box;
 }
 
 /* Контент */
 .hero-cinema__content {
-  max-width: 750px;
+  max-width: 680px;
+  min-width: 0;   /* дозволяє flex-item стискатися */
 }
 
 .hero-cinema__label {
@@ -158,16 +165,20 @@
 
 .hero-cinema__title {
   font-family: 'Bebas Neue', 'Impact', sans-serif;
-  /* Менший діапазон: мін 2.6rem (мобайл), максимум 5.5rem (великий екран) */
-  font-size: clamp(2.6rem, 5vw, 5.5rem);
-  line-height: 1.0;
+  /* 
+    clamp(мін, бажаний, макс)
+    На 1366px (типовий ноутбук): 1366 * 0.038 = ~52px — нормально
+    На 1920px: 1920 * 0.038 = ~73px — добре
+    Мін 2rem = завжди читабельно на телефоні
+  */
+  font-size: clamp(2rem, 3.8vw, 4.5rem);
+  line-height: 1.05;
   letter-spacing: 0.01em;
   color: #fff;
+  word-break: break-word;      /* ніколи не виходить за контейнер */
+  overflow-wrap: break-word;
   opacity: 0;
   animation: heroFadeUp 0.7s 0.5s forwards;
-  /* Обмежуємо висоту щоб не вилазив за межі */
-  max-height: 45vh;
-  overflow: hidden;
 }
 
 .hero-cinema__excerpt {
@@ -891,8 +902,11 @@
   /* Hero */
   .hero-cinema { height: 80svh; }
   .hero-cinema__stats { display: none; }
-  .hero-cinema__inner { padding: 80px 1.5rem 3.5rem; }
-  .hero-cinema__title { font-size: clamp(2.2rem, 8vw, 3.5rem); max-height: none; }
+  .hero-cinema__bottom-row { flex-direction: column; gap: 0; }
+  .hero-cinema__inner { padding: 80px 1.5rem 3rem; }
+  .hero-cinema__title { font-size: clamp(1.9rem, 7vw, 3rem); }
+  .hero-cinema__excerpt { font-size: 0.92rem; margin-top: 1rem; }
+  .hero-cinema__actions { margin-top: 1.25rem; }
 
   /* Editorial grid */
   .editorial { padding: 3rem 1.5rem; }
