@@ -444,3 +444,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+// ========================================
+  // ПРОГРЕС-БАР ЧИТАННЯ
+  // ========================================
+  
+  const readingProgress = document.getElementById('readingProgress');
+  
+  if (readingProgress) {
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = window.scrollY;
+      const progress = docHeight > 0 ? (scrolled / docHeight) * 100 : 0;
+      readingProgress.style.width = Math.min(progress, 100) + '%';
+    }, { passive: true });
+  }
