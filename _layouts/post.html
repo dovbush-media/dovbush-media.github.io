@@ -41,32 +41,30 @@ layout: default
       </div>
     </div>
 
-    <!-- Comments Section -->
+    <!-- Comments Section — Giscus -->
     <div class="comments-section">
       <h2 class="comments-title">Коментарі</h2>
-      
-      <form class="comment-form">
-        <div class="form-group">
-          <label for="name">Ім'я *</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="email">Email *</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="comment">Коментар *</label>
-          <textarea id="comment" name="comment" rows="5" required></textarea>
-        </div>
-        
-        <button type="submit" class="submit-btn">Додати коментар</button>
-      </form>
-      
-      <div class="comments-list">
-        <!-- Comments will be loaded here -->
-      </div>
+      <p class="comments-note">
+        <i class="fab fa-github"></i>
+        Для коментування потрібен акаунт GitHub. Це захищає від ботів та спаму.
+      </p>
+
+      <!-- ВСТАВ СЮДИ СВІЙ СКРИПТ З GISCUS.APP -->
+      <script src="https://giscus.app/client.js"
+        data-repo="dovbush-media/dovbush-media.github.io"
+        data-repo-id="R_kgDORRWjZw"
+        data-category="General"
+        data-category-id="DIC_kwDORRWjZ84C2yHl"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="noborder_dark"
+        data-lang="uk"
+        crossorigin="anonymous"
+        async>
+      </script>
     </div>
 
     <!-- Post Navigation -->
