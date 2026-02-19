@@ -1,0 +1,367 @@
+---
+layout: default
+title: DovbushHub - Український ігровий блог
+description: Український ігровий блог про відеоігри, новини індустрії, огляди та інтерв'ю
+---
+
+<!-- ══════════════════════════════════════
+     HERO — CINEMATIC FULLSCREEN
+     ══════════════════════════════════════ -->
+{% assign hero_post = site.posts | where: "featured", true | first %}
+{% unless hero_post %}
+  {% assign hero_post = site.posts.first %}
+{% endunless %}
+
+{% if hero_post %}
+<section class="hero-cinema">
+  <!-- Фон: обкладинка поста -->
+  <div class="hero-cinema__bg" {% if hero_post.cover %}style="background-image:url('{{ hero_post.cover }}')"{% endif %}></div>
+  <!-- Сітка-паттерн -->
+  <div class="hero-cinema__grid"></div>
+  <!-- Кольорові орби -->
+  <div class="hero-cinema__orb hero-cinema__orb--1"></div>
+  <div class="hero-cinema__orb hero-cinema__orb--2"></div>
+  <!-- Оверлей -->
+  <div class="hero-cinema__overlay"></div>
+
+  <!-- Контент -->
+  <div class="hero-cinema__inner">
+    <div class="hero-cinema__content">
+      <span class="hero-cinema__label">
+        <i class="fas fa-star"></i> {{ hero_post.category | default: "Головне" }}
+      </span>
+      <h1 class="hero-cinema__title">{{ hero_post.title }}</h1>
+      <p class="hero-cinema__excerpt">{{ hero_post.excerpt | strip_html | truncatewords: 22 }}</p>
+      <div class="hero-cinema__meta">
+        <span><i class="far fa-calendar"></i> {{ hero_post.date | date: "%d.%m.%Y" }}</span>
+      </div>
+      <div class="hero-cinema__actions">
+        <a href="{{ hero_post.url }}" class="hero-cinema__btn-primary">
+          Читати <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="#content" class="hero-cinema__btn-ghost">
+          Всі матеріали <i class="fas fa-chevron-down"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Статистика праворуч -->
+    <div class="hero-cinema__stats">
+      <div class="hero-cinema__stat">
+        <span class="hero-cinema__stat-num">{{ site.posts | size }}</span>
+        <span class="hero-cinema__stat-label">Матеріалів</span>
+      </div>
+      <div class="hero-cinema__stat">
+        <span class="hero-cinema__stat-num">🇺🇦</span>
+        <span class="hero-cinema__stat-label">Від серця</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Скрол-хінт -->
+  <div class="hero-cinema__scroll">
+    <div class="hero-cinema__scroll-line"></div>
+    <span>Гортай</span>
+  </div>
+</section>
+{% endif %}
+
+
+<!-- ══════════════════════════════════════
+     EDITORIAL GRID — Гарячі матеріали
+     ══════════════════════════════════════ -->
+<section class="editorial reveal" id="content">
+  <div class="editorial__inner">
+    <div class="section-eyebrow">
+      <span>✦ Гарячі матеріали</span>
+    </div>
+
+    <div class="editorial__grid">
+      <!-- Головний великий пост -->
+      {% assign main_post = site.posts[0] %}
+      {% if main_post %}
+      <article class="ed-card ed-card--main">
+        {% if main_post.cover %}
+        <div class="ed-card__img" style="background-image:url('{{ main_post.cover }}')"></div>
+        {% else %}
+        <div class="ed-card__img ed-card__img--fallback"></div>
+        {% endif %}
+        <div class="ed-card__overlay"></div>
+        <div class="ed-card__body">
+          <span class="ed-card__cat ed-card__cat--featured">
+            <i class="fas fa-fire"></i> {{ main_post.category | default: "Допис" }}
+          </span>
+          <a href="{{ main_post.url }}" class="ed-card__title">{{ main_post.title }}</a>
+          <div class="ed-card__meta">
+            <span><i class="far fa-calendar"></i> {{ main_post.date | date: "%d.%m.%Y" }}</span>
+            <span><i class="far fa-clock"></i> {{ main_post.content | number_of_words | divided_by: 200 | plus: 1 }} хв</span>
+          </div>
+        </div>
+      </article>
+      {% endif %}
+
+      <!-- Другий пост -->
+      {% assign second_post = site.posts[1] %}
+      {% if second_post %}
+      <article class="ed-card ed-card--small">
+        {% if second_post.cover %}
+        <div class="ed-card__img" style="background-image:url('{{ second_post.cover }}')"></div>
+        {% else %}
+        <div class="ed-card__img ed-card__img--fallback ed-card__img--v2"></div>
+        {% endif %}
+        <div class="ed-card__overlay"></div>
+        <div class="ed-card__body">
+          <span class="ed-card__cat">{{ second_post.category | default: "Допис" }}</span>
+          <a href="{{ second_post.url }}" class="ed-card__title ed-card__title--sm">{{ second_post.title }}</a>
+          <div class="ed-card__meta">
+            <span><i class="far fa-calendar"></i> {{ second_post.date | date: "%d.%m.%Y" }}</span>
+          </div>
+        </div>
+      </article>
+      {% endif %}
+
+      <!-- Третій пост -->
+      {% assign third_post = site.posts[2] %}
+      {% if third_post %}
+      <article class="ed-card ed-card--small">
+        {% if third_post.cover %}
+        <div class="ed-card__img" style="background-image:url('{{ third_post.cover }}')"></div>
+        {% else %}
+        <div class="ed-card__img ed-card__img--fallback ed-card__img--v3"></div>
+        {% endif %}
+        <div class="ed-card__overlay"></div>
+        <div class="ed-card__body">
+          <span class="ed-card__cat">{{ third_post.category | default: "Допис" }}</span>
+          <a href="{{ third_post.url }}" class="ed-card__title ed-card__title--sm">{{ third_post.title }}</a>
+          <div class="ed-card__meta">
+            <span><i class="far fa-calendar"></i> {{ third_post.date | date: "%d.%m.%Y" }}</span>
+          </div>
+        </div>
+      </article>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     TABS — Всі матеріали по категоріях
+     ══════════════════════════════════════ -->
+<section class="tabs-section reveal">
+  <div class="tabs-section__inner">
+
+    <div class="tabs-section__header">
+      <h2 class="tabs-section__title">Всі матеріали</h2>
+      <div class="tab-buttons" role="tablist">
+        <button class="tab-btn active" data-tab="news" role="tab" aria-selected="true">Новини</button>
+        <button class="tab-btn" data-tab="reviews" role="tab" aria-selected="false">Огляди</button>
+        <button class="tab-btn" data-tab="statti" role="tab" aria-selected="false">Статті</button>
+        <button class="tab-btn" data-tab="tops" role="tab" aria-selected="false">Топи</button>
+      </div>
+    </div>
+
+    <!-- Новини -->
+    <div class="tab-content active" id="tab-news" role="tabpanel">
+      <div class="tab-grid">
+        {% assign news_posts = site.posts | where: "category", "Новини" %}
+        {% for post in news_posts limit: 4 %}
+        <a href="{{ post.url }}" class="tab-card">
+          <div class="tab-card__thumb">
+            {% if post.cover %}
+            <img src="{{ post.cover }}" alt="{{ post.title }}" loading="lazy">
+            {% else %}
+            <div class="tab-card__thumb-fallback"></div>
+            {% endif %}
+          </div>
+          <div class="tab-card__body">
+            <div class="tab-card__cat">Новини</div>
+            <h3 class="tab-card__title">{{ post.title }}</h3>
+            <div class="tab-card__date"><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</div>
+          </div>
+        </a>
+        {% endfor %}
+        {% assign news_count = site.posts | where: "category", "Новини" | size %}
+        {% if news_count == 0 %}
+        <div class="tab-empty"><i class="fas fa-newspaper"></i><p>Новини скоро з'являться</p></div>
+        {% endif %}
+      </div>
+      <div class="tab-more">
+        <a href="/news" class="tab-more-btn">Всі новини <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- Огляди -->
+    <div class="tab-content" id="tab-reviews" role="tabpanel">
+      <div class="tab-grid">
+        {% assign review_posts = site.posts | where: "category", "Огляди" %}
+        {% for post in review_posts limit: 4 %}
+        <a href="{{ post.url }}" class="tab-card">
+          <div class="tab-card__thumb">
+            {% if post.cover %}
+            <img src="{{ post.cover }}" alt="{{ post.title }}" loading="lazy">
+            {% else %}
+            <div class="tab-card__thumb-fallback"></div>
+            {% endif %}
+          </div>
+          <div class="tab-card__body">
+            <div class="tab-card__cat">Огляди</div>
+            <h3 class="tab-card__title">{{ post.title }}</h3>
+            <div class="tab-card__date"><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</div>
+          </div>
+        </a>
+        {% endfor %}
+        {% assign rev_count = site.posts | where: "category", "Огляди" | size %}
+        {% if rev_count == 0 %}
+        <div class="tab-empty"><i class="fas fa-gamepad"></i><p>Огляди скоро з'являться</p></div>
+        {% endif %}
+      </div>
+      <div class="tab-more">
+        <a href="/reviews" class="tab-more-btn">Всі огляди <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- Статті -->
+    <div class="tab-content" id="tab-statti" role="tabpanel">
+      <div class="tab-grid">
+        {% assign statti_posts = site.posts | where: "category", "Статті" %}
+        {% for post in statti_posts limit: 4 %}
+        <a href="{{ post.url }}" class="tab-card">
+          <div class="tab-card__thumb">
+            {% if post.cover %}
+            <img src="{{ post.cover }}" alt="{{ post.title }}" loading="lazy">
+            {% else %}
+            <div class="tab-card__thumb-fallback"></div>
+            {% endif %}
+          </div>
+          <div class="tab-card__body">
+            <div class="tab-card__cat">Статті</div>
+            <h3 class="tab-card__title">{{ post.title }}</h3>
+            <div class="tab-card__date"><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</div>
+          </div>
+        </a>
+        {% endfor %}
+        {% assign stat_count = site.posts | where: "category", "Статті" | size %}
+        {% if stat_count == 0 %}
+        <div class="tab-empty"><i class="fas fa-pen"></i><p>Статті скоро з'являться</p></div>
+        {% endif %}
+      </div>
+      <div class="tab-more">
+        <a href="/statti" class="tab-more-btn">Всі статті <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- Топи -->
+    <div class="tab-content" id="tab-tops" role="tabpanel">
+      <div class="tab-grid">
+        {% assign top_posts = site.posts | where: "category", "Топи" %}
+        {% for post in top_posts limit: 4 %}
+        <a href="{{ post.url }}" class="tab-card">
+          <div class="tab-card__thumb">
+            {% if post.cover %}
+            <img src="{{ post.cover }}" alt="{{ post.title }}" loading="lazy">
+            {% else %}
+            <div class="tab-card__thumb-fallback"></div>
+            {% endif %}
+          </div>
+          <div class="tab-card__body">
+            <div class="tab-card__cat">Топи</div>
+            <h3 class="tab-card__title">{{ post.title }}</h3>
+            <div class="tab-card__date"><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</div>
+          </div>
+        </a>
+        {% endfor %}
+        {% assign tops_count = site.posts | where: "category", "Топи" | size %}
+        {% if tops_count == 0 %}
+        <div class="tab-empty"><i class="fas fa-trophy"></i><p>Топи скоро з'являться</p></div>
+        {% endif %}
+      </div>
+      <div class="tab-more">
+        <a href="/tops" class="tab-more-btn">Всі топи <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     UA GAMES BANNER
+     ══════════════════════════════════════ -->
+<section class="ua-banner reveal">
+  <div class="ua-banner__inner">
+    <div class="ua-banner__text">
+      <div class="ua-banner__label">🇺🇦 Унікальний розділ</div>
+      <h2 class="ua-banner__title">Каталог<span>українських ігор</span></h2>
+      <p class="ua-banner__desc">Підтримай вітчизняних розробників. Зібрали всі українські ігри в одному місці — від інді до ААА.</p>
+      <a href="/uagames" class="ua-banner__btn"><i class="fas fa-gamepad"></i> Переглянути каталог</a>
+    </div>
+    <div class="ua-banner__icons" aria-hidden="true">
+      <div class="ua-banner__icon">🎮</div>
+      <div class="ua-banner__icon">⚔️</div>
+      <div class="ua-banner__icon">🏰</div>
+      <div class="ua-banner__icon">🌍</div>
+      <div class="ua-banner__icon">🎯</div>
+      <div class="ua-banner__icon">🧩</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     ОСТАННІ МАТЕРІАЛИ — стрічка
+     ══════════════════════════════════════ -->
+<section class="latest-stream reveal">
+  <div class="latest-stream__inner">
+    <div class="section-eyebrow">
+      <span>✦ Останнє на сайті</span>
+    </div>
+
+    <div class="latest-stream__list">
+      {% for post in site.posts limit: 5 %}
+      <article class="stream-item">
+        <a href="{{ post.url }}" class="stream-item__img-wrap">
+          {% if post.cover %}
+          <img src="{{ post.cover }}" alt="{{ post.title }}" loading="lazy" class="stream-item__img">
+          {% else %}
+          <div class="stream-item__img-fallback"></div>
+          {% endif %}
+        </a>
+        <div class="stream-item__body">
+          <div class="stream-item__meta">
+            <span class="stream-item__cat">{{ post.category | default: "Допис" }}</span>
+            <span class="stream-item__date"><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+          </div>
+          <h3 class="stream-item__title">
+            <a href="{{ post.url }}">{{ post.title }}</a>
+          </h3>
+          <p class="stream-item__excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+        </div>
+        <a href="{{ post.url }}" class="stream-item__arrow" aria-label="Читати">
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="latest-stream__more">
+      <a href="/all-posts" class="load-more-btn">Показати більше</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     TELEGRAM CTA
+     ══════════════════════════════════════ -->
+<section class="tg-cta reveal">
+  <div class="tg-cta__inner">
+    <div class="tg-cta__icon" aria-hidden="true"><i class="fab fa-telegram"></i></div>
+    <div class="tg-cta__text">
+      <h3>Будь першим у грі</h3>
+      <p>Підпишись на Telegram-канал і отримуй найсвіжіші новини про ігри прямо у смартфон. Ніякого спаму — лише контент.</p>
+    </div>
+    <a href="https://t.me/dovbushhub" class="tg-cta__btn" target="_blank" rel="noopener">
+      <i class="fab fa-telegram"></i> Підписатись
+    </a>
+  </div>
+</section>
