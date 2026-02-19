@@ -1,7 +1,7 @@
 title: DovbushHub
 description: Український ігровий блог про відеоігри
 url: https://dovbush-media.github.io
-baseurl: /DovbushHub
+baseurl: ""
 
 # Build settings
 markdown: kramdown
