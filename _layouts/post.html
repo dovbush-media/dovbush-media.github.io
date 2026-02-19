@@ -84,7 +84,7 @@ layout: default
     <div class="post-footer-meta">
       <div class="meta-left">
         <span><i class="far fa-calendar"></i> {{ page.date | date: "%d.%m.%Y" }}</span>
-        <span class="post-read-time"><i class="far fa-clock"></i> ~{{ post.content | number_of_words | divided_by: 200 }} хв</span>
+        <span class="post-category"><i class="fas fa-folder-open"></i> {{ post.categories | first | default: "Допис" }}</span>
       </div>
       <div class="meta-right">
         <span><i class="fas fa-folder"></i> {{ page.category }}</span>
