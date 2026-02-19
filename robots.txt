@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Не індексувати службові файли
+Disallow: /assets/
+Disallow: /search.json
+
+Sitemap: https://dovbush-media.github.io/sitemap.xml
