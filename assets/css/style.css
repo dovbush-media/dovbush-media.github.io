@@ -1614,3 +1614,25 @@ body {
     padding: 2rem 1rem;
   }
 }
+
+/* ========================================
+   GISCUS КОМЕНТАРІ
+   ======================================== */
+
+.comments-note {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-blue);
+}
+
+.comments-note i {
+  margin-right: 0.4rem;
+}
+
+.giscus {
+  margin-top: 1rem;
+}
