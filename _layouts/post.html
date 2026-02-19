@@ -38,15 +38,23 @@ layout: default
   <!-- Main Post Content -->
   <article class="post-main">
     <!-- Breadcrumbs -->
-    <nav class="breadcrumbs" aria-label="Навігація">
-      <a href="/">Головна</a>
-      <span class="breadcrumb-sep"><i class="fas fa-chevron-right"></i></span>
-      {% if page.category %}
-      <a href="/{{ page.category | downcase | replace: ' ', '-' | replace: 'і', 'i' }}">{{ page.category }}</a>
-      <span class="breadcrumb-sep"><i class="fas fa-chevron-right"></i></span>
-      {% endif %}
-      <span class="breadcrumb-current">{{ page.title | truncatewords: 6 }}</span>
-    </nav>
+<nav class="breadcrumbs" aria-label="Навігація">
+  <a href="/">Головна</a>
+  <span class="breadcrumb-sep"><i class="fas fa-chevron-right"></i></span>
+  {% if page.category %}
+    {% assign cat = page.category %}
+    {% if cat == "Новини" %}{% assign cat_url = "/news" %}
+    {% elsif cat == "Огляди" %}{% assign cat_url = "/reviews" %}
+    {% elsif cat == "Статті" %}{% assign cat_url = "/statti" %}
+    {% elsif cat == "Топи" %}{% assign cat_url = "/tops" %}
+    {% elsif cat == "Інтерв'ю" %}{% assign cat_url = "/statti" %}
+    {% else %}{% assign cat_url = "/all-posts" %}
+    {% endif %}
+    <a href="{{ cat_url }}">{{ page.category }}</a>
+    <span class="breadcrumb-sep"><i class="fas fa-chevron-right"></i></span>
+  {% endif %}
+  <span class="breadcrumb-current">{{ page.title | truncatewords: 6 }}</span>
+</nav>
     <header class="post-header">
       <h1>{{ page.title }}</h1>
       
