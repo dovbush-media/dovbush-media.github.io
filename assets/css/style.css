@@ -1670,3 +1670,19 @@ body {
   color: var(--accent-yellow);
   font-weight: 500;
 }
+
+/* ========================================
+   ПРОГРЕС-БАР ЧИТАННЯ
+   ======================================== */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+  z-index: 9999;
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
