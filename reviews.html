@@ -22,7 +22,7 @@ description: Детальні огляди українських відеоіг
       <div class="latest-meta">
         <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
         <span><i class="fas fa-folder"></i> {{ post.category }}</span>
-        <span><i class="far fa-comments"></i> 0</span>
+        <span class="post-read-time"><i class="far fa-clock"></i> ~{{ post.content | number_of_words | divided_by: 200 }} хв</span>
       </div>
     </div>
   </article>
