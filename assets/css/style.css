@@ -741,6 +741,7 @@ body {
 
 .post-body p {
   margin-bottom: 1.5rem;
+   text-align: justify;
 }
 
 .post-body strong {
