@@ -1,6 +1,6 @@
 ---
 title: "Своє, рідне, залізобетонне: ТОП-5 українських ігор, які варто пройти кожному"
-description: "Топ 5 ігор для"
+description: "Топ 5 українських ігор які варто пройти кожному"
 date: 2026-02-16T15:25:00.000+02:00
 layout: post
 cover: https://lh3.googleusercontent.com/u/0/d/1KXYJEB2bU3vXG0fJY4Y0DcENLZaejPNk
