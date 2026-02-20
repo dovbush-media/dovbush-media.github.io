@@ -87,17 +87,26 @@ description: Каталог українських відеоігор у Steam �
 .cat-filters {
   display: none;
   grid-template-columns: repeat(auto-fill, minmax(160px,1fr));
-  gap: 12px; padding-top: 14px;
+  gap: 14px; padding-top: 16px;
   border-top: 1px solid var(--c-border); margin-top: 14px;
 }
 .cat-filters.show { display: grid; }
-.flt-group { display: flex; flex-direction: column; gap: 5px; }
-.flt-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--c-accent); }
-.flt-select, .flt-input {
-  background: var(--c-card); border: 1px solid var(--c-border); border-radius: 6px;
-  color: var(--c-text); font-size: 13px; padding: 7px 10px; outline: none; width: 100%; transition: border-color .2s;
+.flt-group { display: flex; flex-direction: column; gap: 6px; }
+.flt-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px;
+  color: var(--c-muted);
+  display: flex; align-items: center; gap: 5px;
 }
-.flt-select:focus, .flt-input:focus { border-color: var(--c-accent); }
+.flt-label-icon { opacity: .7; }
+.flt-select, .flt-input {
+  background: var(--c-card); border: 1px solid var(--c-border); border-radius: 7px;
+  color: var(--c-text); font-size: 13px; padding: 8px 11px; outline: none; width: 100%;
+  transition: border-color .2s, box-shadow .2s; box-sizing: border-box;
+}
+.flt-select:focus, .flt-input:focus {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(88,166,255,.1);
+}
 .flt-select option { background: #1c2333; }
 .flt-price-row { display: flex; gap: 5px; }
 .flt-price-row .flt-input { min-width: 0; }
@@ -120,13 +129,30 @@ description: Каталог українських відеоігор у Steam �
 
 /* СОРТУВАННЯ */
 .cat-sort-row { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-.sort-label { font-size: 12px; color: var(--c-muted); }
+.sort-label { font-size: 11px; color: var(--c-muted); text-transform: uppercase; letter-spacing: .5px; font-weight: 700; }
 .sort-btn {
-  background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 20px;
-  color: var(--c-muted); font-size: 12px; padding: 4px 12px; cursor: pointer; transition: all .18s;
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 7px;
+  color: var(--c-muted);
+  font-size: 12px;
+  padding: 6px 13px;
+  cursor: pointer;
+  transition: all .18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
 }
-.sort-btn:hover { border-color: var(--c-accent); color: var(--c-text); }
-.sort-btn.active { background: rgba(88,166,255,.1); border-color: var(--c-accent); color: var(--c-accent); font-weight: 700; }
+.sort-btn:hover { border-color: rgba(88,166,255,.5); color: var(--c-text); background: rgba(88,166,255,.06); }
+.sort-btn.active {
+  background: rgba(88,166,255,.14);
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  font-weight: 700;
+  box-shadow: 0 0 0 1px rgba(88,166,255,.2);
+}
+.sort-btn .sort-dir-icon { font-size: 10px; opacity: .8; }
 
 /* LIST CARDS */
 .game-card {
@@ -151,10 +177,10 @@ description: Каталог українських відеоігор у Steam �
 .rating-dot.yellow { color:#d29922; } .rating-dot.yellow::before { background:#d29922; }
 .rating-dot.red    { color:#f85149; } .rating-dot.red::before    { background:#f85149; }
 .rating-dot.none   { color:var(--c-muted); } .rating-dot.none::before { background:var(--c-muted); }
-.gc-right { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 4px; padding: 10px 14px 10px 6px; flex-shrink: 0; min-width: 110px; }
-.price-block { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
-.price-main { font-size: 15px; font-weight: 800; color: var(--c-text); }
-.price-old  { font-size: 11px; color: var(--c-muted); text-decoration: line-through; }
+.gc-right { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 7px; padding: 10px 14px 10px 6px; flex-shrink: 0; min-width: 130px; flex-wrap: wrap; }
+.price-main { font-size: 15px; font-weight: 800; color: var(--c-text); white-space: nowrap; }
+.price-old  { font-size: 11px; color: var(--c-muted); text-decoration: line-through; white-space: nowrap; }
+.price-col  { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
 .disc-box   { font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 3px; }
 .disc-box.hist { background: var(--disc-hist); color: #fff; }
 .disc-box.yr2  { background: var(--disc-2y); color: #beee11; }
@@ -210,10 +236,10 @@ description: Каталог українських відеоігор у Steam �
 .gm-badge-demo   { background:rgba(163,113,247,.15);color:#a371f7; border:1px solid rgba(163,113,247,.35); }
 .gm-badge-coming { background:rgba(210,153,34,.15); color:#d29922; border:1px solid rgba(210,153,34,.35); }
 
-.gm-body { display:grid; grid-template-columns:1fr 240px; gap:16px; padding:0 18px 22px; }
+.gm-body { display:grid; grid-template-columns:1fr 240px; gap:16px; padding:0 18px 22px; min-width:0; overflow:hidden; }
 
 /* Галерея */
-.gm-mainview { position:relative; width:100%; aspect-ratio:16/9; background:#000; border-radius:7px; overflow:hidden; border:1px solid rgba(255,255,255,.06); }
+.gm-mainview { position:relative; width:100%; max-width:100%; aspect-ratio:16/9; background:#000; border-radius:7px; overflow:hidden; border:1px solid rgba(255,255,255,.06); box-sizing:border-box; touch-action:pan-y; }
 .gm-mainview img { width:100%; height:100%; object-fit:contain; display:block; }
 .gm-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.65); border:none; color:#aaa; width:30px; height:52px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .18s; z-index:5; }
 .gm-nav:hover { background:rgba(88,166,255,.35); color:#fff; }
@@ -306,43 +332,47 @@ description: Каталог українських відеоігор у Steam �
     </div>
     <div class="cat-filters" id="filterPanel">
       <div class="flt-group">
-        <span class="flt-label">Жанр</span>
+        <span class="flt-label"><span class="flt-label-icon">🎮</span>Жанр</span>
         <select id="fltGenre" class="flt-select"><option value="">Всі жанри</option></select>
       </div>
       <div class="flt-group">
-        <span class="flt-label">Рік</span>
+        <span class="flt-label"><span class="flt-label-icon">👾</span>Розробник</span>
+        <select id="fltDev" class="flt-select"><option value="">Всі розробники</option></select>
+      </div>
+      <div class="flt-group">
+        <span class="flt-label"><span class="flt-label-icon">📅</span>Рік</span>
         <div style="display:flex;gap:5px;">
-          <select id="fltYearFrom" class="flt-select" style="flex:1;padding:7px 4px;font-size:12px;"><option value="">Від</option></select>
-          <select id="fltYearTo"   class="flt-select" style="flex:1;padding:7px 4px;font-size:12px;"><option value="">До</option></select>
+          <select id="fltYearFrom" class="flt-select" style="flex:1;padding:8px 5px;font-size:12px;"><option value="">Від</option></select>
+          <select id="fltYearTo"   class="flt-select" style="flex:1;padding:8px 5px;font-size:12px;"><option value="">До</option></select>
         </div>
       </div>
       <div class="flt-group">
-        <span class="flt-label">Ціна (₴)</span>
+        <span class="flt-label"><span class="flt-label-icon">💰</span>Ціна (₴)</span>
         <div class="flt-price-row">
           <input type="number" id="fltPriceMin" class="flt-input" placeholder="Від" min="0">
           <input type="number" id="fltPriceMax" class="flt-input" placeholder="До" min="0">
         </div>
       </div>
       <div class="flt-group">
-        <span class="flt-label">Рейтинг мін.</span>
+        <span class="flt-label"><span class="flt-label-icon">⭐</span>Рейтинг мін.</span>
         <div class="flt-range-wrap">
           <input type="range" id="fltRating" class="flt-range" min="0" max="100" value="0">
           <div class="flt-range-val"><span id="fltRatingVal">Будь-який</span></div>
         </div>
       </div>
       <div class="flt-group">
-        <span class="flt-label">Знижка мін.</span>
+        <span class="flt-label"><span class="flt-label-icon">🏷️</span>Знижка мін.</span>
         <div class="flt-range-wrap">
           <input type="range" id="fltDiscount" class="flt-range" min="0" max="90" value="0">
           <div class="flt-range-val"><span id="fltDiscountVal">Будь-яка</span></div>
         </div>
       </div>
       <div class="flt-group" style="grid-column:1/-1;">
-        <span class="flt-label">Теги</span>
-        <select id="fltTag" class="flt-select" style="max-width:260px;"><option value="">Всі теги</option></select>
+        <span class="flt-label"><span class="flt-label-icon">🔖</span>Теги</span>
+        <select id="fltTag" class="flt-select" style="max-width:280px;"><option value="">Всі теги</option></select>
       </div>
       <div class="flt-group" style="grid-column:1/-1;">
-        <span class="flt-label">Статус</span>
+        <span class="flt-label"><span class="flt-label-icon">📌</span>Статус</span>
         <div class="flt-chips" id="statusChips">
           <button class="flt-chip active" data-status="">Всі</button>
           <button class="flt-chip" data-status="released">Вийшли</button>
@@ -354,19 +384,19 @@ description: Каталог українських відеоігор у Steam �
           <button class="flt-chip" data-status="2ylow">📉 Мін. за 2 роки</button>
         </div>
       </div>
-      <div class="flt-group">
-        <button class="btn-reset" onclick="resetFilters()">✕ Скинути</button>
+      <div class="flt-group" style="align-self:end;">
+        <button class="btn-reset" onclick="resetFilters()">✕ Скинути фільтри</button>
       </div>
     </div>
   </div>
 
   <div class="cat-sort-row">
-    <span class="sort-label">Сортування:</span>
-    <button class="sort-btn active" data-sort="title">Назва <span id="dir-title">↑</span></button>
-    <button class="sort-btn" data-sort="rating">Рейтинг <span id="dir-rating"></span></button>
-    <button class="sort-btn" data-sort="price">Ціна <span id="dir-price"></span></button>
-    <button class="sort-btn" data-sort="year">Рік <span id="dir-year"></span></button>
-    <button class="sort-btn" data-sort="discount">Знижка <span id="dir-discount"></span></button>
+    <span class="sort-label">Сорт.:</span>
+    <button class="sort-btn active" data-sort="title">🔤 Назва <span class="sort-dir-icon" id="dir-title">↑</span></button>
+    <button class="sort-btn" data-sort="rating">⭐ Рейтинг <span class="sort-dir-icon" id="dir-rating"></span></button>
+    <button class="sort-btn" data-sort="price">💰 Ціна <span class="sort-dir-icon" id="dir-price"></span></button>
+    <button class="sort-btn" data-sort="year">📅 Рік <span class="sort-dir-icon" id="dir-year"></span></button>
+    <button class="sort-btn" data-sort="discount">🏷️ Знижка <span class="sort-dir-icon" id="dir-discount"></span></button>
   </div>
 
   <div id="catalogList">
@@ -422,14 +452,16 @@ async function init(){
   }
 }
 function buildDropdowns(){
-  const genres=new Set(),tags=new Set(),years=new Set();
+  const genres=new Set(),tags=new Set(),years=new Set(),devs=new Set();
   Object.values(games).forEach(g=>{
     if(g.genre)g.genre.split(',').forEach(v=>genres.add(v.trim()));
     if(g.tags)g.tags.split(',').forEach(t=>tags.add(t.trim()));
+    if(g.devPublisher){const d=g.devPublisher.split(',')[0].trim();if(d)devs.add(d);}
     const y=yearNum(g.releaseDate);if(y)years.add(y);
   });
   fillSel('fltGenre',[...genres].sort());
   fillSel('fltTag',[...tags].sort());
+  fillSel('fltDev',[...devs].sort());
   [...years].sort((a,b)=>b-a).forEach(y=>{
     document.getElementById('fltYearFrom').add(new Option(y,y));
     document.getElementById('fltYearTo').add(new Option(y,y));
@@ -442,7 +474,7 @@ function toggleFilters(){
   const o=p.classList.toggle('show');b.classList.toggle('active',o);
 }
 function resetFilters(){
-  ['searchInput','fltGenre','fltTag','fltYearFrom','fltYearTo','fltPriceMin','fltPriceMax'].forEach(id=>document.getElementById(id).value='');
+  ['searchInput','fltGenre','fltDev','fltTag','fltYearFrom','fltYearTo','fltPriceMin','fltPriceMax'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('fltRating').value=0;document.getElementById('fltDiscount').value=0;
   document.getElementById('fltRatingVal').textContent='Будь-який';
   document.getElementById('fltDiscountVal').textContent='Будь-яка';
@@ -459,7 +491,7 @@ document.getElementById('fltRating').addEventListener('input',function(){
 document.getElementById('fltDiscount').addEventListener('input',function(){
   document.getElementById('fltDiscountVal').textContent=this.value>0?this.value+'%':'Будь-яка';render();
 });
-['searchInput','fltGenre','fltTag','fltYearFrom','fltYearTo','fltPriceMin','fltPriceMax'].forEach(id=>
+['searchInput','fltGenre','fltDev','fltTag','fltYearFrom','fltYearTo','fltPriceMin','fltPriceMax'].forEach(id=>
   document.getElementById(id).addEventListener('input',render)
 );
 
@@ -469,9 +501,12 @@ document.querySelectorAll('.sort-btn').forEach(btn=>{
     sortDir=currentSort===f?sortDir*-1:1;currentSort=f;
     document.querySelectorAll('.sort-btn').forEach(b=>{
       b.classList.toggle('active',b.dataset.sort===f);
-      document.getElementById('dir-'+b.dataset.sort).textContent='';
+      const dirEl=document.getElementById('dir-'+b.dataset.sort);
+      if(dirEl)dirEl.textContent='';
     });
-    document.getElementById('dir-'+f).textContent=sortDir===1?'↑':'↓';render();
+    const activeDir=document.getElementById('dir-'+f);
+    if(activeDir)activeDir.textContent=sortDir===1?'↑':'↓';
+    render();
   });
 });
 
@@ -498,6 +533,7 @@ function ratingLabel(r){if(!r)return'—';return r>=80?'Дуже позитив�
 function render(){
   const q=document.getElementById('searchInput').value.toLowerCase().trim();
   const genre=document.getElementById('fltGenre').value;
+  const dev=document.getElementById('fltDev').value;
   const tag=document.getElementById('fltTag').value;
   const yFrom=+document.getElementById('fltYearFrom').value||0;
   const yTo=+document.getElementById('fltYearTo').value||9999;
@@ -518,6 +554,7 @@ function render(){
     if(activeStatus==='2ylow'){if(!g.low2Y||g.currentPrice>g.low2Y)return false;}
     if(q&&!clean(g.title).toLowerCase().includes(q))return false;
     if(genre&&!(g.genre||'').split(',').map(s=>s.trim()).includes(genre))return false;
+    if(dev&&!(g.devPublisher||'').split(',')[0].trim().includes(dev))return false;
     if(tag&&!(g.tags||'').includes(tag))return false;
     if(yr&&yFrom&&yr<yFrom)return false;
     if(yr&&yTo&&yr>yTo)return false;
@@ -557,7 +594,7 @@ function buildCard(g){
   if(stage==='upcoming'){ph=`<span class="price-soon">Незабаром</span>`;}
   else if(stage==='demo'){ph=`<span class="price-demo">Demo</span>`;}
   else if(stage==='free'||!g.currentPrice){ph=`<span class="price-free">Безкоштовно</span>`;}
-  else if(g.discount>0){ph=`<div class="price-block"><span class="disc-box ${dc}">-${g.discount}%</span></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:1px;"><span class="price-old">${g.basePrice} ₴</span><span class="price-main">${g.currentPrice} ₴</span></div>`;}
+  else if(g.discount>0){ph=`<span class="disc-box ${dc}">-${g.discount}%</span><div class="price-col"><span class="price-old">${g.basePrice} ₴</span><span class="price-main">${g.currentPrice} ₴</span></div>`;}
   else{ph=`<span class="price-main">${g.currentPrice} ₴</span>`;}
   return`<div class="game-card" onclick="openGame('${g.appId}')">
     <img class="gc-img" src="${g.img}" alt="${clean(g.title)}" loading="lazy" onerror="this.style.display='none'">
@@ -649,5 +686,23 @@ function changeSlide(step){
 function closeModal(){document.getElementById('gameModal').classList.remove('open');document.body.style.overflow='';}
 function handleOverlay(e){if(e.target===document.getElementById('gameModal'))closeModal();}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* Свайп для галереї */
+(function(){
+  let tx=0,ty=0;
+  document.addEventListener('touchstart',e=>{
+    const mv=document.getElementById('gmMain');
+    if(!mv||!mv.closest('.gm-mainview'))return;
+    tx=e.touches[0].clientX;ty=e.touches[0].clientY;
+  },{passive:true});
+  document.addEventListener('touchend',e=>{
+    const mv=document.getElementById('gmMain');
+    if(!mv||!mv.closest('.gm-mainview'))return;
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=Math.abs(e.changedTouches[0].clientY-ty);
+    if(Math.abs(dx)>40&&dy<60){changeSlide(dx<0?1:-1);}
+  },{passive:true});
+})();
+
 init();
 </script>
