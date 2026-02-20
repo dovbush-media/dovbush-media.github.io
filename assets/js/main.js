@@ -307,29 +307,94 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
-// Image Lightbox для постів
+// ════════════════════════════════════
+  // IMAGE LIGHTBOX з навігацією
+  // ════════════════════════════════════
   const postBody = document.querySelector('.post-body');
   if (postBody) {
-    // Створюємо lightbox
+    const allImgs = Array.from(postBody.querySelectorAll('img'));
+    if (allImgs.length === 0) return;
+
+    let currentIndex = 0;
+
+    // Будуємо HTML lightbox
     const lightbox = document.createElement('div');
     lightbox.className = 'image-lightbox';
+    lightbox.innerHTML = `
+      <button class="lb-close" aria-label="Закрити">✕</button>
+      <button class="lb-prev" aria-label="Попереднє фото">&#8592;</button>
+      <div class="lb-img-wrap">
+        <img class="lb-img" src="" alt="">
+      </div>
+      <button class="lb-next" aria-label="Наступне фото">&#8594;</button>
+      <div class="lb-counter"></div>
+    `;
     document.body.appendChild(lightbox);
-    
-    // Обробка кліків на зображення
-    postBody.querySelectorAll('img').forEach(img => {
-      img.addEventListener('click', function(e) {
-        e.preventDefault();
-        const imgClone = this.cloneNode();
-        lightbox.innerHTML = '';
-        lightbox.appendChild(imgClone);
-        lightbox.classList.add('active');
-      });
+
+    const lbImg     = lightbox.querySelector('.lb-img');
+    const lbCounter = lightbox.querySelector('.lb-counter');
+    const lbPrev    = lightbox.querySelector('.lb-prev');
+    const lbNext    = lightbox.querySelector('.lb-next');
+    const lbClose   = lightbox.querySelector('.lb-close');
+
+    function openLightbox(index) {
+      currentIndex = index;
+      const src = allImgs[currentIndex].src || allImgs[currentIndex].dataset.src;
+      lbImg.src = src;
+      lbImg.alt = allImgs[currentIndex].alt || '';
+      // Скидаємо розміри щоб CSS міг взяти контроль
+      lbImg.removeAttribute('width');
+      lbImg.removeAttribute('height');
+      lbImg.style.width  = '';
+      lbImg.style.height = '';
+      lbCounter.textContent = `${currentIndex + 1} / ${allImgs.length}`;
+      lbPrev.style.visibility = currentIndex === 0 ? 'hidden' : 'visible';
+      lbNext.style.visibility = currentIndex === allImgs.length - 1 ? 'hidden' : 'visible';
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+      // Невелика затримка перед очисткою щоб transition відпрацював
+      setTimeout(() => { lbImg.src = ''; }, 300);
+    }
+
+    function goPrev() { if (currentIndex > 0) openLightbox(currentIndex - 1); }
+    function goNext() { if (currentIndex < allImgs.length - 1) openLightbox(currentIndex + 1); }
+
+    // Відкриття по кліку на фото
+    allImgs.forEach((img, i) => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(i); });
     });
-    
-    // Закриття lightbox
-    lightbox.addEventListener('click', function() {
-      this.classList.remove('active');
+
+    // Кнопки
+    lbClose.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
+    lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); goPrev(); });
+    lbNext.addEventListener('click',  (e) => { e.stopPropagation(); goNext(); });
+
+    // Клік на фон — закрити
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target.classList.contains('lb-img-wrap')) closeLightbox();
     });
+
+    // Клавіатура
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowLeft')  goPrev();
+      if (e.key === 'ArrowRight') goNext();
+    });
+
+    // Swipe на мобільних
+    let touchStartX = 0;
+    lightbox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    lightbox.addEventListener('touchend',   (e) => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 50) { diff > 0 ? goNext() : goPrev(); }
+    }, { passive: true });
   }
   // Scroll to Top Button
   const scrollTopBtn = document.querySelector('.scroll-to-top');
@@ -495,4 +560,3 @@ document.addEventListener('DOMContentLoaded', function() {
       siteHeader.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
   }
-
