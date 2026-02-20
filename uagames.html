@@ -4,837 +4,318 @@ title: Каталог Українських ігор
 description: Каталог українських відеоігор у Steam — ціни, рейтинги, огляди, фільтри
 ---
 <style>
-/* ══════════════════════════════════════════
-   ЗМІННІ
-══════════════════════════════════════════ */
 :root {
-  --c-bg:       #0d1117;
-  --c-surface:  #161b22;
-  --c-card:     #1c2333;
-  --c-border:   rgba(255,255,255,0.07);
-  --c-blue:     #0057b7;
-  --c-gold:     #ffd700;
-  --c-accent:   #58a6ff;
-  --c-green:    #3fb950;
-  --c-red:      #f85149;
-  --c-text:     #e6edf3;
-  --c-muted:    #8b949e;
-  --c-hover:    rgba(88,166,255,0.08);
-  --radius:     10px;
-  --radius-sm:  6px;
+  --c-surface: #161b22;
+  --c-card:    #1c2333;
+  --c-border:  rgba(255,255,255,0.07);
+  --c-accent:  #58a6ff;
+  --c-green:   #3fb950;
+  --c-red:     #f85149;
+  --c-gold:    #ffd700;
+  --c-text:    #e6edf3;
+  --c-muted:   #8b949e;
+  --disc-hist: #00a2ff;
+  --disc-2y:   #4c6b22;
+  --disc-reg:  #6b2222;
 }
 
-/* ══════════════════════════════════════════
-   ЗАГАЛЬНИЙ КОНТЕЙНЕР
-══════════════════════════════════════════ */
 .cat-wrap {
-  max-width: 1200px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: 28px 16px 60px;
+  padding: 24px 14px 60px;
   font-family: 'Inter', sans-serif;
   color: var(--c-text);
 }
 
-/* ══ ШАПКА КАТАЛОГУ ══ */
+/* ШАПКА */
 .cat-hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px;
+  margin-bottom: 18px; flex-wrap: wrap;
 }
 .cat-hero__title {
-  font-size: clamp(22px, 4vw, 32px);
-  font-weight: 800;
-  margin: 0;
-  background: linear-gradient(90deg, #fff 0%, var(--c-accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: clamp(20px,4vw,28px); font-weight: 800; margin: 0 0 4px;
+  background: linear-gradient(90deg,#fff 0%,var(--c-accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
-.cat-hero__sub {
-  font-size: 13px;
-  color: var(--c-muted);
-  margin: 4px 0 0;
-}
+.cat-hero__sub { font-size: 13px; color: var(--c-muted); margin: 0; }
 .cat-count {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: 20px;
-  padding: 6px 16px;
-  font-size: 13px;
-  color: var(--c-muted);
-  white-space: nowrap;
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: 20px; padding: 5px 14px; font-size: 13px; color: var(--c-muted);
+  white-space: nowrap; align-self: center;
 }
 .cat-count span { color: var(--c-accent); font-weight: 700; }
 
-/* ══ ПАНЕЛЬ ПОШУКУ + ФІЛЬТРИ ══ */
+/* ЛЕГЕНДА ЗНИЖОК */
+.disc-legend {
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: 8px; padding: 9px 14px; margin-bottom: 14px; font-size: 12px;
+}
+.disc-legend__title { font-weight: 700; color: var(--c-text); }
+.disc-pip { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; }
+.disc-pip::before { content:''; display:inline-block; width:10px; height:10px; border-radius:2px; }
+.disc-pip--hist { color:var(--disc-hist); } .disc-pip--hist::before { background:var(--disc-hist); }
+.disc-pip--2y   { color:#beee11; }          .disc-pip--2y::before   { background:var(--disc-2y); }
+.disc-pip--reg  { color:#e06060; }           .disc-pip--reg::before  { background:var(--disc-reg); }
+
+/* TOOLBAR */
 .cat-toolbar {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 20px;
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: 10px; padding: 14px; margin-bottom: 14px;
 }
-.cat-search-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
+.cat-search-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .cat-search {
-  flex: 1;
-  min-width: 180px;
-  background: var(--c-card);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-sm);
-  color: var(--c-text);
-  font-size: 14px;
-  padding: 10px 14px 10px 38px;
-  outline: none;
-  transition: border-color .2s;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238b949e' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.442 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: 12px center;
+  flex: 1; min-width: 160px; background: var(--c-card);
+  border: 1px solid var(--c-border); border-radius: 7px; color: var(--c-text);
+  font-size: 14px; padding: 9px 12px 9px 36px; outline: none; transition: border-color .2s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238b949e' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.442 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: 11px center;
 }
 .cat-search:focus { border-color: var(--c-accent); }
 .cat-search::placeholder { color: var(--c-muted); }
-
 .btn-toggle-filters {
-  background: var(--c-card);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-sm);
-  color: var(--c-muted);
-  font-size: 13px;
-  padding: 10px 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  transition: all .2s;
-  white-space: nowrap;
+  background: var(--c-card); border: 1px solid var(--c-border); border-radius: 7px;
+  color: var(--c-muted); font-size: 13px; padding: 9px 14px; cursor: pointer;
+  display: flex; align-items: center; gap: 6px; transition: all .2s; white-space: nowrap;
 }
 .btn-toggle-filters:hover { border-color: var(--c-accent); color: var(--c-text); }
 .btn-toggle-filters.active { border-color: var(--c-accent); color: var(--c-accent); }
-.btn-toggle-filters .tf-icon { transition: transform .25s; }
+.tf-icon { transition: transform .25s; display: inline-block; }
 .btn-toggle-filters.active .tf-icon { transform: rotate(180deg); }
 
-/* Фільтри */
 .cat-filters {
   display: none;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 12px;
-  padding-top: 14px;
-  border-top: 1px solid var(--c-border);
-  margin-top: 2px;
+  grid-template-columns: repeat(auto-fill, minmax(160px,1fr));
+  gap: 12px; padding-top: 14px;
+  border-top: 1px solid var(--c-border); margin-top: 14px;
 }
 .cat-filters.show { display: grid; }
-
 .flt-group { display: flex; flex-direction: column; gap: 5px; }
-.flt-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .6px;
-  color: var(--c-accent);
-}
+.flt-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--c-accent); }
 .flt-select, .flt-input {
-  background: var(--c-card);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-sm);
-  color: var(--c-text);
-  font-size: 13px;
-  padding: 8px 10px;
-  outline: none;
-  width: 100%;
-  transition: border-color .2s;
+  background: var(--c-card); border: 1px solid var(--c-border); border-radius: 6px;
+  color: var(--c-text); font-size: 13px; padding: 7px 10px; outline: none; width: 100%; transition: border-color .2s;
 }
 .flt-select:focus, .flt-input:focus { border-color: var(--c-accent); }
-.flt-select option { background: var(--c-card); }
-
-.flt-price-row { display: flex; gap: 6px; }
+.flt-select option { background: #1c2333; }
+.flt-price-row { display: flex; gap: 5px; }
 .flt-price-row .flt-input { min-width: 0; }
-
-.flt-range-wrap { display: flex; flex-direction: column; gap: 4px; }
-.flt-range {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--c-card);
-  outline: none;
-  cursor: pointer;
-}
-.flt-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  background: var(--c-accent);
-  cursor: pointer;
-  box-shadow: 0 0 0 2px rgba(88,166,255,.25);
-}
-.flt-range-val {
-  display: flex;
-  justify-content: flex-end;
-  font-size: 11px;
-  color: var(--c-accent);
-  font-weight: 700;
-}
-
-.flt-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.flt-range-wrap { display: flex; flex-direction: column; gap: 3px; }
+.flt-range { -webkit-appearance:none; width:100%; height:4px; border-radius:2px; background:var(--c-card); outline:none; cursor:pointer; }
+.flt-range::-webkit-slider-thumb { -webkit-appearance:none; width:15px; height:15px; border-radius:50%; background:var(--c-accent); cursor:pointer; }
+.flt-range-val { display:flex; justify-content:flex-end; font-size:11px; color:var(--c-accent); font-weight:700; }
+.flt-chips { display: flex; gap: 5px; flex-wrap: wrap; }
 .flt-chip {
-  padding: 4px 10px;
-  border-radius: 20px;
-  border: 1px solid var(--c-border);
-  background: var(--c-card);
-  color: var(--c-muted);
-  font-size: 12px;
-  cursor: pointer;
-  transition: all .18s;
+  padding: 4px 10px; border-radius: 20px; border: 1px solid var(--c-border);
+  background: var(--c-card); color: var(--c-muted); font-size: 11px; cursor: pointer; transition: all .18s;
 }
 .flt-chip:hover { border-color: var(--c-accent); color: var(--c-text); }
-.flt-chip.active { background: rgba(88,166,255,.15); border-color: var(--c-accent); color: var(--c-accent); font-weight: 600; }
-
+.flt-chip.active { background: rgba(88,166,255,.12); border-color: var(--c-accent); color: var(--c-accent); font-weight: 700; }
 .btn-reset {
-  background: transparent;
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-sm);
-  color: var(--c-muted);
-  font-size: 12px;
-  padding: 8px 14px;
-  cursor: pointer;
-  transition: all .2s;
-  align-self: flex-end;
+  background: transparent; border: 1px solid var(--c-border); border-radius: 6px;
+  color: var(--c-muted); font-size: 12px; padding: 7px 12px; cursor: pointer; transition: all .2s;
 }
 .btn-reset:hover { border-color: var(--c-red); color: var(--c-red); }
 
-/* ══ СОРТУВАННЯ ══ */
-.cat-sort-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
+/* СОРТУВАННЯ */
+.cat-sort-row { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
 .sort-label { font-size: 12px; color: var(--c-muted); }
 .sort-btn {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: 20px;
-  color: var(--c-muted);
-  font-size: 12px;
-  padding: 5px 12px;
-  cursor: pointer;
-  transition: all .18s;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 20px;
+  color: var(--c-muted); font-size: 12px; padding: 4px 12px; cursor: pointer; transition: all .18s;
 }
 .sort-btn:hover { border-color: var(--c-accent); color: var(--c-text); }
-.sort-btn.active { background: rgba(88,166,255,.12); border-color: var(--c-accent); color: var(--c-accent); font-weight: 600; }
-.sort-dir { font-size: 10px; }
+.sort-btn.active { background: rgba(88,166,255,.1); border-color: var(--c-accent); color: var(--c-accent); font-weight: 700; }
 
-/* ══ VIEW TOGGLE ══ */
-.view-toggle {
-  display: flex;
-  gap: 4px;
-  margin-left: auto;
+/* LIST CARDS */
+.game-card {
+  background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 10px;
+  margin-bottom: 7px; cursor: pointer; transition: all .2s;
+  overflow: hidden; display: flex; align-items: stretch;
 }
-.view-btn {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-sm);
-  color: var(--c-muted);
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  transition: all .18s;
+.game-card:hover {
+  border-color: rgba(88,166,255,.35); background: var(--c-card);
+  box-shadow: 0 4px 18px rgba(0,0,0,.4); transform: translateX(3px);
 }
-.view-btn:hover { border-color: var(--c-accent); color: var(--c-text); }
-.view-btn.active { background: rgba(88,166,255,.12); border-color: var(--c-accent); color: var(--c-accent); }
-
-/* ══ СПИСОК (list view) ══ */
-#catalogList.list-view .game-card-list { display: flex; }
-#catalogList.grid-view .game-card-list { display: none; }
-#catalogList.list-view .game-card-grid { display: none; }
-#catalogList.grid-view .game-card-grid { display: block; }
-
-/* LIST CARD */
-.game-card-list {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius);
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: all .2s;
-  overflow: hidden;
-  align-items: stretch;
-}
-.game-card-list:hover {
-  border-color: rgba(88,166,255,.35);
-  background: var(--c-card);
-  box-shadow: 0 4px 20px rgba(0,0,0,.4);
-  transform: translateX(3px);
-}
-.gcl-img {
-  width: 148px;
-  min-height: 84px;
-  object-fit: cover;
-  flex-shrink: 0;
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-.gcl-body {
-  flex: 1;
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
-  min-width: 0;
-}
-.gcl-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--c-text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.gcl-meta {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.gcl-genre {
-  font-size: 11px;
-  color: var(--c-muted);
-}
-.gcl-year {
-  font-size: 11px;
-  color: var(--c-muted);
-  background: rgba(255,255,255,.05);
-  padding: 2px 7px;
-  border-radius: 10px;
-}
-.gcl-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 6px;
-  padding: 12px 16px 12px 0;
-  flex-shrink: 0;
-}
-
-/* GRID CARD */
-#catalogList.grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
-.game-card-grid {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all .22s;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-.game-card-grid:hover {
-  border-color: rgba(88,166,255,.4);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0,0,0,.5);
-}
-.gcg-img {
-  width: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
-}
-.gcg-body {
-  padding: 10px 12px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-}
-.gcg-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--c-text);
-  line-height: 1.3;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.gcg-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-}
-.gcg-genre {
-  font-size: 10px;
-  color: var(--c-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 60%;
-}
-
-/* Спільні елементи карток */
-.badge-ea {
-  font-size: 10px; font-weight: 700;
-  padding: 2px 6px; border-radius: 3px;
-  background: rgba(0,87,183,.5); color: #67c1f5;
-  border: 1px solid rgba(0,87,183,.7);
-  white-space: nowrap;
-}
-.badge-ua {
-  font-size: 10px; font-weight: 700;
-  padding: 2px 6px; border-radius: 3px;
-  background: linear-gradient(90deg, #0057b7 50%, #ffd700 50%);
-  color: #fff; white-space: nowrap;
-}
-
-.rating-dot {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 700;
-}
-.rating-dot::before {
-  content: '';
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  display: block;
-}
-.rating-dot.green { color: #3fb950; }
-.rating-dot.green::before { background: #3fb950; }
-.rating-dot.yellow { color: #d29922; }
-.rating-dot.yellow::before { background: #d29922; }
-.rating-dot.red { color: #f85149; }
-.rating-dot.red::before { background: #f85149; }
-.rating-dot.none { color: var(--c-muted); }
-.rating-dot.none::before { background: var(--c-muted); }
-
-/* Ціна */
-.price-block { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.gc-img { width: 140px; min-height: 78px; max-height: 90px; object-fit: cover; flex-shrink: 0; border-radius: 10px 0 0 10px; }
+.gc-body { flex: 1; padding: 10px 14px; display: flex; flex-direction: column; justify-content: center; gap: 5px; min-width: 0; }
+.gc-title { font-size: 14px; font-weight: 700; color: var(--c-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gc-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.gc-genre { font-size: 11px; color: var(--c-muted); }
+.gc-year { font-size: 11px; color: var(--c-muted); background: rgba(255,255,255,.05); padding: 2px 7px; border-radius: 10px; }
+.badge-ea { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; background: rgba(0,87,183,.4); color: #67c1f5; border: 1px solid rgba(0,87,183,.5); }
+.rating-dot { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; }
+.rating-dot::before { content:''; width:7px; height:7px; border-radius:50%; display:block; }
+.rating-dot.green  { color:#3fb950; } .rating-dot.green::before  { background:#3fb950; }
+.rating-dot.yellow { color:#d29922; } .rating-dot.yellow::before { background:#d29922; }
+.rating-dot.red    { color:#f85149; } .rating-dot.red::before    { background:#f85149; }
+.rating-dot.none   { color:var(--c-muted); } .rating-dot.none::before { background:var(--c-muted); }
+.gc-right { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 4px; padding: 10px 14px 10px 6px; flex-shrink: 0; min-width: 110px; }
+.price-block { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
 .price-main { font-size: 15px; font-weight: 800; color: var(--c-text); }
-.price-old { font-size: 11px; color: var(--c-muted); text-decoration: line-through; }
-.price-disc {
-  font-size: 11px; font-weight: 800;
-  padding: 1px 5px; border-radius: 3px;
-  background: #4c6b22; color: #beee11;
-}
-.price-free { font-size: 13px; font-weight: 700; color: var(--c-green); }
-.price-soon { font-size: 12px; font-weight: 600; color: var(--c-muted); font-style: italic; }
+.price-old  { font-size: 11px; color: var(--c-muted); text-decoration: line-through; }
+.disc-box   { font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 3px; }
+.disc-box.hist { background: var(--disc-hist); color: #fff; }
+.disc-box.yr2  { background: var(--disc-2y); color: #beee11; }
+.disc-box.reg  { background: var(--disc-reg); color: #ffaaaa; }
+.price-free { font-size: 12px; font-weight: 700; color: var(--c-green); }
+.price-soon { font-size: 12px; color: var(--c-muted); font-style: italic; }
 .price-demo { font-size: 12px; font-weight: 700; color: #a371f7; }
 
-/* Порожній стан */
-.cat-empty {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--c-muted);
-  font-size: 15px;
-}
-.cat-empty-icon { font-size: 48px; margin-bottom: 12px; }
-
-/* Лоадер */
-.cat-loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 60px 20px;
-  color: var(--c-muted);
-}
-.spinner {
-  width: 24px; height: 24px;
-  border: 3px solid rgba(88,166,255,.2);
-  border-top-color: var(--c-accent);
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-}
+.cat-loader { display:flex; align-items:center; justify-content:center; gap:12px; padding:60px 20px; color:var(--c-muted); }
+.spinner { width:22px; height:22px; border:3px solid rgba(88,166,255,.15); border-top-color:var(--c-accent); border-radius:50%; animation:spin .7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+.cat-empty { text-align:center; padding:50px 20px; color:var(--c-muted); font-size:14px; }
+.cat-empty-icon { font-size:44px; margin-bottom:10px; }
 
-/* ══════════════════════════════════════════
-   MODAL — КАРТОЧКА ГРИ
-══════════════════════════════════════════ */
+/* MODAL */
 #gameModal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0,0,0,.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 16px;
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain;
+  padding: 16px; box-sizing: border-box;
 }
 #gameModal.open { display: flex; align-items: flex-start; justify-content: center; }
-
 .gm-card {
-  background: var(--c-surface);
-  width: 100%;
-  max-width: 900px;
-  border-radius: 14px;
-  border: 1px solid var(--c-border);
+  background: var(--c-surface); width: 100%; max-width: 860px;
+  border-radius: 12px; border: 1px solid var(--c-border);
   box-shadow: 0 24px 64px rgba(0,0,0,.8);
-  position: relative;
-  overflow: hidden;
-  margin: auto;
+  position: relative; overflow: hidden; margin: auto; box-sizing: border-box;
   animation: modalIn .25s cubic-bezier(.22,1,.36,1);
 }
-@keyframes modalIn {
-  from { opacity: 0; transform: translateY(20px) scale(.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
+@keyframes modalIn { from{opacity:0;transform:translateY(18px) scale(.97);} to{opacity:1;transform:translateY(0) scale(1);} }
 .gm-close {
-  position: absolute;
-  top: 12px; right: 12px;
-  z-index: 20;
-  background: rgba(0,0,0,.6);
-  border: 1px solid rgba(255,255,255,.12);
-  color: #ccc;
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .2s;
-  backdrop-filter: blur(8px);
+  position:absolute; top:10px; right:10px; z-index:20;
+  background:rgba(0,0,0,.6); border:1px solid rgba(255,255,255,.12); color:#ccc;
+  width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:15px;
+  display:flex; align-items:center; justify-content:center; transition:all .2s;
 }
-.gm-close:hover { background: rgba(255,255,255,.2); color: #fff; }
+.gm-close:hover { background:rgba(255,255,255,.2); color:#fff; }
 
-/* Header з банером */
-.gm-banner {
-  position: relative;
-  width: 100%;
-  height: 180px;
-  overflow: hidden;
-  background: #0a0f18;
-}
-.gm-banner__blur {
-  position: absolute;
-  inset: -20px;
-  background-size: cover;
-  background-position: center;
-  filter: blur(20px) brightness(.3) saturate(1.3);
-  transform: scale(1.1);
-}
-.gm-banner__fade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 30%, var(--c-surface) 100%);
-}
+/* Банер тонкий */
+.gm-banner { position:relative; width:100%; height:100px; overflow:hidden; background:#0a0f18; }
+.gm-banner__blur { position:absolute; inset:-16px; background-size:cover; background-position:center; filter:blur(22px) brightness(.3) saturate(1.3); transform:scale(1.1); }
+.gm-banner__fade { position:absolute; inset:0; background:linear-gradient(to bottom, transparent 20%, var(--c-surface) 100%); }
 
 /* Шапка картки */
-.gm-header {
-  display: flex;
-  gap: 16px;
-  padding: 0 20px 16px;
-  margin-top: -60px;
-  position: relative;
-  z-index: 2;
-  align-items: flex-end;
-}
-.gm-cover {
-  width: 120px;
-  height: 56px;
-  border-radius: 6px;
-  object-fit: cover;
-  border: 2px solid rgba(255,255,255,.12);
-  box-shadow: 0 4px 16px rgba(0,0,0,.6);
-  flex-shrink: 0;
-}
-.gm-header-info { flex: 1; min-width: 0; }
-.gm-title {
-  font-size: clamp(17px, 3.5vw, 24px);
-  font-weight: 800;
-  color: #fff;
-  margin: 0 0 8px;
-  line-height: 1.2;
-  word-break: break-word;
-}
-.gm-badges { display: flex; flex-wrap: wrap; gap: 5px; }
-.gm-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: .4px;
-}
-.gm-badge-ea     { background: rgba(0,87,183,.4); color: #67c1f5; border: 1px solid rgba(0,87,183,.6); }
-.gm-badge-free   { background: rgba(63,185,80,.2); color: #3fb950; border: 1px solid rgba(63,185,80,.4); }
-.gm-badge-demo   { background: rgba(163,113,247,.2); color: #a371f7; border: 1px solid rgba(163,113,247,.4); }
-.gm-badge-coming { background: rgba(210,153,34,.2); color: #d29922; border: 1px solid rgba(210,153,34,.4); }
+.gm-header { display:flex; gap:14px; padding:0 18px 14px; margin-top:-24px; position:relative; z-index:2; align-items:flex-end; }
+.gm-cover { width:120px; height:68px; border-radius:6px; object-fit:cover; flex-shrink:0; border:2px solid rgba(255,255,255,.12); box-shadow:0 4px 14px rgba(0,0,0,.6); }
+.gm-header-info { flex:1; min-width:0; }
+.gm-title { font-size:clamp(15px,3.5vw,22px); font-weight:800; color:#fff; margin:0 0 7px; line-height:1.2; word-break:break-word; }
+.gm-badges { display:flex; flex-wrap:wrap; gap:4px; }
+.gm-badge { font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px; text-transform:uppercase; letter-spacing:.3px; }
+.gm-badge-ea     { background:rgba(0,87,183,.4);   color:#67c1f5; border:1px solid rgba(0,87,183,.5); }
+.gm-badge-free   { background:rgba(63,185,80,.15);  color:#3fb950; border:1px solid rgba(63,185,80,.35); }
+.gm-badge-demo   { background:rgba(163,113,247,.15);color:#a371f7; border:1px solid rgba(163,113,247,.35); }
+.gm-badge-coming { background:rgba(210,153,34,.15); color:#d29922; border:1px solid rgba(210,153,34,.35); }
 
-/* Тіло модалки */
-.gm-body {
-  display: grid;
-  grid-template-columns: 1fr 260px;
-  gap: 20px;
-  padding: 0 20px 24px;
-}
+.gm-body { display:grid; grid-template-columns:1fr 240px; gap:16px; padding:0 18px 22px; }
 
 /* Галерея */
-.gm-gallery {}
-.gm-mainview {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: #000;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.06);
-}
-.gm-mainview img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.gm-nav {
-  position: absolute;
-  top: 50%; transform: translateY(-50%);
-  background: rgba(0,0,0,.65);
-  border: none;
-  color: #aaa;
-  width: 34px; height: 56px;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .18s;
-  z-index: 5;
-}
-.gm-nav:hover { background: rgba(88,166,255,.35); color: #fff; }
-.gm-nav-l { left: 0; border-radius: 0 6px 6px 0; }
-.gm-nav-r { right: 0; border-radius: 6px 0 0 6px; }
+.gm-mainview { position:relative; width:100%; aspect-ratio:16/9; background:#000; border-radius:7px; overflow:hidden; border:1px solid rgba(255,255,255,.06); }
+.gm-mainview img { width:100%; height:100%; object-fit:contain; display:block; }
+.gm-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.65); border:none; color:#aaa; width:30px; height:52px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .18s; z-index:5; }
+.gm-nav:hover { background:rgba(88,166,255,.35); color:#fff; }
+.gm-nav-l { left:0; border-radius:0 5px 5px 0; }
+.gm-nav-r { right:0; border-radius:5px 0 0 5px; }
+.gm-thumbs { display:flex; gap:4px; margin-top:7px; overflow-x:auto; padding-bottom:3px; scrollbar-width:thin; scrollbar-color:#3d6c8d transparent; }
+.gm-thumb { width:76px; height:43px; object-fit:cover; flex-shrink:0; border-radius:4px; cursor:pointer; opacity:.5; border:2px solid transparent; transition:all .16s; }
+.gm-thumb:hover { opacity:.85; }
+.gm-thumb.active { opacity:1; border-color:var(--c-accent); }
+.gm-desc { margin-top:12px; font-size:12.5px; line-height:1.65; color:#8b949e; }
 
-.gm-thumbs {
-  display: flex;
-  gap: 5px;
-  margin-top: 8px;
-  overflow-x: auto;
-  padding-bottom: 3px;
-  scrollbar-width: thin;
-  scrollbar-color: #3d6c8d transparent;
-}
-.gm-thumb {
-  width: 84px; height: 47px;
-  object-fit: cover;
-  flex-shrink: 0;
-  border-radius: 4px;
-  cursor: pointer;
-  opacity: .5;
-  border: 2px solid transparent;
-  transition: all .16s;
-}
-.gm-thumb:hover { opacity: .85; }
-.gm-thumb.active { opacity: 1; border-color: var(--c-accent); }
+/* Теги — компактно */
+.gm-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
+.gm-tag { font-size:10px; padding:2px 7px; border-radius:10px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:var(--c-muted); }
 
-.gm-desc {
-  margin-top: 14px;
-  font-size: 13px;
-  line-height: 1.65;
-  color: #8b949e;
-}
+.gm-side { display:flex; flex-direction:column; gap:10px; }
+.gm-meta-box { background:rgba(255,255,255,.03); border:1px solid var(--c-border); border-radius:8px; overflow:hidden; }
+.gm-meta-row { display:flex; justify-content:space-between; align-items:flex-start; padding:6px 11px; font-size:12px; border-bottom:1px solid var(--c-border); gap:8px; }
+.gm-meta-row:last-child { border-bottom:none; }
+.gm-meta-key { color:var(--c-accent); font-weight:600; flex-shrink:0; }
+.gm-meta-val { color:var(--c-text); text-align:right; word-break:break-word; max-width:65%; }
+.gm-rating-bar { height:3px; background:rgba(255,255,255,.06); border-radius:2px; margin:0 11px 6px; overflow:hidden; }
+.gm-rating-fill { height:100%; border-radius:2px; }
 
-/* Бокова панель */
-.gm-side { display: flex; flex-direction: column; gap: 12px; }
+.gm-price-box { background:linear-gradient(135deg,rgba(88,166,255,.05),rgba(0,0,0,.25)); border:1px solid var(--c-border); border-radius:8px; padding:13px; }
+.gm-price-main { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:3px; }
+.gm-price-big   { font-size:26px; font-weight:800; color:#fff; line-height:1; }
+.gm-price-old-b { font-size:13px; color:var(--c-muted); text-decoration:line-through; }
+.gm-disc-big    { font-size:13px; font-weight:800; padding:2px 7px; border-radius:4px; }
+.gm-disc-big.hist { background:var(--disc-hist); color:#fff; }
+.gm-disc-big.yr2  { background:var(--disc-2y); color:#beee11; }
+.gm-disc-big.reg  { background:var(--disc-reg); color:#ffaaaa; }
+.gm-price-label { font-size:20px; font-weight:800; }
+.gm-hist-info { font-size:11px; color:var(--c-muted); border-top:1px solid rgba(255,255,255,.06); padding-top:8px; margin-top:7px; line-height:2; }
+.gm-hist-val  { color:var(--c-gold); font-weight:700; }
+.gm-hist-val2 { color:var(--c-text); font-weight:600; }
+.gm-disc-legend { font-size:10px; color:var(--c-muted); margin-top:5px; }
+.gm-steam-btn { display:flex; align-items:center; justify-content:center; gap:7px; margin-top:10px; background:linear-gradient(90deg,#1680c8,#0f3d9e); color:#fff; text-decoration:none; padding:11px; border-radius:7px; font-weight:700; font-size:13px; transition:all .2s; border:1px solid rgba(255,255,255,.08); }
+.gm-steam-btn:hover { background:linear-gradient(90deg,#2090d8,#1a4dae); box-shadow:0 4px 16px rgba(22,128,200,.4); transform:translateY(-1px); }
 
-.gm-meta-box {
-  background: rgba(255,255,255,.03);
-  border: 1px solid var(--c-border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.gm-meta-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 8px 12px;
-  font-size: 12px;
-  border-bottom: 1px solid var(--c-border);
-  gap: 8px;
-}
-.gm-meta-row:last-child { border-bottom: none; }
-.gm-meta-key { color: var(--c-accent); font-weight: 600; flex-shrink: 0; }
-.gm-meta-val { color: var(--c-text); text-align: right; word-break: break-word; max-width: 65%; }
+.gm-sysreq { grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.gm-sysreq-col { background:rgba(0,0,0,.22); border:1px solid var(--c-border); border-radius:7px; padding:12px; }
+.gm-sysreq-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--c-muted); margin-bottom:7px; padding-bottom:5px; border-bottom:1px solid var(--c-border); }
+.gm-sysreq-text { font-size:11px; color:#8b949e; line-height:1.7; }
 
-.gm-rating-bar {
-  height: 3px;
-  background: rgba(255,255,255,.06);
-  border-radius: 2px;
-  margin: 0 12px 8px;
-  overflow: hidden;
+/* МОБІЛ */
+@media (max-width:680px) {
+  .cat-wrap { padding:14px 10px 40px; }
+  .game-card { flex-direction:column; }
+  .gc-img { width:100%; min-height:100px; max-height:140px; border-radius:10px 10px 0 0; }
+  .gc-right { flex-direction:row; align-items:center; justify-content:space-between; padding:0 12px 10px; min-width:unset; }
+  .gc-body { padding:8px 12px 4px; }
+  #gameModal { padding:8px; }
+  .gm-card { border-radius:10px; }
+  .gm-banner { height:80px; }
+  .gm-header { margin-top:-20px; padding:0 12px 12px; gap:10px; }
+  .gm-cover { width:100px; height:56px; }
+  .gm-title { font-size:14px; margin-bottom:5px; }
+  .gm-body { grid-template-columns:1fr; padding:0 12px 18px; gap:12px; }
+  .gm-sysreq { grid-template-columns:1fr; }
+  .gm-price-big { font-size:22px; }
 }
-.gm-rating-fill { height: 100%; border-radius: 2px; }
-
-/* Ціна в модалці */
-.gm-price-box {
-  background: linear-gradient(135deg, rgba(88,166,255,.06), rgba(0,0,0,.3));
-  border: 1px solid var(--c-border);
-  border-radius: 8px;
-  padding: 14px;
-}
-.gm-price-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 4px;
-}
-.gm-price-big { font-size: 28px; font-weight: 800; color: #fff; line-height: 1; }
-.gm-price-old-big { font-size: 14px; color: var(--c-muted); text-decoration: line-through; }
-.gm-price-disc-big {
-  font-size: 14px; font-weight: 800;
-  padding: 3px 8px; border-radius: 4px;
-  background: #4c6b22; color: #beee11;
-}
-.gm-price-label { font-size: 22px; font-weight: 800; }
-.gm-hist-info {
-  font-size: 11px;
-  color: var(--c-muted);
-  border-top: 1px solid rgba(255,255,255,.06);
-  padding-top: 10px;
-  margin-top: 8px;
-  line-height: 2;
-}
-.gm-hist-val { color: var(--c-gold); font-weight: 700; }
-.gm-hist-val2 { color: var(--c-text); font-weight: 600; }
-.gm-steam-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 10px;
-  background: linear-gradient(90deg, #1680c8, #0f3d9e);
-  color: #fff;
-  text-decoration: none;
-  padding: 12px;
-  border-radius: 7px;
-  font-weight: 700;
-  font-size: 13px;
-  transition: all .2s;
-  border: 1px solid rgba(255,255,255,.08);
-}
-.gm-steam-btn:hover {
-  background: linear-gradient(90deg, #2090d8, #1a4dae);
-  box-shadow: 0 4px 18px rgba(22,128,200,.4);
-  transform: translateY(-1px);
-}
-
-/* Системні вимоги */
-.gm-sysreq {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.gm-sysreq-col {
-  background: rgba(0,0,0,.25);
-  border: 1px solid var(--c-border);
-  border-radius: 8px;
-  padding: 14px;
-}
-.gm-sysreq-title {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .6px;
-  color: var(--c-muted);
-  margin-bottom: 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--c-border);
-}
-.gm-sysreq-text {
-  font-size: 12px;
-  color: #8b949e;
-  line-height: 1.7;
-}
-
-/* ══ МОБІЛЬНА АДАПТАЦІЯ ══ */
-@media (max-width: 700px) {
-  .cat-wrap { padding: 16px 12px 40px; }
-  .cat-hero { flex-direction: column; align-items: flex-start; }
-
-  /* List cards на мобілі */
-  .game-card-list { flex-direction: column; }
-  .gcl-img { width: 100%; min-height: 120px; border-radius: var(--radius) var(--radius) 0 0; max-height: 160px; }
-  .gcl-right { flex-direction: row; align-items: center; justify-content: space-between; padding: 0 12px 12px; }
-  .gcl-body { padding: 10px 12px 6px; }
-
-  /* Grid — 2 колонки на мобілі */
-  #catalogList.grid-view { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-
-  /* Modal */
-  #gameModal { padding: 10px 8px; }
-  .gm-banner { height: 110px; }
-  .gm-header { margin-top: -36px; padding: 0 14px 12px; gap: 12px; }
-  .gm-cover { width: 96px; height: 44px; }
-  .gm-title { font-size: 16px; }
-  .gm-body { grid-template-columns: 1fr; padding: 0 14px 20px; gap: 14px; }
-  .gm-sysreq { grid-template-columns: 1fr; }
-  .gm-price-big { font-size: 22px; }
-}
-
-@media (max-width: 400px) {
-  #catalogList.grid-view { grid-template-columns: 1fr; }
-  .gm-cover { width: 80px; height: 37px; }
+@media (max-width:380px) {
+  .gm-cover { width:84px; height:47px; }
 }
 </style>
 
 <div class="cat-wrap">
-
-  <!-- Шапка -->
   <div class="cat-hero">
     <div>
       <h1 class="cat-hero__title">🇺🇦 Каталог ігор</h1>
-      <p class="cat-hero__sub">Українські відеоігри у Steam — ціни, рейтинги, фільтри</p>
+      <p class="cat-hero__sub">Українські відеоігри у Steam — ціни, рейтинги, моніторинг знижок</p>
     </div>
     <div class="cat-count">Знайдено: <span id="resultCount">0</span> ігор</div>
   </div>
 
-  <!-- Toolbar -->
+  <div class="disc-legend">
+    <span class="disc-legend__title">Колір знижки:</span>
+    <span class="disc-pip disc-pip--hist">Синій = Іст. мінімум 🔥</span>
+    <span class="disc-pip disc-pip--2y">Зелений = Мін. за 2 роки</span>
+    <span class="disc-pip disc-pip--reg">Червоний = Звичайна знижка</span>
+  </div>
+
   <div class="cat-toolbar">
     <div class="cat-search-row">
       <input type="text" id="searchInput" class="cat-search" placeholder="Пошук за назвою...">
       <button class="btn-toggle-filters" id="btnFilters" onclick="toggleFilters()">
-        <span>Фільтри</span>
-        <span class="tf-icon">▾</span>
+        <span>Фільтри</span><span class="tf-icon">▾</span>
       </button>
     </div>
-
     <div class="cat-filters" id="filterPanel">
-      <!-- Жанр -->
       <div class="flt-group">
         <span class="flt-label">Жанр</span>
-        <select id="fltGenre" class="flt-select">
-          <option value="">Всі жанри</option>
-        </select>
+        <select id="fltGenre" class="flt-select"><option value="">Всі жанри</option></select>
       </div>
-      <!-- Рік -->
       <div class="flt-group">
         <span class="flt-label">Рік</span>
         <div style="display:flex;gap:5px;">
-          <select id="fltYearFrom" class="flt-select" style="flex:1;padding:8px 5px;"><option value="">Від</option></select>
-          <select id="fltYearTo" class="flt-select" style="flex:1;padding:8px 5px;"><option value="">До</option></select>
+          <select id="fltYearFrom" class="flt-select" style="flex:1;padding:7px 4px;font-size:12px;"><option value="">Від</option></select>
+          <select id="fltYearTo"   class="flt-select" style="flex:1;padding:7px 4px;font-size:12px;"><option value="">До</option></select>
         </div>
       </div>
-      <!-- Ціна -->
       <div class="flt-group">
         <span class="flt-label">Ціна (₴)</span>
         <div class="flt-price-row">
@@ -842,7 +323,6 @@ description: Каталог українських відеоігор у Steam �
           <input type="number" id="fltPriceMax" class="flt-input" placeholder="До" min="0">
         </div>
       </div>
-      <!-- Рейтинг -->
       <div class="flt-group">
         <span class="flt-label">Рейтинг мін.</span>
         <div class="flt-range-wrap">
@@ -850,7 +330,6 @@ description: Каталог українських відеоігор у Steam �
           <div class="flt-range-val"><span id="fltRatingVal">Будь-який</span></div>
         </div>
       </div>
-      <!-- Знижка -->
       <div class="flt-group">
         <span class="flt-label">Знижка мін.</span>
         <div class="flt-range-wrap">
@@ -858,15 +337,11 @@ description: Каталог українських відеоігор у Steam �
           <div class="flt-range-val"><span id="fltDiscountVal">Будь-яка</span></div>
         </div>
       </div>
-      <!-- Теги -->
-      <div class="flt-group" style="grid-column: 1/-1;">
+      <div class="flt-group" style="grid-column:1/-1;">
         <span class="flt-label">Теги</span>
-        <select id="fltTag" class="flt-select" style="max-width:260px;">
-          <option value="">Всі теги</option>
-        </select>
+        <select id="fltTag" class="flt-select" style="max-width:260px;"><option value="">Всі теги</option></select>
       </div>
-      <!-- Статус -->
-      <div class="flt-group" style="grid-column: 1/-1;">
+      <div class="flt-group" style="grid-column:1/-1;">
         <span class="flt-label">Статус</span>
         <div class="flt-chips" id="statusChips">
           <button class="flt-chip active" data-status="">Всі</button>
@@ -875,46 +350,38 @@ description: Каталог українських відеоігор у Steam �
           <button class="flt-chip" data-status="free">Безкоштовні</button>
           <button class="flt-chip" data-status="demo">Demo</button>
           <button class="flt-chip" data-status="upcoming">Незабаром</button>
-          <button class="flt-chip" data-status="histlow">Іст. мінімум 🔥</button>
+          <button class="flt-chip" data-status="histlow">🔥 Іст. мінімум</button>
+          <button class="flt-chip" data-status="2ylow">📉 Мін. за 2 роки</button>
         </div>
       </div>
-      <!-- Reset -->
-      <div class="flt-group" style="justify-content:flex-end;">
-        <button class="btn-reset" onclick="resetFilters()">✕ Скинути фільтри</button>
+      <div class="flt-group">
+        <button class="btn-reset" onclick="resetFilters()">✕ Скинути</button>
       </div>
     </div>
   </div>
 
-  <!-- Сортування + вид -->
   <div class="cat-sort-row">
     <span class="sort-label">Сортування:</span>
-    <button class="sort-btn active" data-sort="title">Назва <span class="sort-dir" id="dir-title">↑</span></button>
-    <button class="sort-btn" data-sort="rating">Рейтинг <span class="sort-dir" id="dir-rating"></span></button>
-    <button class="sort-btn" data-sort="price">Ціна <span class="sort-dir" id="dir-price"></span></button>
-    <button class="sort-btn" data-sort="year">Рік <span class="sort-dir" id="dir-year"></span></button>
-    <button class="sort-btn" data-sort="discount">Знижка <span class="sort-dir" id="dir-discount"></span></button>
-    <div class="view-toggle">
-      <button class="view-btn active" id="btnList" onclick="setView('list')" title="Список">☰</button>
-      <button class="view-btn" id="btnGrid" onclick="setView('grid')" title="Сітка">⊞</button>
-    </div>
+    <button class="sort-btn active" data-sort="title">Назва <span id="dir-title">↑</span></button>
+    <button class="sort-btn" data-sort="rating">Рейтинг <span id="dir-rating"></span></button>
+    <button class="sort-btn" data-sort="price">Ціна <span id="dir-price"></span></button>
+    <button class="sort-btn" data-sort="year">Рік <span id="dir-year"></span></button>
+    <button class="sort-btn" data-sort="discount">Знижка <span id="dir-discount"></span></button>
   </div>
 
-  <!-- Список ігор -->
-  <div id="catalogList" class="list-view">
+  <div id="catalogList">
     <div class="cat-loader"><div class="spinner"></div> Завантаження каталогу...</div>
   </div>
 </div>
 
-<!-- ══════════ МОДАЛЬНЕ ВІКНО ══════════ -->
+<!-- MODAL -->
 <div id="gameModal" onclick="handleOverlay(event)">
   <div class="gm-card">
     <button class="gm-close" onclick="closeModal()">✕</button>
-
     <div class="gm-banner">
       <div class="gm-banner__blur" id="gmBg"></div>
       <div class="gm-banner__fade"></div>
     </div>
-
     <div class="gm-header">
       <img class="gm-cover" id="gmCover" src="" alt="">
       <div class="gm-header-info">
@@ -922,478 +389,265 @@ description: Каталог українських відеоігор у Steam �
         <div class="gm-badges" id="gmBadges"></div>
       </div>
     </div>
-
     <div class="gm-body">
-      <!-- Галерея + опис -->
       <div>
         <div class="gm-mainview">
           <button class="gm-nav gm-nav-l" onclick="changeSlide(-1)">&#10094;</button>
-          <img id="gmMain" src="" alt="Скріншот">
+          <img id="gmMain" src="" alt="">
           <button class="gm-nav gm-nav-r" onclick="changeSlide(1)">&#10095;</button>
         </div>
         <div class="gm-thumbs" id="gmThumbs"></div>
         <div class="gm-desc" id="gmDesc"></div>
+        <div class="gm-tags" id="gmTags"></div>
       </div>
-
-      <!-- Мета + ціна -->
       <div class="gm-side">
         <div class="gm-meta-box" id="gmMeta"></div>
         <div class="gm-price-box" id="gmPrice"></div>
       </div>
-
-      <!-- Системні вимоги -->
       <div class="gm-sysreq" id="gmSys" style="display:none"></div>
     </div>
   </div>
 </div>
 
 <script>
-const FB_URL = "https://dovbushhub-default-rtdb.europe-west1.firebasedatabase.app/games.json";
+const FB_URL="https://dovbushhub-default-rtdb.europe-west1.firebasedatabase.app/games.json";
+let games={},currentSort='title',sortDir=1,activeStatus='',screens=[],screenIdx=0;
 
-let games = {};
-let currentView = 'list';
-let currentSort = 'title';
-let sortDir = 1;
-let activeStatus = '';
-let screens = [];
-let screenIdx = 0;
-
-/* ════════ INIT ════════ */
-async function init() {
-  try {
-    const r = await fetch(FB_URL);
-    games = await r.json();
-    buildDropdowns();
-    render();
-  } catch(e) {
-    document.getElementById('catalogList').innerHTML =
-      '<div class="cat-empty"><div class="cat-empty-icon">⚠️</div>Помилка завантаження даних.</div>';
+async function init(){
+  try{
+    const r=await fetch(FB_URL); games=await r.json();
+    buildDropdowns(); render();
+  }catch(e){
+    document.getElementById('catalogList').innerHTML='<div class="cat-empty"><div class="cat-empty-icon">⚠️</div>Помилка завантаження.</div>';
   }
 }
-
-/* ════════ DROPDOWN BUILDERS ════════ */
-function buildDropdowns() {
-  const genres = new Set(), tags = new Set(), years = new Set();
-  Object.values(games).forEach(g => {
-    if (g.genre) g.genre.split(',').forEach(v => genres.add(v.trim()));
-    if (g.tags)  g.tags.split(',').forEach(t => tags.add(t.trim()));
-    const y = yearNum(g.releaseDate);
-    if (y) years.add(y);
+function buildDropdowns(){
+  const genres=new Set(),tags=new Set(),years=new Set();
+  Object.values(games).forEach(g=>{
+    if(g.genre)g.genre.split(',').forEach(v=>genres.add(v.trim()));
+    if(g.tags)g.tags.split(',').forEach(t=>tags.add(t.trim()));
+    const y=yearNum(g.releaseDate);if(y)years.add(y);
   });
-
-  fillSelect('fltGenre', [...genres].sort());
-  fillSelect('fltTag', [...tags].sort());
-  const sortedYears = [...years].sort((a,b) => b - a);
-  fillSelect('fltYearFrom', sortedYears);
-  fillSelect('fltYearTo', sortedYears);
+  fillSel('fltGenre',[...genres].sort());
+  fillSel('fltTag',[...tags].sort());
+  [...years].sort((a,b)=>b-a).forEach(y=>{
+    document.getElementById('fltYearFrom').add(new Option(y,y));
+    document.getElementById('fltYearTo').add(new Option(y,y));
+  });
 }
+function fillSel(id,arr){const el=document.getElementById(id);arr.forEach(v=>el.add(new Option(v,v)));}
 
-function fillSelect(id, arr) {
-  const el = document.getElementById(id);
-  arr.forEach(v => el.add(new Option(v, v)));
+function toggleFilters(){
+  const p=document.getElementById('filterPanel'),b=document.getElementById('btnFilters');
+  const o=p.classList.toggle('show');b.classList.toggle('active',o);
 }
-
-/* ════════ FILTERS ════════ */
-function toggleFilters() {
-  const panel = document.getElementById('filterPanel');
-  const btn   = document.getElementById('btnFilters');
-  const open  = panel.classList.toggle('show');
-  btn.classList.toggle('active', open);
+function resetFilters(){
+  ['searchInput','fltGenre','fltTag','fltYearFrom','fltYearTo','fltPriceMin','fltPriceMax'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fltRating').value=0;document.getElementById('fltDiscount').value=0;
+  document.getElementById('fltRatingVal').textContent='Будь-який';
+  document.getElementById('fltDiscountVal').textContent='Будь-яка';
+  setStatus('');render();
 }
-
-function resetFilters() {
-  document.getElementById('searchInput').value = '';
-  document.getElementById('fltGenre').value = '';
-  document.getElementById('fltTag').value = '';
-  document.getElementById('fltYearFrom').value = '';
-  document.getElementById('fltYearTo').value = '';
-  document.getElementById('fltPriceMin').value = '';
-  document.getElementById('fltPriceMax').value = '';
-  document.getElementById('fltRating').value = 0;
-  document.getElementById('fltDiscount').value = 0;
-  document.getElementById('fltRatingVal').textContent = 'Будь-який';
-  document.getElementById('fltDiscountVal').textContent = 'Будь-яка';
-  setStatusChip('');
-  render();
-}
-
-/* Status chips */
-document.getElementById('statusChips').addEventListener('click', e => {
-  const chip = e.target.closest('.flt-chip');
-  if (!chip) return;
-  setStatusChip(chip.dataset.status);
-  render();
+document.getElementById('statusChips').addEventListener('click',e=>{
+  const c=e.target.closest('.flt-chip');if(!c)return;setStatus(c.dataset.status);render();
 });
+function setStatus(v){activeStatus=v;document.querySelectorAll('.flt-chip').forEach(c=>c.classList.toggle('active',c.dataset.status===v));}
 
-function setStatusChip(val) {
-  activeStatus = val;
-  document.querySelectorAll('.flt-chip').forEach(c =>
-    c.classList.toggle('active', c.dataset.status === val));
-}
-
-/* Range labels */
-document.getElementById('fltRating').addEventListener('input', function() {
-  document.getElementById('fltRatingVal').textContent =
-    this.value > 0 ? this.value + '%' : 'Будь-який';
-  render();
+document.getElementById('fltRating').addEventListener('input',function(){
+  document.getElementById('fltRatingVal').textContent=this.value>0?this.value+'%':'Будь-який';render();
 });
-document.getElementById('fltDiscount').addEventListener('input', function() {
-  document.getElementById('fltDiscountVal').textContent =
-    this.value > 0 ? this.value + '%' : 'Будь-яка';
-  render();
+document.getElementById('fltDiscount').addEventListener('input',function(){
+  document.getElementById('fltDiscountVal').textContent=this.value>0?this.value+'%':'Будь-яка';render();
 });
-
-/* Решта input'ів */
-['searchInput','fltGenre','fltTag','fltYearFrom','fltYearTo','fltPriceMin','fltPriceMax'].forEach(id =>
-  document.getElementById(id).addEventListener('input', render)
+['searchInput','fltGenre','fltTag','fltYearFrom','fltYearTo','fltPriceMin','fltPriceMax'].forEach(id=>
+  document.getElementById(id).addEventListener('input',render)
 );
 
-/* ════════ SORT ════════ */
-document.querySelectorAll('.sort-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const field = btn.dataset.sort;
-    if (currentSort === field) sortDir *= -1;
-    else { currentSort = field; sortDir = 1; }
-    document.querySelectorAll('.sort-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.sort === field);
-      document.getElementById('dir-' + b.dataset.sort).textContent = '';
+document.querySelectorAll('.sort-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const f=btn.dataset.sort;
+    sortDir=currentSort===f?sortDir*-1:1;currentSort=f;
+    document.querySelectorAll('.sort-btn').forEach(b=>{
+      b.classList.toggle('active',b.dataset.sort===f);
+      document.getElementById('dir-'+b.dataset.sort).textContent='';
     });
-    document.getElementById('dir-' + field).textContent = sortDir === 1 ? '↑' : '↓';
-    render();
+    document.getElementById('dir-'+f).textContent=sortDir===1?'↑':'↓';render();
   });
 });
 
-/* ════════ VIEW ════════ */
-function setView(v) {
-  currentView = v;
-  const list = document.getElementById('catalogList');
-  list.className = v === 'list' ? 'list-view' : 'grid-view';
-  document.getElementById('btnList').classList.toggle('active', v === 'list');
-  document.getElementById('btnGrid').classList.toggle('active', v === 'grid');
+function yearNum(d){const y=new Date(d).getFullYear();return isNaN(y)?0:y;}
+function fmtDate(d){return(!d||d==='-')?'TBA':new Date(d).toLocaleDateString('uk-UA');}
+function clean(t){return(t||'').replace(/UA_DEV|UA/g,'').trim();}
+function stageOf(g){
+  const s=(g.stage||'').toLowerCase();
+  if(s.includes('upcoming'))return'upcoming';
+  if(s.includes('demo'))return'demo';
+  if(s.includes('free')||(!g.currentPrice&&!s.includes('early')))return'free';
+  if(s.includes('early access'))return'ea';
+  return'released';
 }
-
-/* ════════ HELPERS ════════ */
-function yearNum(d) { const y = new Date(d).getFullYear(); return isNaN(y) ? 0 : y; }
-function fmtDate(d) { return (!d || d === '-') ? 'TBA' : new Date(d).toLocaleDateString('uk-UA'); }
-function cleanTitle(t) { return (t || '').replace(/UA_DEV|UA/g, '').trim(); }
-
-function ratingClass(r) {
-  if (!r) return 'none';
-  if (r >= 80) return 'green';
-  if (r >= 60) return 'yellow';
-  return 'red';
+function discClass(g){
+  if(g.histLow&&g.histLow>0&&g.currentPrice<=g.histLow)return'hist';
+  if(g.low2Y&&g.currentPrice<=g.low2Y)return'yr2';
+  return'reg';
 }
-function ratingLabel(r) {
-  if (!r) return '—';
-  if (r >= 80) return 'Дуже позитивні';
-  if (r >= 60) return 'Змішані';
-  return 'Переважно негативні';
-}
-function ratingColor(r) {
-  if (!r) return '#8b949e';
-  if (r >= 80) return '#3fb950';
-  if (r >= 60) return '#d29922';
-  return '#f85149';
-}
+function ratingCls(r){if(!r)return'none';return r>=80?'green':r>=60?'yellow':'red';}
+function ratingColor(r){if(!r)return'#8b949e';return r>=80?'#3fb950':r>=60?'#d29922':'#f85149';}
+function ratingLabel(r){if(!r)return'—';return r>=80?'Дуже позитивні':r>=60?'Змішані':'Переважно негативні';}
 
-function stageOf(g) {
-  const s = (g.stage || '').toLowerCase();
-  if (s.includes('upcoming')) return 'upcoming';
-  if (s.includes('demo'))     return 'demo';
-  if (s.includes('free') || g.currentPrice === 0) return 'free';
-  if (s.includes('early access')) return 'ea';
-  return 'released';
-}
+function render(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const genre=document.getElementById('fltGenre').value;
+  const tag=document.getElementById('fltTag').value;
+  const yFrom=+document.getElementById('fltYearFrom').value||0;
+  const yTo=+document.getElementById('fltYearTo').value||9999;
+  const pMin=+document.getElementById('fltPriceMin').value||0;
+  const pMax=+document.getElementById('fltPriceMax').value||999999;
+  const minR=+document.getElementById('fltRating').value;
+  const minD=+document.getElementById('fltDiscount').value;
 
-function priceBlock(g) {
-  const stage = stageOf(g);
-  if (stage === 'upcoming') return `<span class="price-soon">Незабаром</span>`;
-  if (stage === 'demo')     return `<span class="price-demo">Demo</span>`;
-  if (stage === 'free')     return `<span class="price-free">Безкоштовно</span>`;
-  if (!g.currentPrice)      return `<span class="price-free">Безкоштовно</span>`;
-  if (g.discount > 0) return `
-    <div class="price-block">
-      <span class="price-disc">-${g.discount}%</span>
-      <span class="price-old">${g.basePrice} ₴</span>
-      <span class="price-main">${g.currentPrice} ₴</span>
-    </div>`;
-  return `<span class="price-main">${g.currentPrice} ₴</span>`;
-}
-
-/* ════════ RENDER ════════ */
-function render() {
-  const q       = document.getElementById('searchInput').value.toLowerCase().trim();
-  const genre   = document.getElementById('fltGenre').value;
-  const tag     = document.getElementById('fltTag').value;
-  const yFrom   = +document.getElementById('fltYearFrom').value || 0;
-  const yTo     = +document.getElementById('fltYearTo').value   || 9999;
-  const pMin    = +document.getElementById('fltPriceMin').value || 0;
-  const pMax    = +document.getElementById('fltPriceMax').value || 999999;
-  const minRat  = +document.getElementById('fltRating').value;
-  const minDisc = +document.getElementById('fltDiscount').value;
-
-  let list = Object.values(games).filter(g => {
-    if (!g.title) return false;
-    const stage = stageOf(g);
-    const yr = yearNum(g.releaseDate);
-
-    /* статус-фільтр */
-    if (activeStatus === 'released' && stage !== 'released') return false;
-    if (activeStatus === 'ea'       && stage !== 'ea')       return false;
-    if (activeStatus === 'free'     && stage !== 'free')     return false;
-    if (activeStatus === 'demo'     && stage !== 'demo')     return false;
-    if (activeStatus === 'upcoming' && stage !== 'upcoming') return false;
-    if (activeStatus === 'histlow') {
-      if (!g.histLow || g.currentPrice > g.histLow) return false;
-    }
-
-    /* пошук */
-    if (q && !cleanTitle(g.title).toLowerCase().includes(q)) return false;
-
-    /* жанр */
-    if (genre && !(g.genre || '').split(',').map(s => s.trim()).includes(genre)) return false;
-
-    /* тег */
-    if (tag && !(g.tags || '').includes(tag)) return false;
-
-    /* рік */
-    if (yr && yFrom && yr < yFrom) return false;
-    if (yr && yTo  && yr > yTo)   return false;
-
-    /* ціна (ігноруємо для безкоштовних/upcoming/demo) */
-    if (!['upcoming','demo','free'].includes(stage)) {
-      const price = g.currentPrice || 0;
-      if (price < pMin || price > pMax) return false;
-    }
-
-    /* рейтинг */
-    if (minRat > 0 && (g.rating || 0) < minRat) return false;
-
-    /* знижка */
-    if (minDisc > 0 && (g.discount || 0) < minDisc) return false;
-
+  let list=Object.values(games).filter(g=>{
+    if(!g.title)return false;
+    const stage=stageOf(g);const yr=yearNum(g.releaseDate);
+    if(activeStatus==='released'&&stage!=='released'&&stage!=='ea')return false;
+    if(activeStatus==='ea'&&stage!=='ea')return false;
+    if(activeStatus==='free'&&stage!=='free')return false;
+    if(activeStatus==='demo'&&stage!=='demo')return false;
+    if(activeStatus==='upcoming'&&stage!=='upcoming')return false;
+    if(activeStatus==='histlow'){if(!g.histLow||g.currentPrice>g.histLow)return false;}
+    if(activeStatus==='2ylow'){if(!g.low2Y||g.currentPrice>g.low2Y)return false;}
+    if(q&&!clean(g.title).toLowerCase().includes(q))return false;
+    if(genre&&!(g.genre||'').split(',').map(s=>s.trim()).includes(genre))return false;
+    if(tag&&!(g.tags||'').includes(tag))return false;
+    if(yr&&yFrom&&yr<yFrom)return false;
+    if(yr&&yTo&&yr>yTo)return false;
+    const fs=['upcoming','demo','free'];
+    if(!fs.includes(stage)){const p=g.currentPrice||0;if(p<pMin||p>pMax)return false;}
+    if(minR>0&&(g.rating||0)<minR)return false;
+    if(minD>0&&(g.discount||0)<minD)return false;
     return true;
   });
 
-  /* Сортування */
-  list.sort((a, b) => {
-    let va, vb;
-    switch (currentSort) {
-      case 'rating':   va = a.rating   || 0; vb = b.rating   || 0; break;
-      case 'price':    va = a.currentPrice || 0; vb = b.currentPrice || 0; break;
-      case 'year':     va = yearNum(a.releaseDate); vb = yearNum(b.releaseDate); break;
-      case 'discount': va = a.discount || 0; vb = b.discount || 0; break;
-      default:         va = cleanTitle(a.title).toLowerCase(); vb = cleanTitle(b.title).toLowerCase();
+  list.sort((a,b)=>{
+    let va,vb;
+    switch(currentSort){
+      case'rating':va=a.rating||0;vb=b.rating||0;break;
+      case'price':va=a.currentPrice||0;vb=b.currentPrice||0;break;
+      case'year':va=yearNum(a.releaseDate);vb=yearNum(b.releaseDate);break;
+      case'discount':va=a.discount||0;vb=b.discount||0;break;
+      default:va=clean(a.title).toLowerCase();vb=clean(b.title).toLowerCase();
     }
-    return va < vb ? -sortDir : va > vb ? sortDir : 0;
+    return va<vb?-sortDir:va>vb?sortDir:0;
   });
 
-  document.getElementById('resultCount').textContent = list.length;
-
-  if (!list.length) {
-    document.getElementById('catalogList').innerHTML =
-      `<div class="cat-empty"><div class="cat-empty-icon">🔍</div>Нічого не знайдено. Спробуйте змінити фільтри.</div>`;
+  document.getElementById('resultCount').textContent=list.length;
+  if(!list.length){
+    document.getElementById('catalogList').innerHTML='<div class="cat-empty"><div class="cat-empty-icon">🔍</div>Нічого не знайдено.</div>';
     return;
   }
-
-  const cl = document.getElementById('catalogList');
-  cl.className = currentView === 'list' ? 'list-view' : 'grid-view';
-
-  if (currentView === 'list') {
-    cl.innerHTML = list.map(g => buildListCard(g)).join('');
-  } else {
-    cl.innerHTML = list.map(g => buildGridCard(g)).join('');
-  }
+  document.getElementById('catalogList').innerHTML=list.map(buildCard).join('');
 }
 
-/* ════════ КАРТКИ ════════ */
-function buildListCard(g) {
-  const stage = stageOf(g);
-  const rc = ratingClass(g.rating);
-  const yr = yearNum(g.releaseDate) || '—';
-  const genre1 = (g.genre || '').split(',')[0].trim();
-  const eaBadge = stage === 'ea' ? `<span class="badge-ea">Early Access</span>` : '';
-
-  return `
-  <div class="game-card-list" onclick="openGame('${g.appId}')">
-    <img class="gcl-img" src="${g.img}" alt="${cleanTitle(g.title)}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22148%22 height=%2284%22%3E%3Crect fill=%22%231c2333%22 width=%22100%25%22 height=%22100%25%22/%3E%3C/svg%3E'">
-    <div class="gcl-body">
-      <div class="gcl-title">${cleanTitle(g.title)} ${eaBadge}</div>
-      <div class="gcl-meta">
-        ${genre1 ? `<span class="gcl-genre">${genre1}</span>` : ''}
-        ${yr !== '—' ? `<span class="gcl-year">${yr}</span>` : ''}
-        ${g.rating ? `<span class="rating-dot ${rc}">${g.rating}%</span>` : ''}
+function buildCard(g){
+  const stage=stageOf(g);const yr=yearNum(g.releaseDate)||'—';
+  const genre1=(g.genre||'').split(',')[0].trim();
+  const rc=ratingCls(g.rating);const dc=discClass(g);
+  const ea=stage==='ea'?`<span class="badge-ea">Early Access</span>`:'';
+  let ph='';
+  if(stage==='upcoming'){ph=`<span class="price-soon">Незабаром</span>`;}
+  else if(stage==='demo'){ph=`<span class="price-demo">Demo</span>`;}
+  else if(stage==='free'||!g.currentPrice){ph=`<span class="price-free">Безкоштовно</span>`;}
+  else if(g.discount>0){ph=`<div class="price-block"><span class="disc-box ${dc}">-${g.discount}%</span></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:1px;"><span class="price-old">${g.basePrice} ₴</span><span class="price-main">${g.currentPrice} ₴</span></div>`;}
+  else{ph=`<span class="price-main">${g.currentPrice} ₴</span>`;}
+  return`<div class="game-card" onclick="openGame('${g.appId}')">
+    <img class="gc-img" src="${g.img}" alt="${clean(g.title)}" loading="lazy" onerror="this.style.display='none'">
+    <div class="gc-body">
+      <div class="gc-title">${clean(g.title)} ${ea}</div>
+      <div class="gc-meta">
+        ${genre1?`<span class="gc-genre">${genre1}</span>`:''}
+        ${yr!=='—'?`<span class="gc-year">${yr}</span>`:''}
+        ${g.rating?`<span class="rating-dot ${rc}">${g.rating}%</span>`:''}
       </div>
     </div>
-    <div class="gcl-right">
-      ${priceBlock(g)}
-    </div>
+    <div class="gc-right">${ph}</div>
   </div>`;
 }
 
-function buildGridCard(g) {
-  const stage = stageOf(g);
-  const rc = ratingClass(g.rating);
-  const genre1 = (g.genre || '').split(',')[0].trim();
-
-  return `
-  <div class="game-card-grid" onclick="openGame('${g.appId}')">
-    <img class="gcg-img" src="${g.img}" alt="${cleanTitle(g.title)}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22%3E%3Crect fill=%22%231c2333%22 width=%22100%25%22 height=%22100%25%22/%3E%3C/svg%3E'">
-    <div class="gcg-body">
-      <div class="gcg-title">${cleanTitle(g.title)}</div>
-      <div class="gcg-bottom">
-        <span class="gcg-genre">${genre1 || ''}</span>
-        ${g.rating ? `<span class="rating-dot ${rc}">${g.rating}%</span>` : ''}
-      </div>
-      <div style="margin-top:6px;">${priceBlock(g)}</div>
-    </div>
-  </div>`;
-}
-
-/* ════════ MODAL ════════ */
-function openGame(id) {
-  const g = games[id];
-  if (!g) return;
-
-  screens = (g.screenshots || []).filter(Boolean);
-  screenIdx = 0;
-  const stage = stageOf(g);
-
-  /* Банер */
-  const hero = screens[0] || g.img;
-  document.getElementById('gmBg').style.backgroundImage = `url(${hero})`;
-
-  /* Cover + title */
-  document.getElementById('gmCover').src = g.img;
-  document.getElementById('gmCover').alt = cleanTitle(g.title);
-  document.getElementById('gmTitle').textContent = cleanTitle(g.title);
-
-  /* Бейджі */
-  let badges = '';
-  if (stage === 'ea')       badges += `<span class="gm-badge gm-badge-ea">Early Access</span>`;
-  if (stage === 'free')     badges += `<span class="gm-badge gm-badge-free">Free to Play</span>`;
-  if (stage === 'demo')     badges += `<span class="gm-badge gm-badge-demo">Demo</span>`;
-  if (stage === 'upcoming') badges += `<span class="gm-badge gm-badge-coming">Незабаром</span>`;
-  document.getElementById('gmBadges').innerHTML = badges;
-
-  /* Галерея */
-  document.getElementById('gmMain').src = screens[0] || g.img;
-  document.getElementById('gmThumbs').innerHTML = screens.map((s,i) =>
-    `<img src="${s}" class="gm-thumb${i===0?' active':''}" loading="lazy" onclick="setSlide(${i},this)">`
-  ).join('');
-
-  /* Опис */
-  document.getElementById('gmDesc').textContent = g.description || '';
-
-  /* Мета */
-  const dp = (g.devPublisher || '').split(',');
-  const dev = dp[0]?.trim() || 'Н/Д';
-  const pub = dp[1]?.trim() || dev;
-  let dateStr = fmtDate(g.releaseDate);
-  if (stage === 'upcoming') {
-    const parts = (g.stage || '').split(',');
-    if (parts.length > 1) dateStr = parts[1].trim();
-  }
-  const rc = ratingColor(g.rating);
-  const rl = ratingLabel(g.rating);
-
-  document.getElementById('gmMeta').innerHTML = `
-    <div class="gm-meta-row"><span class="gm-meta-key">Жанр</span><span class="gm-meta-val">${g.genre || 'Н/Д'}</span></div>
+function openGame(id){
+  const g=games[id];if(!g)return;
+  screens=(g.screenshots||[]).filter(Boolean);screenIdx=0;
+  const stage=stageOf(g);const dc=discClass(g);
+  const hero=screens[0]||g.img;
+  document.getElementById('gmBg').style.backgroundImage=`url(${hero})`;
+  document.getElementById('gmCover').src=g.img;
+  document.getElementById('gmCover').alt=clean(g.title);
+  document.getElementById('gmTitle').textContent=clean(g.title);
+  let badges='';
+  if(stage==='ea')badges+=`<span class="gm-badge gm-badge-ea">Early Access</span>`;
+  if(stage==='free')badges+=`<span class="gm-badge gm-badge-free">Free to Play</span>`;
+  if(stage==='demo')badges+=`<span class="gm-badge gm-badge-demo">Demo</span>`;
+  if(stage==='upcoming')badges+=`<span class="gm-badge gm-badge-coming">Незабаром</span>`;
+  document.getElementById('gmBadges').innerHTML=badges;
+  document.getElementById('gmMain').src=screens[0]||g.img;
+  document.getElementById('gmThumbs').innerHTML=screens.map((s,i)=>
+    `<img src="${s}" class="gm-thumb${i===0?' active':''}" loading="lazy" onclick="setSlide(${i},this)">`).join('');
+  document.getElementById('gmDesc').textContent=g.description||'';
+  const tagsEl=document.getElementById('gmTags');
+  if(g.tags){
+    const tl=g.tags.split(',').map(t=>t.trim()).filter(Boolean).slice(0,8);
+    tagsEl.innerHTML=tl.map(t=>`<span class="gm-tag">${t}</span>`).join('');
+  }else{tagsEl.innerHTML='';}
+  const dp=(g.devPublisher||'').split(',');
+  const dev=dp[0]?.trim()||'Н/Д';const pub=dp[1]?.trim()||dev;
+  let dateStr=fmtDate(g.releaseDate);
+  if(stage==='upcoming'){const p=(g.stage||'').split(',');if(p.length>1)dateStr=p[1].trim();}
+  const rc=ratingColor(g.rating);const rl=ratingLabel(g.rating);
+  document.getElementById('gmMeta').innerHTML=`
+    <div class="gm-meta-row"><span class="gm-meta-key">Жанр</span><span class="gm-meta-val">${g.genre||'Н/Д'}</span></div>
     <div class="gm-meta-row"><span class="gm-meta-key">Розробник</span><span class="gm-meta-val">${dev}</span></div>
     <div class="gm-meta-row"><span class="gm-meta-key">Видавець</span><span class="gm-meta-val">${pub}</span></div>
     <div class="gm-meta-row"><span class="gm-meta-key">Реліз</span><span class="gm-meta-val">${dateStr}</span></div>
-    ${g.rating ? `
-    <div class="gm-meta-row">
-      <span class="gm-meta-key">Відгуки Steam</span>
-      <span class="gm-meta-val" style="color:${rc};font-weight:700">${g.rating}% — ${rl}</span>
-    </div>
-    <div class="gm-rating-bar">
-      <div class="gm-rating-fill" style="width:${g.rating}%;background:${rc}"></div>
-    </div>` : ''}
-    ${g.tags ? `<div class="gm-meta-row"><span class="gm-meta-key">Теги</span><span class="gm-meta-val" style="font-size:11px;">${g.tags}</span></div>` : ''}
-  `;
-
-  /* Ціна */
-  let priceHtml = '';
-  if (stage === 'upcoming') {
-    priceHtml = `<div class="gm-price-label" style="color:#d29922">⏳ Незабаром</div>`;
-  } else if (stage === 'demo') {
-    priceHtml = `<div class="gm-price-label" style="color:#a371f7">🎮 Demo</div>`;
-  } else if (stage === 'free' || !g.currentPrice) {
-    priceHtml = `<div class="gm-price-label" style="color:#3fb950">🆓 Безкоштовно</div>`;
-  } else {
-    priceHtml = `<div class="gm-price-main">`;
-    if (g.discount > 0) priceHtml += `<span class="gm-price-disc-big">-${g.discount}%</span><span class="gm-price-old-big">${g.basePrice} ₴</span>`;
-    priceHtml += `<span class="gm-price-big">${g.currentPrice} ₴</span></div>`;
-    if (g.histLow) {
-      priceHtml += `<div class="gm-hist-info">
-        Іст. мінімум: <span class="gm-hist-val">${g.histLow} ₴</span> (${fmtDate(g.histLowDate)})<br>
-        Мін. за 2 роки: <span class="gm-hist-2y">${g.low2Y || g.currentPrice} ₴</span>
-      </div>`;
-    }
+    ${g.rating?`<div class="gm-meta-row"><span class="gm-meta-key">Відгуки</span><span class="gm-meta-val" style="color:${rc};font-weight:700">${g.rating}% — ${rl}</span></div><div class="gm-rating-bar"><div class="gm-rating-fill" style="width:${g.rating}%;background:${rc}"></div></div>`:''}`;
+  let ph='';
+  if(stage==='upcoming'){ph=`<div class="gm-price-label" style="color:#d29922">⏳ Незабаром</div>`;}
+  else if(stage==='demo'){ph=`<div class="gm-price-label" style="color:#a371f7">🎮 Demo</div>`;}
+  else if(stage==='free'||!g.currentPrice){ph=`<div class="gm-price-label" style="color:#3fb950">🆓 Безкоштовно</div>`;}
+  else{
+    ph=`<div class="gm-price-main">`;
+    if(g.discount>0){ph+=`<span class="gm-disc-big ${dc}">-${g.discount}%</span><span class="gm-price-old-b">${g.basePrice} ₴</span>`;}
+    ph+=`<span class="gm-price-big">${g.currentPrice} ₴</span></div>`;
+    if(g.histLow){ph+=`<div class="gm-hist-info">Іст. мінімум: <span class="gm-hist-val">${g.histLow} ₴</span> (${fmtDate(g.histLowDate)})<br>Мін. за 2 роки: <span class="gm-hist-val2">${g.low2Y||g.currentPrice} ₴</span></div>`;}
+    if(g.discount>0){const labels={hist:'🔵 Іст. мінімум',yr2:'🟢 Мін. за 2 роки',reg:'🔴 Звичайна знижка'};ph+=`<div class="gm-disc-legend">${labels[dc]||''}</div>`;}
   }
-  priceHtml += `<a href="${g.link}" target="_blank" class="gm-steam-btn"><i class="fab fa-steam"></i> Відкрити у Steam</a>`;
-  document.getElementById('gmPrice').innerHTML = priceHtml;
-
-  /* Системні вимоги */
-  const sysEl = document.getElementById('gmSys');
-  if (g.sysReq) {
-    const [mn, rec] = g.sysReq.split('||');
-    sysEl.style.display = 'grid';
-    sysEl.innerHTML = `
-      <div class="gm-sysreq-col">
-        <div class="gm-sysreq-title">Мінімальні</div>
-        <div class="gm-sysreq-text">${(mn||'').replace(/\n/g,'<br>')}</div>
-      </div>
-      <div class="gm-sysreq-col">
-        <div class="gm-sysreq-title">Рекомендовані</div>
-        <div class="gm-sysreq-text">${(rec||'—').replace(/\n/g,'<br>')}</div>
-      </div>`;
-  } else {
-    sysEl.style.display = 'none';
-  }
-
-  /* Відкрити */
-  const modal = document.getElementById('gameModal');
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  modal.scrollTop = 0;
+  ph+=`<a href="${g.link}" target="_blank" class="gm-steam-btn"><i class="fab fa-steam"></i> Відкрити у Steam</a>`;
+  document.getElementById('gmPrice').innerHTML=ph;
+  const sysEl=document.getElementById('gmSys');
+  if(g.sysReq){
+    const[mn,rec]=g.sysReq.split('||');sysEl.style.display='grid';
+    sysEl.innerHTML=`<div class="gm-sysreq-col"><div class="gm-sysreq-title">Мінімальні</div><div class="gm-sysreq-text">${(mn||'').replace(/\n/g,'<br>')}</div></div><div class="gm-sysreq-col"><div class="gm-sysreq-title">Рекомендовані</div><div class="gm-sysreq-text">${(rec||'—').replace(/\n/g,'<br>')}</div></div>`;
+  }else{sysEl.style.display='none';}
+  const modal=document.getElementById('gameModal');
+  modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;
 }
-
-function setSlide(i, el) {
-  screenIdx = i;
-  const src = screens[i];
-  document.getElementById('gmMain').src = src;
-  document.getElementById('gmBg').style.backgroundImage = `url(${src})`;
-  document.querySelectorAll('.gm-thumb').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  el.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+function setSlide(i,el){
+  screenIdx=i;const src=screens[i];
+  document.getElementById('gmMain').src=src;
+  document.getElementById('gmBg').style.backgroundImage=`url(${src})`;
+  document.querySelectorAll('.gm-thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
 }
-
-function changeSlide(step) {
-  if (!screens.length) return;
-  screenIdx = (screenIdx + step + screens.length) % screens.length;
-  const src = screens[screenIdx];
-  document.getElementById('gmMain').src = src;
-  document.getElementById('gmBg').style.backgroundImage = `url(${src})`;
-  const thumbs = document.querySelectorAll('.gm-thumb');
-  thumbs.forEach(t => t.classList.remove('active'));
-  if (thumbs[screenIdx]) {
-    thumbs[screenIdx].classList.add('active');
-    thumbs[screenIdx].scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
-  }
+function changeSlide(step){
+  if(!screens.length)return;
+  screenIdx=(screenIdx+step+screens.length)%screens.length;
+  const src=screens[screenIdx];
+  document.getElementById('gmMain').src=src;
+  document.getElementById('gmBg').style.backgroundImage=`url(${src})`;
+  const thumbs=document.querySelectorAll('.gm-thumb');
+  thumbs.forEach(t=>t.classList.remove('active'));
+  if(thumbs[screenIdx]){thumbs[screenIdx].classList.add('active');thumbs[screenIdx].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
 }
-
-function closeModal() {
-  document.getElementById('gameModal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function handleOverlay(e) {
-  if (e.target === document.getElementById('gameModal')) closeModal();
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
+function closeModal(){document.getElementById('gameModal').classList.remove('open');document.body.style.overflow='';}
+function handleOverlay(e){if(e.target===document.getElementById('gameModal'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 init();
 </script>
