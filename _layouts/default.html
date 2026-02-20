@@ -62,7 +62,8 @@
       </button>
 
       <ul class="nav-menu">
-        <li><a href="/" {% if page.url == "/" %}class="active"{% endif %}><i class="fas fa-home"></i></a></li>
+        <li><a href="/" {% if page.url == "/" %}class="active"{% endif %}><i class="fas fa-home"></i>Головна</a></li>
+        <li><a href="/all-posts" {% if page.url contains "all-posts" %}class="active"{% endif %}>Стрічка</a></li>
         <li><a href="/news" {% if page.url contains "news" %}class="active"{% endif %}>Новини</a></li>
         <li><a href="/reviews" {% if page.url contains "reviews" %}class="active"{% endif %}>Огляди</a></li>
         <li><a href="/statti" {% if page.url contains "statti" %}class="active"{% endif %}>Статті</a></li>
