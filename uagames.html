@@ -194,9 +194,6 @@ description: Каталог Українських ігор та монітор�
     gap: 8px;
   }
 
-  /* --- НОВІ СТИЛІ ДЛЯ СТАТУСІВ (Updated) --- */
-  
-  /* Early Access Badge у списку (після назви) */
   .badge-ea-list {
     background: linear-gradient(90deg, #0057b7, #1a44c2);
     color: #fff;
@@ -216,7 +213,6 @@ description: Каталог Українських ігор та монітор�
     font-weight: bold;
   }
 
-  /* Для Demo */
   .status-demo { 
     background: #3d6c8d; 
     color: #fff; 
@@ -226,7 +222,6 @@ description: Каталог Українських ігор та монітор�
     display: inline-block;
   }
   .status-demo:hover { background: #4f82a8; }
-
 
   .col-center { text-align: center; color: #88929a; font-size: 14px; }
   .col-rating { 
@@ -245,28 +240,329 @@ description: Каталог Українських ігор та монітор�
     box-shadow: 0 2px 6px rgba(0,0,0,0.5);
   }
 
-  /* MODAL STYLES */
-  #gameModal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(10px); overflow-y: auto; }
-  .modal-content { background: #1b2838; max-width: 940px; margin: 40px auto; border-radius: 4px; position: relative; border: 1px solid #3d6c8d; padding: 20px; box-shadow: 0 0 60px rgba(0,0,0,0.9); }
-  .steam-gallery { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
-  .main-view-container { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 2px; overflow: hidden; border: 1px solid #000; }
-  #mainView { width: 100%; height: 100%; object-fit: contain; }
-  .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; padding: 15px 10px; cursor: pointer; font-size: 24px; transition: 0.3s; z-index: 20; }
-  .arrow-left { left: 0; border-radius: 0 4px 4px 0; }
-  .arrow-right { right: 0; border-radius: 4px 0 0 4px; }
-  .nav-arrow:hover { background: var(--accent); color: #000; }
-  .thumbs-container { display: flex; gap: 6px; margin-top: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: thin; }
-  .thumb-img { width: 116px; height: 65px; object-fit: cover; cursor: pointer; border: 2px solid transparent; opacity: 0.6; flex-shrink: 0; transition: 0.2s; }
-  .thumb-img:hover { opacity: 1; }
-  .thumb-img.active { border-color: var(--accent); opacity: 1; }
-  .side-info { display: flex; flex-direction: column; gap: 15px; }
-  .price-card { background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.4)); padding: 15px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
-  .btn-steam { background: linear-gradient(90deg, #47bfff 0%, #1a44c2 100%); color: #fff; text-align: center; padding: 14px; text-decoration: none; border-radius: 2px; display: block; font-weight: bold; margin-top: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); transition: filter 0.2s; }
-  .btn-steam:hover { filter: brightness(1.2); }
-  .sys-req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #16202d; padding: 15px; margin-top: 20px; font-size: 12px; border-radius: 4px; }
+  /* ══════════════════════════════════════
+     НОВИЙ MODAL
+  ══════════════════════════════════════ */
+  #gameModal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 20px 16px 40px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  #gameModal.open { display: flex; }
+
+  .gm-card {
+    background: #141d26;
+    width: 100%;
+    max-width: 960px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(102,192,244,0.06);
+    position: relative;
+    overflow: hidden;
+    animation: modalIn 0.28s cubic-bezier(0.22,1,0.36,1);
+    margin: auto;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(24px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Hero banner */
+  .gm-hero {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/6;
+    overflow: hidden;
+  }
+  .gm-hero__blur {
+    position: absolute;
+    inset: -10px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(18px) brightness(0.35) saturate(1.4);
+    transform: scale(1.05);
+    transition: background-image 0.4s ease;
+  }
+  .gm-hero__img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .gm-hero__gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, #141d26 100%);
+  }
+
+  /* Close btn */
+  .gm-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 10;
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #c7d5e0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    backdrop-filter: blur(8px);
+  }
+  .gm-close:hover { background: rgba(255,255,255,0.18); color: #fff; }
+
+  .gm-body {
+    padding: 0 24px 28px;
+    margin-top: -30px;
+    position: relative;
+  }
+
+  .gm-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .gm-cover {
+    width: 88px;
+    height: 124px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  }
+  .gm-title-block { flex: 1; min-width: 0; padding-bottom: 4px; }
+  .gm-title {
+    font-size: clamp(20px, 4vw, 30px);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+    color: #fff;
+    margin: 0 0 10px;
+    word-break: break-word;
+  }
+  .gm-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+  .gm-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .gm-badge--ea   { background: #1a3a6e; color: #67c1f5; border: 1px solid #2a5a9e; }
+  .gm-badge--free { background: #1a3a1a; color: #57e357; border: 1px solid #2a6a2a; }
+  .gm-badge--demo { background: #2a1a3a; color: #c57ef5; border: 1px solid #5a2a8a; }
+  .gm-badge--coming { background: #2a2a1a; color: #f5c842; border: 1px solid #7a6a1a; }
+
+  .gm-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .gm-main-view {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .gm-main-view img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .gm-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.6);
+    border: none;
+    color: #c7d5e0;
+    width: 36px;
+    height: 60px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 5;
+  }
+  .gm-arrow:hover { background: rgba(102,192,244,0.3); color: #fff; }
+  .gm-arrow--left  { left: 0; border-radius: 0 6px 6px 0; }
+  .gm-arrow--right { right: 0; border-radius: 6px 0 0 6px; }
+
+  .gm-thumbs {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: #3d6c8d transparent;
+  }
+  .gm-thumb {
+    width: 96px;
+    height: 54px;
+    object-fit: cover;
+    flex-shrink: 0;
+    cursor: pointer;
+    border-radius: 4px;
+    opacity: 0.55;
+    border: 2px solid transparent;
+    transition: all 0.18s;
+  }
+  .gm-thumb:hover { opacity: 0.85; }
+  .gm-thumb.active { opacity: 1; border-color: #66c0f4; }
+
+  .gm-desc {
+    color: #9baab8;
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin-top: 14px;
+  }
+
+  .gm-side { display: flex; flex-direction: column; gap: 14px; }
+
+  .gm-meta {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .gm-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5px 0;
+    font-size: 12.5px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .gm-meta-row:last-child { border-bottom: none; }
+  .gm-meta-row__label { color: #67c1f5; font-weight: 600; }
+  .gm-meta-row__val { color: #c7d5e0; text-align: right; max-width: 60%; word-break: break-word; }
+
+  .gm-rating-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.08);
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .gm-rating-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .gm-price-box {
+    background: linear-gradient(145deg, #1a2738, #16202d);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .gm-price-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .gm-discount-badge {
+    background: #4c6b22;
+    color: #beee11;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 800;
+    font-size: 14px;
+  }
+  .gm-old-price { color: #6a7780; text-decoration: line-through; font-size: 13px; }
+  .gm-new-price { color: #fff; font-size: 26px; font-weight: 800; line-height: 1; }
+  .gm-free-label { font-size: 20px; font-weight: 800; }
+
+  .gm-hist {
+    font-size: 11px;
+    color: #6a7780;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 8px;
+    margin-top: 8px;
+    line-height: 1.9;
+  }
+  .gm-hist-low { color: #ffd700; font-weight: 600; }
+  .gm-hist-2y  { color: #c7d5e0; font-weight: 600; }
+
+  .gm-steam-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    background: linear-gradient(90deg, #1a90e0, #1040c0);
+    color: #fff;
+    text-decoration: none;
+    padding: 13px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .gm-steam-btn:hover {
+    background: linear-gradient(90deg, #2aa0f0, #1a50d0);
+    box-shadow: 0 4px 20px rgba(26,144,224,0.4);
+    transform: translateY(-1px);
+  }
+
+  .gm-sysreq {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    background: #0d1520;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 12px;
+    color: #8a9ab0;
+    line-height: 1.7;
+    margin-top: 4px;
+  }
+  .gm-sysreq__title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
 
   /* --- МОБІЛЬНА ОПТИМІЗАЦІЯ --- */
-  
   @media screen and (max-width: 850px) {
     .catalog-container { padding: 15px 10px; }
     .catalog-header { display: none; }
@@ -282,7 +578,6 @@ description: Каталог Українських ігор та монітор�
       align-items: start;
       overflow: hidden;
     }
-
     .game-img-small {
       grid-area: img;
       width: 100%;
@@ -292,7 +587,6 @@ description: Каталог Українських ігор та монітор�
       object-fit: cover;
       display: block;
     }
-
     .game-main-info {
       grid-area: title;
       font-size: 14px;
@@ -313,19 +607,22 @@ description: Каталог Українських ігор та монітор�
     }
     .list-new-price { font-size: 15px; }
     .filter-group { flex: 1 1 45%; }
-    .modal-content { margin: 10px; padding: 15px; width: calc(100% - 20px); box-sizing: border-box; }
-    .steam-gallery { grid-template-columns: 1fr; }
-    .sys-req-grid { grid-template-columns: 1fr; }
-    .thumb-img { width: 80px; height: 45px; }
-    .nav-arrow { padding: 10px 5px; font-size: 20px; }
+
+    /* Modal mobile */
+    #gameModal { padding: 10px 8px 30px; }
+    .gm-body { padding: 0 14px 22px; }
+    .gm-grid { grid-template-columns: 1fr; }
+    .gm-hero { aspect-ratio: 16/7; }
+    .gm-cover { width: 68px; height: 96px; }
+    .gm-sysreq { grid-template-columns: 1fr; }
   }
 
   @media screen and (max-width: 480px) {
     .filter-group { flex: 1 1 100%; }
     .game-img-small { height: 120px; }
+    .gm-cover { width: 56px; height: 78px; }
+    .gm-title { font-size: 18px; }
   }
-
-   
 </style>
 
 
@@ -359,10 +656,50 @@ description: Каталог Українських ігор та монітор�
   <div id="catalogList">Завантаження...</div>
 </div>
 
-<div id="gameModal">
-  <div class="modal-content">
-    <span onclick="closeModal()" style="color: white; cursor: pointer; font-size: 35px; position: absolute; right: 15px; top: 5px; z-index: 100;">×</span>
-    <div id="modalData"></div>
+<!-- ══════════ НОВИЙ MODAL ══════════ -->
+<div id="gameModal" onclick="handleOverlayClick(event)">
+  <div class="gm-card">
+    <button class="gm-close" onclick="closeModal()">✕</button>
+
+    <!-- Hero -->
+    <div class="gm-hero">
+      <div class="gm-hero__blur" id="gmHeroBg"></div>
+      <img class="gm-hero__img" id="gmHeroImg" src="" alt="">
+      <div class="gm-hero__gradient"></div>
+    </div>
+
+    <!-- Body -->
+    <div class="gm-body">
+      <div class="gm-header">
+        <img class="gm-cover" id="gmCover" src="" alt="">
+        <div class="gm-title-block">
+          <h2 class="gm-title" id="gmTitle"></h2>
+          <div class="gm-badges" id="gmBadges"></div>
+        </div>
+      </div>
+
+      <div class="gm-grid">
+        <!-- Ліво: галерея + опис -->
+        <div>
+          <div class="gm-main-view">
+            <button class="gm-arrow gm-arrow--left" onclick="changeSlide(-1)">&#10094;</button>
+            <img id="gmMainView" src="" alt="Скріншот">
+            <button class="gm-arrow gm-arrow--right" onclick="changeSlide(1)">&#10095;</button>
+          </div>
+          <div class="gm-thumbs" id="gmThumbs"></div>
+          <div class="gm-desc" id="gmDesc"></div>
+        </div>
+
+        <!-- Право: мета + ціна -->
+        <div class="gm-side">
+          <div class="gm-meta" id="gmMeta"></div>
+          <div class="gm-price-box" id="gmPriceBox"></div>
+        </div>
+
+        <!-- Системні вимоги (повна ширина) -->
+        <div class="gm-sysreq" id="gmSysreq" style="display:none"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -433,7 +770,6 @@ description: Каталог Українських ігор та монітор�
       if (f.status === 'histLow') matchStatus = g.currentPrice <= g.histLow;
       if (f.status === 'low2Y') matchStatus = g.currentPrice <= g.low2Y;
       const matchGenre = !f.genre || (g.genre && g.genre.split(',').map(s => s.trim()).includes(f.genre));
-
       return g.title.toLowerCase().includes(f.name) && 
              matchGenre && 
              (!f.tag || (g.tags && g.tags.includes(f.tag))) && 
@@ -462,169 +798,211 @@ description: Каталог Українських ігор та монітор�
       const year = getYearNum(g.releaseDate) || '—';
       const ratingColor = (g.rating >= 80) ? '#66C0F4' : (g.rating >= 50 ? '#A3A3A3' : '#A13D2D');
       let discountColor = (g.currentPrice <= g.histLow) ? "#00a2ff" : (g.currentPrice <= g.low2Y ? "#4c6b22" : "#8a2a2a");
-      
       const stage = g.stage || 'Released';
       
-      // Назва + EA Бейдж (ПІСЛЯ назви)
       let titleHtml = cleanTitle;
       if (stage.includes('Early Access')) {
         titleHtml += ` <span class="badge-ea-list">(У дочасному доступі)</span>`;
       }
 
-      // Логіка відображення ціни
       let priceHtml = '';
-
       if (stage.includes('Upcoming')) {
-        // Upcoming: пишемо Незабаром
         priceHtml = `<div class="status-text-upcoming">Незабаром</div>`;
-      } 
-      else if (stage.includes('Demo')) {
+      } else if (stage.includes('Demo')) {
         priceHtml = `<div class="status-block"><span class="status-demo">Завантажити Демо</span></div>`;
-      } 
-      else if (stage.includes('Free')) {
-        // Free: зелений прямокутник
+      } else if (stage.includes('Free')) {
         priceHtml = `<div class="status-text-upcoming">Безкоштовно</div>`;
-      }
-      else {
-        // Released або Early Access
-        // Якщо ціна 0 - показуємо Free
+      } else {
         if (g.currentPrice === 0) {
-           priceHtml = `<span class="badge-free-list">Безкоштовно</span>`;
+          priceHtml = `<span class="badge-free-list">Безкоштовно</span>`;
         } else if (g.discount > 0) {
-           priceHtml = `
-              <div class="list-discount-box" style="background: ${discountColor}">-${g.discount}%</div>
-              <div style="display: flex; flex-direction: column; align-items: flex-end;">
-                <span class="list-old-price">${g.basePrice} ₴</span>
-                <span class="list-new-price">${g.currentPrice} ₴</span>
-              </div>`;
+          priceHtml = `
+            <div class="list-discount-box" style="background: ${discountColor}">-${g.discount}%</div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+              <span class="list-old-price">${g.basePrice} ₴</span>
+              <span class="list-new-price">${g.currentPrice} ₴</span>
+            </div>`;
         } else {
-           priceHtml = `<span class="list-new-price">${g.currentPrice} ₴</span>`;
+          priceHtml = `<span class="list-new-price">${g.currentPrice} ₴</span>`;
         }
       }
 
       return `
         <div class="game-row" onclick="openGame('${g.appId}')">
           <img src="${g.img}" class="game-img-small">
-          <div class="game-main-info" data-rating="${g.rating || '-'}">
-            ${titleHtml}
-          </div>
+          <div class="game-main-info" data-rating="${g.rating || '-'}">${titleHtml}</div>
           <div class="col-center">${year}</div>
           <div class="col-center" style="font-size:12px">${g.genre || '-'}</div>
           <div class="col-rating" style="color:${g.rating ? ratingColor : '#888'}">${g.rating || '-'}</div>
-          <div class="game-price-block">
-            ${priceHtml}
-          </div>
+          <div class="game-price-block">${priceHtml}</div>
         </div>`;
     }).join('') || '<div style="text-align:center; padding:50px; color:#88929a;">Нічого не знайдено.</div>';
   }
 
+  /* ══ НОВИЙ openGame ══ */
   function openGame(id) {
     const g = games[id];
-    currentScreens = g.screenshots || [];
+    if (!g) return;
+
+    currentScreens = (g.screenshots || []).filter(Boolean);
     currentIdx = 0;
-    const dp = g.devPublisher ? g.devPublisher.split(',') : ['Н/Д', 'Н/Д'];
-    const reqs = g.sysReq ? g.sysReq.split('||') : ["Не вказано", "Дивіться в Steam"];
-    
-    // Обробка дати та Upcoming
+
+    const heroSrc = currentScreens[0] || g.img;
+    document.getElementById('gmHeroBg').style.backgroundImage = `url(${heroSrc})`;
+    document.getElementById('gmHeroImg').src = heroSrc;
+    document.getElementById('gmHeroImg').alt = g.title;
+    document.getElementById('gmCover').src = g.img;
+    document.getElementById('gmCover').alt = g.title;
+    document.getElementById('gmTitle').textContent = g.title.replace(/UA_DEV|UA/g, '').trim();
+
+    /* Бейджі */
     const stage = g.stage || 'Released';
+    let badgesHtml = '';
+    if (stage.includes('Early Access')) badgesHtml += '<span class="gm-badge gm-badge--ea">Early Access</span>';
+    if (stage.includes('Free') || g.currentPrice === 0) badgesHtml += '<span class="gm-badge gm-badge--free">Free to Play</span>';
+    if (stage.includes('Demo'))    badgesHtml += '<span class="gm-badge gm-badge--demo">Demo</span>';
+    if (stage.includes('Upcoming')) badgesHtml += '<span class="gm-badge gm-badge--coming">Незабаром</span>';
+    document.getElementById('gmBadges').innerHTML = badgesHtml;
+
+    /* Галерея */
+    document.getElementById('gmMainView').src = currentScreens[0] || g.img;
+    document.getElementById('gmThumbs').innerHTML = currentScreens.map((src, i) =>
+      `<img src="${src}" class="gm-thumb${i===0?' active':''}" onclick="setSlide(${i}, this)" loading="lazy">`
+    ).join('');
+
+    /* Опис */
+    document.getElementById('gmDesc').textContent = g.description || '';
+
+    /* Мета */
+    const dp = (g.devPublisher || '').split(',');
+    const devName = dp[0]?.trim() || 'Н/Д';
+    const pubName = dp[1]?.trim() || devName;
+
     let displayDate = fixDate(g.releaseDate);
-    
     if (stage.includes('Upcoming')) {
-        // Парсинг дати з поля "Upcoming, 2026"
-        const parts = stage.split(',');
-        if (parts.length > 1) {
-             displayDate = parts[1].trim(); // Беремо все після коми
-        }
+      const parts = stage.split(',');
+      if (parts.length > 1) displayDate = parts[1].trim();
     }
 
-    // Обробка ціни та відображення історії в модальному вікні
-    let mainPriceDisplay = '';
-    let showHistory = true;
-
-    if (stage.includes('Upcoming')) {
-        mainPriceDisplay = 'Незабаром';
-        showHistory = false; // ховаємо історію
-    } 
-    else if (stage.includes('Demo')) {
-         mainPriceDisplay = 'Демо';
-         showHistory = false;
-    }
-    else if (stage.includes('Free')) {
-         mainPriceDisplay = 'Безкоштовно';
-         showHistory = false;
-    }
-    else {
-        // Це Released або Early Access
-        if (g.currentPrice === 0) {
-            mainPriceDisplay = 'Безкоштовно';
-            showHistory = false;
-        } else {
-            // Звичайна ціна
-            if (g.discount > 0) {
-                mainPriceDisplay = `<span style="color:#88929a; text-decoration:line-through; font-size:14px;">${g.basePrice} ₴</span> <span style="font-size:24px; font-weight:bold; color:#fff; text-shadow:0 0 10px rgba(255,255,255,0.2);">${g.currentPrice} ₴</span>`;
-            } else {
-                mainPriceDisplay = `<span style="font-size:24px; font-weight:bold; color:#fff; text-shadow:0 0 10px rgba(255,255,255,0.2);">${g.currentPrice} ₴</span>`;
-            }
-        }
-    }
-
-    // Бейдж Early Access в заголовку модалки
-    let modalTitleHtml = g.title.replace(/UA_DEV|UA/g, '').trim();
-    if (stage.includes('Early Access')) {
-        modalTitleHtml += ` <span style="background: linear-gradient(90deg, #0057b7, #1a44c2); color: #fff; font-size: 14px; padding: 2px 8px; border-radius: 4px; vertical-align: middle;">У дочасному доступі</span>`;
-    }
-
-    document.getElementById('modalData').innerHTML = `
-      <h2 style="margin:0 0 15px 0; color:#fff; font-size: 24px; text-shadow: 0 0 10px rgba(0,0,0,0.5);">${modalTitleHtml}</h2>
-      <div class="steam-gallery">
-        <div>
-          <div class="main-view-container">
-            <button class="nav-arrow arrow-left" onclick="changeSlide(-1)">&#10094;</button>
-            <img id="mainView" src="${currentScreens.length ? currentScreens[0] : g.img}">
-            <button class="nav-arrow arrow-right" onclick="changeSlide(1)">&#10095;</button>
-          </div>
-          <div class="thumbs-container">${currentScreens.map((src, i) => `<img src="${src}" class="thumb-img ${i===0?'active':''}" onclick="updateView(${i}, this)">`).join('')}</div>
+    let ratingHtml = '';
+    if (g.rating != null && g.rating > 0) {
+      const color = g.rating >= 80 ? '#57e357' : g.rating >= 60 ? '#ffd700' : '#ff6b6b';
+      const label = g.rating >= 80 ? 'Дуже позитивні' : g.rating >= 60 ? 'Змішані' : 'Переважно негативні';
+      ratingHtml = `
+        <div class="gm-meta-row">
+          <span class="gm-meta-row__label">Відгуки</span>
+          <span class="gm-meta-row__val" style="color:${color};font-weight:700">${g.rating}% — ${label}</span>
         </div>
-        <div class="side-info">
-          <img src="${g.img}" style="width:100%; border-radius:2px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
-          <div style="font-size:12px;">
-            <div style="margin-bottom:6px"><b style="color:#67c1f5">Жанр:</b> ${g.genre || 'Гра'}</div>
-            <div style="margin-bottom:6px"><b style="color:#67c1f5">Розробник:</b> ${dp[0]?.trim() || 'Н/Д'}</div>
-            <div style="margin-bottom:6px"><b style="color:#67c1f5">Видавець:</b> ${dp[1]?.trim() || dp[0]?.trim() || 'Н/Д'}</div>
-            <div style="margin-bottom:6px"><b style="color:#67c1f5">Відгуки Steam:</b> <span style="color:#ffd700; font-weight:bold">${g.rating || '—'}</span><span style="color:#ffd700; font-weight:bold">${'%'}</span></div>
-            <div><b style="color:#67c1f5">Реліз:</b> ${displayDate}</div>
-          </div>
-          <div class="price-card">
-             <div style="display:flex; align-items:baseline; gap:10px;">
-               ${g.discount > 0 && showHistory ? `<span style="background:#4c6b22; color:#beee11; padding:2px 6px; border-radius:2px; font-weight:bold; box-shadow: 0 2px 4px rgba(0,0,0,0.5);">-${g.discount}%</span>` : ''}
-               <div style="display:flex; flex-direction:column;">
-                 ${typeof mainPriceDisplay === 'string' && !mainPriceDisplay.includes('<span') ? `<span style="font-size:24px; font-weight:bold; color:#fff; text-shadow:0 0 10px rgba(255,255,255,0.2);">${mainPriceDisplay}</span>` : mainPriceDisplay}
-               </div>
-             </div>
-             
-             ${showHistory ? `
-             <div style="font-size:11px; margin-top:10px; color:#88929a; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
-               Історичний мін: <span style="color:var(--ua-gold)">${g.histLow || g.currentPrice} ₴</span> (${fixDate(g.histLowDate)})<br>
-               Мін за 2 роки: <span style="color:#fff">${g.low2Y || g.currentPrice} ₴</span>
-             </div>` : ''}
+        <div class="gm-rating-bar">
+          <div class="gm-rating-fill" style="width:${g.rating}%;background:linear-gradient(90deg,${color}88,${color})"></div>
+        </div>`;
+    }
 
-             <a href="${g.link}" target="_blank" class="btn-steam">🛒 СТОРІНКА В STEAM</a>
-          </div>
-        </div>
+    document.getElementById('gmMeta').innerHTML = `
+      <div class="gm-meta-row">
+        <span class="gm-meta-row__label">Жанр</span>
+        <span class="gm-meta-row__val">${g.genre || 'Н/Д'}</span>
       </div>
-      <div style="margin-top:20px; color:#acb2b8; line-height:1.6; font-size:14px;">${g.description || ''}</div>
-      <div class="sys-req-grid">
-        <div><b style="color:#fff; border-bottom:1px solid #3d6c8d; display:block; margin-bottom:8px">Мінімальні:</b>${reqs[0].replace(/\n/g, '<br>')}</div>
-        <div><b style="color:#fff; border-bottom:1px solid #3d6c8d; display:block; margin-bottom:8px">Рекомендовані:</b>${reqs[1] ? reqs[1].replace(/\n/g, '<br>') : '—'}</div>
+      <div class="gm-meta-row">
+        <span class="gm-meta-row__label">Розробник</span>
+        <span class="gm-meta-row__val">${devName}</span>
       </div>
+      <div class="gm-meta-row">
+        <span class="gm-meta-row__label">Видавець</span>
+        <span class="gm-meta-row__val">${pubName}</span>
+      </div>
+      <div class="gm-meta-row">
+        <span class="gm-meta-row__label">Реліз</span>
+        <span class="gm-meta-row__val">${displayDate}</span>
+      </div>
+      ${ratingHtml}
     `;
-    document.getElementById('gameModal').style.display = "block";
-    document.body.style.overflow = "hidden";
+
+    /* Ціна */
+    let priceHtml = '';
+    if (stage.includes('Upcoming')) {
+      priceHtml = `<div class="gm-free-label" style="color:#f5c842">⏳ Незабаром</div>`;
+    } else if (stage.includes('Demo')) {
+      priceHtml = `<div class="gm-free-label" style="color:#c57ef5">🎮 Demo</div>`;
+    } else if (stage.includes('Free') || g.currentPrice === 0) {
+      priceHtml = `<div class="gm-free-label" style="color:#57e357">🆓 Безкоштовно</div>`;
+    } else {
+      priceHtml = `<div class="gm-price-inner">`;
+      if (g.discount > 0) priceHtml += `<span class="gm-discount-badge">-${g.discount}%</span>`;
+      if (g.discount > 0) priceHtml += `<span class="gm-old-price">${g.basePrice} ₴</span>`;
+      priceHtml += `<span class="gm-new-price">${g.currentPrice} ₴</span></div>`;
+      if (g.histLow) {
+        priceHtml += `
+          <div class="gm-hist">
+            Іст. мінімум: <span class="gm-hist-low">${g.histLow} ₴</span> (${fixDate(g.histLowDate)})<br>
+            Мінімум за 2 роки: <span class="gm-hist-2y">${g.low2Y || g.currentPrice} ₴</span>
+          </div>`;
+      }
+    }
+    priceHtml += `<a href="${g.link}" target="_blank" class="gm-steam-btn"><i class="fab fa-steam"></i> Відкрити в Steam</a>`;
+    document.getElementById('gmPriceBox').innerHTML = priceHtml;
+
+    /* Системні вимоги */
+    const sysEl = document.getElementById('gmSysreq');
+    if (g.sysReq) {
+      const reqs = g.sysReq.split('||');
+      sysEl.style.display = 'grid';
+      sysEl.innerHTML = `
+        <div>
+          <div class="gm-sysreq__title">Мінімальні вимоги</div>
+          ${(reqs[0] || '').replace(/\n/g, '<br>')}
+        </div>
+        <div>
+          <div class="gm-sysreq__title">Рекомендовані вимоги</div>
+          ${(reqs[1] || '—').replace(/\n/g, '<br>')}
+        </div>`;
+    } else {
+      sysEl.style.display = 'none';
+    }
+
+    /* Відкрити */
+    const modal = document.getElementById('gameModal');
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    modal.scrollTop = 0;
   }
 
-  function updateView(idx, el) { currentIdx = idx; document.getElementById('mainView').src = currentScreens[idx]; document.querySelectorAll('.thumb-img').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
-  function changeSlide(step) { if (!currentScreens.length) return; currentIdx = (currentIdx + step + currentScreens.length) % currentScreens.length; document.getElementById('mainView').src = currentScreens[currentIdx]; const thumbs = document.querySelectorAll('.thumb-img'); thumbs.forEach(i => i.classList.remove('active')); thumbs[currentIdx].classList.add('active'); thumbs[currentIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
-  function closeModal() { document.getElementById('gameModal').style.display = "none"; document.body.style.overflow = "auto"; }
-  window.onclick = (e) => { if(e.target == document.getElementById('gameModal')) closeModal(); }
+  /* ══ Слайдер ══ */
+  function setSlide(idx, el) {
+    currentIdx = idx;
+    const src = currentScreens[idx];
+    document.getElementById('gmMainView').src = src;
+    document.getElementById('gmHeroBg').style.backgroundImage = `url(${src})`;
+    document.querySelectorAll('.gm-thumb').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  function changeSlide(step) {
+    if (!currentScreens.length) return;
+    currentIdx = (currentIdx + step + currentScreens.length) % currentScreens.length;
+    const src = currentScreens[currentIdx];
+    document.getElementById('gmMainView').src = src;
+    document.getElementById('gmHeroBg').style.backgroundImage = `url(${src})`;
+    const thumbs = document.querySelectorAll('.gm-thumb');
+    thumbs.forEach(t => t.classList.remove('active'));
+    if (thumbs[currentIdx]) {
+      thumbs[currentIdx].classList.add('active');
+      thumbs[currentIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }
+
+  /* ══ Закрити ══ */
+  function closeModal() {
+    document.getElementById('gameModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('gameModal')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
   loadGames();
 </script>
