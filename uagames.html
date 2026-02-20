@@ -1,1008 +1,1399 @@
 ---
 layout: default
 title: Каталог Українських ігор
-description: Каталог Українських ігор та моніторинг цін
+description: Каталог українських відеоігор у Steam — ціни, рейтинги, огляди, фільтри
 ---
 <style>
-  :root { 
-    --ua-blue: #0057b7; 
-    --ua-gold: #ffd700; 
-    --steam-dark: #171a21; 
-    --steam-light: #2a475e;
-    --accent: #66c0f4;
-    --text-main: #c7d5e0;
-    --text-hover: #ffffff;
-    --input-bg: rgba(0, 0, 0, 0.25);
-    --card-bg: rgba(22, 32, 45, 0.65);
-    --card-hover: rgba(42, 71, 94, 0.85);
-    --border-color: rgba(62, 108, 141, 0.4);
-  }
+/* ══════════════════════════════════════════
+   ЗМІННІ
+══════════════════════════════════════════ */
+:root {
+  --c-bg:       #0d1117;
+  --c-surface:  #161b22;
+  --c-card:     #1c2333;
+  --c-border:   rgba(255,255,255,0.07);
+  --c-blue:     #0057b7;
+  --c-gold:     #ffd700;
+  --c-accent:   #58a6ff;
+  --c-green:    #3fb950;
+  --c-red:      #f85149;
+  --c-text:     #e6edf3;
+  --c-muted:    #8b949e;
+  --c-hover:    rgba(88,166,255,0.08);
+  --radius:     10px;
+  --radius-sm:  6px;
+}
 
-  /* Скрол тільки для каталогу, не глобальний */
-  ::-webkit-scrollbar { width: 10px; }
-  ::-webkit-scrollbar-track { background: #0f1216; }
-  ::-webkit-scrollbar-thumb { background: #3d6c8d; border-radius: 5px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+/* ══════════════════════════════════════════
+   ЗАГАЛЬНИЙ КОНТЕЙНЕР
+══════════════════════════════════════════ */
+.cat-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 16px 60px;
+  font-family: 'Inter', sans-serif;
+  color: var(--c-text);
+}
 
-  .catalog-container { 
-    max-width: 1140px; 
-    margin: 0 auto; 
-    padding: 30px 20px;
-    color: var(--text-main);
-    font-size: 15px;
-  }
+/* ══ ШАПКА КАТАЛОГУ ══ */
+.cat-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.cat-hero__title {
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(90deg, #fff 0%, var(--c-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cat-hero__sub {
+  font-size: 13px;
+  color: var(--c-muted);
+  margin: 4px 0 0;
+}
+.cat-count {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: var(--c-muted);
+  white-space: nowrap;
+}
+.cat-count span { color: var(--c-accent); font-weight: 700; }
 
-  /* КНОПКА ФІЛЬТРІВ */
-  .filter-toggle-wrapper {
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: flex-start;
-  }
+/* ══ ПАНЕЛЬ ПОШУКУ + ФІЛЬТРИ ══ */
+.cat-toolbar {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.cat-search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.cat-search {
+  flex: 1;
+  min-width: 180px;
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text);
+  font-size: 14px;
+  padding: 10px 14px 10px 38px;
+  outline: none;
+  transition: border-color .2s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238b949e' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.442 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+}
+.cat-search:focus { border-color: var(--c-accent); }
+.cat-search::placeholder { color: var(--c-muted); }
 
-  .btn-filter-toggle {
-    background: linear-gradient(to right, #2a475e, #1b2838);
-    color: var(--accent);
-    border: 1px solid var(--border-color);
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-  }
+.btn-toggle-filters {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-muted);
+  font-size: 13px;
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.btn-toggle-filters:hover { border-color: var(--c-accent); color: var(--c-text); }
+.btn-toggle-filters.active { border-color: var(--c-accent); color: var(--c-accent); }
+.btn-toggle-filters .tf-icon { transition: transform .25s; }
+.btn-toggle-filters.active .tf-icon { transform: rotate(180deg); }
 
-  .btn-filter-toggle:hover {
-    border-color: var(--accent);
-    color: #fff;
-    box-shadow: 0 0 12px rgba(102, 192, 244, 0.3);
-  }
+/* Фільтри */
+.cat-filters {
+  display: none;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--c-border);
+  margin-top: 2px;
+}
+.cat-filters.show { display: grid; }
 
-  .btn-filter-toggle .icon {
-    font-size: 16px;
-    transition: transform 0.3s ease;
-  }
+.flt-group { display: flex; flex-direction: column; gap: 5px; }
+.flt-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--c-accent);
+}
+.flt-select, .flt-input {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text);
+  font-size: 13px;
+  padding: 8px 10px;
+  outline: none;
+  width: 100%;
+  transition: border-color .2s;
+}
+.flt-select:focus, .flt-input:focus { border-color: var(--c-accent); }
+.flt-select option { background: var(--c-card); }
 
-  .btn-filter-toggle.active .icon {
-    transform: rotate(180deg);
-  }
+.flt-price-row { display: flex; gap: 6px; }
+.flt-price-row .flt-input { min-width: 0; }
 
-  /* ПАНЕЛЬ ФІЛЬТРІВ */
-  .filter-panel {
-    display: none;
-    background: rgba(30, 40, 55, 0.7);
-    backdrop-filter: blur(12px);
-    padding: 25px; 
-    border-radius: 10px; 
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 10px 35px rgba(0,0,0,0.4);
-    margin-bottom: 30px; 
-    flex-wrap: wrap; gap: 20px;
-    align-items: flex-end;
-    animation: fadeInSlide 0.4s ease forwards;
-  }
+.flt-range-wrap { display: flex; flex-direction: column; gap: 4px; }
+.flt-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--c-card);
+  outline: none;
+  cursor: pointer;
+}
+.flt-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--c-accent);
+  cursor: pointer;
+  box-shadow: 0 0 0 2px rgba(88,166,255,.25);
+}
+.flt-range-val {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 11px;
+  color: var(--c-accent);
+  font-weight: 700;
+}
 
-  .filter-panel.show {
-    display: flex;
-  }
+.flt-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.flt-chip {
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--c-border);
+  background: var(--c-card);
+  color: var(--c-muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all .18s;
+}
+.flt-chip:hover { border-color: var(--c-accent); color: var(--c-text); }
+.flt-chip.active { background: rgba(88,166,255,.15); border-color: var(--c-accent); color: var(--c-accent); font-weight: 600; }
 
-  @keyframes fadeInSlide {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1 1 160px; }
-  
-  .filter-group label { 
-    font-size: 12px; 
-    color: var(--accent); 
-    font-weight: bold; 
-    text-transform: uppercase; 
-    letter-spacing: 1px;
-    text-shadow: 0 0 5px rgba(102, 192, 244, 0.3);
-  }
+.btn-reset {
+  background: transparent;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-muted);
+  font-size: 12px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all .2s;
+  align-self: flex-end;
+}
+.btn-reset:hover { border-color: var(--c-red); color: var(--c-red); }
 
-  .filter-group input[type="text"], 
-  .filter-group input[type="number"], 
-  .filter-group select {
-    background: var(--input-bg); 
-    border: 1px solid var(--border-color); 
-    color: #fff; 
-    padding: 10px 12px; 
-    border-radius: 5px; 
-    outline: none; 
-    font-size: 13px; 
-    width: 100%; 
-    box-sizing: border-box;
-    transition: all 0.25s ease;
-  }
+/* ══ СОРТУВАННЯ ══ */
+.cat-sort-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.sort-label { font-size: 12px; color: var(--c-muted); }
+.sort-btn {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
+  color: var(--c-muted);
+  font-size: 12px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all .18s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sort-btn:hover { border-color: var(--c-accent); color: var(--c-text); }
+.sort-btn.active { background: rgba(88,166,255,.12); border-color: var(--c-accent); color: var(--c-accent); font-weight: 600; }
+.sort-dir { font-size: 10px; }
 
-  .filter-group input:focus, .filter-group select:focus {
-    border-color: var(--accent);
-    background: rgba(0,0,0,0.45);
-    box-shadow: 0 0 10px rgba(102, 192, 244, 0.25);
-  }
+/* ══ VIEW TOGGLE ══ */
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+.view-btn {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-muted);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all .18s;
+}
+.view-btn:hover { border-color: var(--c-accent); color: var(--c-text); }
+.view-btn.active { background: rgba(88,166,255,.12); border-color: var(--c-accent); color: var(--c-accent); }
 
-  .filter-group input[type="range"] { -webkit-appearance: none; background: transparent; width: 100%; padding: 6px 0; }
-  .filter-group input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 6px; background: #101822; border-radius: 3px; border: 1px solid #3d6c8d; }
-  .filter-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--accent); cursor: pointer; margin-top: -6px; box-shadow: 0 0 6px #000; }
-  
-  .range-val { display: flex; justify-content: space-between; font-size: 11px; color: var(--accent); margin-top: 4px; font-weight: bold; }
+/* ══ СПИСОК (list view) ══ */
+#catalogList.list-view .game-card-list { display: flex; }
+#catalogList.grid-view .game-card-list { display: none; }
+#catalogList.list-view .game-card-grid { display: none; }
+#catalogList.grid-view .game-card-grid { display: block; }
 
-  .catalog-header {
-    display: grid; 
-    grid-template-columns: 120px 1fr 80px 140px 80px 130px; 
-    gap: 15px; 
-    padding: 12px 20px; 
-    margin-bottom: 12px;
-    background: linear-gradient(90deg, #1b2838 0%, #2a475e 100%);
-    border-radius: 6px; 
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-    border-bottom: 3px solid var(--accent);
-  }
-  .header-col { 
-    font-size: 12px; font-weight: 800; color: var(--text-main); 
-    text-transform: uppercase; cursor: pointer; user-select: none; 
-    letter-spacing: 0.8px; transition: color 0.2s;
-  }
-  .header-col:hover { color: #fff; text-shadow: 0 0 10px var(--accent); }
+/* LIST CARD */
+.game-card-list {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  overflow: hidden;
+  align-items: stretch;
+}
+.game-card-list:hover {
+  border-color: rgba(88,166,255,.35);
+  background: var(--c-card);
+  box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  transform: translateX(3px);
+}
+.gcl-img {
+  width: 148px;
+  min-height: 84px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+.gcl-body {
+  flex: 1;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+.gcl-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gcl-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.gcl-genre {
+  font-size: 11px;
+  color: var(--c-muted);
+}
+.gcl-year {
+  font-size: 11px;
+  color: var(--c-muted);
+  background: rgba(255,255,255,.05);
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.gcl-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 16px 12px 0;
+  flex-shrink: 0;
+}
 
-  .game-row { 
-    background: var(--card-bg); 
-    margin-bottom: 10px; 
-    border-radius: 6px; 
-    display: grid; 
-    grid-template-columns: 120px 1fr 80px 140px 80px 130px; 
-    gap: 15px; 
-    align-items: center; 
-    cursor: pointer; 
-    transition: all 0.25s ease-in-out; 
-    border: 1px solid transparent; 
-    overflow: hidden;
-    min-height: 70px;
-  }
-  
-  .game-row:hover { 
-    background: linear-gradient(90deg, rgba(62, 89, 121, 0.45) 0%, rgba(42, 71, 94, 0.7) 100%);
-    border-color: rgba(102, 192, 244, 0.4); 
-    transform: scale(1.005) translateX(4px); 
-    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
-    z-index: 2;
-  }
-  
-  .game-img-small { 
-    width: 120px; height: 68px; 
-    object-fit: cover; flex-shrink: 0; 
-    mask-image: linear-gradient(to right, black 90%, transparent 100%);
-  }
-  
-  .game-main-info { 
-    padding: 8px 0; 
-    font-weight: 600; 
-    color: var(--text-hover); 
-    font-size: 17px; 
-    line-height: 1.25;
-    text-shadow: 1px 1px 3px rgba(0,0,0,1);
-    word-wrap: break-word;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+/* GRID CARD */
+#catalogList.grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.game-card-grid {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .22s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.game-card-grid:hover {
+  border-color: rgba(88,166,255,.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.5);
+}
+.gcg-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+.gcg-body {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.gcg-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-text);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.gcg-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+.gcg-genre {
+  font-size: 10px;
+  color: var(--c-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
 
-  .badge-ea-list {
-    background: linear-gradient(90deg, #0057b7, #1a44c2);
-    color: #fff;
-    font-size: 11px;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-weight: bold;
-    text-transform: uppercase;
-    white-space: nowrap;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  }
+/* Спільні елементи карток */
+.badge-ea {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 6px; border-radius: 3px;
+  background: rgba(0,87,183,.5); color: #67c1f5;
+  border: 1px solid rgba(0,87,183,.7);
+  white-space: nowrap;
+}
+.badge-ua {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 6px; border-radius: 3px;
+  background: linear-gradient(90deg, #0057b7 50%, #ffd700 50%);
+  color: #fff; white-space: nowrap;
+}
 
-  .status-text-upcoming {
-    color: #88929a;
-    font-style: italic;
-    font-size: 14px;
-    font-weight: bold;
-  }
+.rating-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.rating-dot::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: block;
+}
+.rating-dot.green { color: #3fb950; }
+.rating-dot.green::before { background: #3fb950; }
+.rating-dot.yellow { color: #d29922; }
+.rating-dot.yellow::before { background: #d29922; }
+.rating-dot.red { color: #f85149; }
+.rating-dot.red::before { background: #f85149; }
+.rating-dot.none { color: var(--c-muted); }
+.rating-dot.none::before { background: var(--c-muted); }
 
-  .status-demo { 
-    background: #3d6c8d; 
-    color: #fff; 
-    padding: 4px 8px; 
-    border-radius: 2px; 
-    font-size: 13px;
-    display: inline-block;
-  }
-  .status-demo:hover { background: #4f82a8; }
+/* Ціна */
+.price-block { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.price-main { font-size: 15px; font-weight: 800; color: var(--c-text); }
+.price-old { font-size: 11px; color: var(--c-muted); text-decoration: line-through; }
+.price-disc {
+  font-size: 11px; font-weight: 800;
+  padding: 1px 5px; border-radius: 3px;
+  background: #4c6b22; color: #beee11;
+}
+.price-free { font-size: 13px; font-weight: 700; color: var(--c-green); }
+.price-soon { font-size: 12px; font-weight: 600; color: var(--c-muted); font-style: italic; }
+.price-demo { font-size: 12px; font-weight: 700; color: #a371f7; }
 
-  .col-center { text-align: center; color: #88929a; font-size: 14px; }
-  .col-rating { 
-    text-align: center; font-weight: bold; font-size: 15px; 
-    background: rgba(0,0,0,0.4); padding: 4px 6px; border-radius: 4px;
-    width: 40px; margin: 0 auto;
-  }
-  
-  .game-price-block { 
-    padding-right: 15px; display: flex; justify-content: flex-end; align-items: center; gap: 10px; 
-  }
-  .list-old-price { color: #6a7780; text-decoration: line-through; font-size: 12px; }
-  .list-new-price { color: #fff; font-size: 16px; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
-  .list-discount-box { 
-    color: #beee11; padding: 4px 6px; font-weight: bold; border-radius: 3px; font-size: 13px; 
-    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-  }
+/* Порожній стан */
+.cat-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--c-muted);
+  font-size: 15px;
+}
+.cat-empty-icon { font-size: 48px; margin-bottom: 12px; }
 
-  /* ══════════════════════════════════════
-     НОВИЙ MODAL
-  ══════════════════════════════════════ */
-  #gameModal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: 20px 16px 40px;
-    align-items: flex-start;
-    justify-content: center;
-  }
-  #gameModal.open { display: flex; }
+/* Лоадер */
+.cat-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 20px;
+  color: var(--c-muted);
+}
+.spinner {
+  width: 24px; height: 24px;
+  border: 3px solid rgba(88,166,255,.2);
+  border-top-color: var(--c-accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  .gm-card {
-    background: #141d26;
-    width: 100%;
-    max-width: 960px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(102,192,244,0.06);
-    position: relative;
-    overflow: hidden;
-    animation: modalIn 0.28s cubic-bezier(0.22,1,0.36,1);
-    margin: auto;
-  }
-  @keyframes modalIn {
-    from { opacity: 0; transform: translateY(24px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
+/* ══════════════════════════════════════════
+   MODAL — КАРТОЧКА ГРИ
+══════════════════════════════════════════ */
+#gameModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+}
+#gameModal.open { display: flex; align-items: flex-start; justify-content: center; }
 
-  /* Hero banner */
-  .gm-hero {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/6;
-    overflow: hidden;
-  }
-  .gm-hero__blur {
-    position: absolute;
-    inset: -10px;
-    background-size: cover;
-    background-position: center;
-    filter: blur(18px) brightness(0.35) saturate(1.4);
-    transform: scale(1.05);
-    transition: background-image 0.4s ease;
-  }
-  .gm-hero__img {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-  }
-  .gm-hero__gradient {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent 40%, #141d26 100%);
-  }
+.gm-card {
+  background: var(--c-surface);
+  width: 100%;
+  max-width: 900px;
+  border-radius: 14px;
+  border: 1px solid var(--c-border);
+  box-shadow: 0 24px 64px rgba(0,0,0,.8);
+  position: relative;
+  overflow: hidden;
+  margin: auto;
+  animation: modalIn .25s cubic-bezier(.22,1,.36,1);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
 
-  /* Close btn */
-  .gm-close {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    z-index: 10;
-    background: rgba(0,0,0,0.55);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #c7d5e0;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    backdrop-filter: blur(8px);
-  }
-  .gm-close:hover { background: rgba(255,255,255,0.18); color: #fff; }
+.gm-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 20;
+  background: rgba(0,0,0,.6);
+  border: 1px solid rgba(255,255,255,.12);
+  color: #ccc;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  backdrop-filter: blur(8px);
+}
+.gm-close:hover { background: rgba(255,255,255,.2); color: #fff; }
 
-  .gm-body {
-    padding: 0 24px 28px;
-    margin-top: -30px;
-    position: relative;
-  }
+/* Header з банером */
+.gm-banner {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #0a0f18;
+}
+.gm-banner__blur {
+  position: absolute;
+  inset: -20px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(20px) brightness(.3) saturate(1.3);
+  transform: scale(1.1);
+}
+.gm-banner__fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 30%, var(--c-surface) 100%);
+}
 
-  .gm-header {
-    display: flex;
-    align-items: flex-end;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-  .gm-cover {
-    width: 88px;
-    height: 124px;
-    border-radius: 8px;
-    object-fit: cover;
-    flex-shrink: 0;
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-  }
-  .gm-title-block { flex: 1; min-width: 0; padding-bottom: 4px; }
-  .gm-title {
-    font-size: clamp(20px, 4vw, 30px);
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    line-height: 1.15;
-    color: #fff;
-    margin: 0 0 10px;
-    word-break: break-word;
-  }
-  .gm-badges { display: flex; flex-wrap: wrap; gap: 6px; }
-  .gm-badge {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 4px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  .gm-badge--ea   { background: #1a3a6e; color: #67c1f5; border: 1px solid #2a5a9e; }
-  .gm-badge--free { background: #1a3a1a; color: #57e357; border: 1px solid #2a6a2a; }
-  .gm-badge--demo { background: #2a1a3a; color: #c57ef5; border: 1px solid #5a2a8a; }
-  .gm-badge--coming { background: #2a2a1a; color: #f5c842; border: 1px solid #7a6a1a; }
+/* Шапка картки */
+.gm-header {
+  display: flex;
+  gap: 16px;
+  padding: 0 20px 16px;
+  margin-top: -60px;
+  position: relative;
+  z-index: 2;
+  align-items: flex-end;
+}
+.gm-cover {
+  width: 120px;
+  height: 56px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,.6);
+  flex-shrink: 0;
+}
+.gm-header-info { flex: 1; min-width: 0; }
+.gm-title {
+  font-size: clamp(17px, 3.5vw, 24px);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 8px;
+  line-height: 1.2;
+  word-break: break-word;
+}
+.gm-badges { display: flex; flex-wrap: wrap; gap: 5px; }
+.gm-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+.gm-badge-ea     { background: rgba(0,87,183,.4); color: #67c1f5; border: 1px solid rgba(0,87,183,.6); }
+.gm-badge-free   { background: rgba(63,185,80,.2); color: #3fb950; border: 1px solid rgba(63,185,80,.4); }
+.gm-badge-demo   { background: rgba(163,113,247,.2); color: #a371f7; border: 1px solid rgba(163,113,247,.4); }
+.gm-badge-coming { background: rgba(210,153,34,.2); color: #d29922; border: 1px solid rgba(210,153,34,.4); }
 
-  .gm-grid {
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 20px;
-    align-items: start;
-  }
+/* Тіло модалки */
+.gm-body {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 20px;
+  padding: 0 20px 24px;
+}
 
-  .gm-main-view {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: #000;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.07);
-  }
-  .gm-main-view img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-  .gm-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.6);
-    border: none;
-    color: #c7d5e0;
-    width: 36px;
-    height: 60px;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    z-index: 5;
-  }
-  .gm-arrow:hover { background: rgba(102,192,244,0.3); color: #fff; }
-  .gm-arrow--left  { left: 0; border-radius: 0 6px 6px 0; }
-  .gm-arrow--right { right: 0; border-radius: 6px 0 0 6px; }
+/* Галерея */
+.gm-gallery {}
+.gm-mainview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.06);
+}
+.gm-mainview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.gm-nav {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  background: rgba(0,0,0,.65);
+  border: none;
+  color: #aaa;
+  width: 34px; height: 56px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .18s;
+  z-index: 5;
+}
+.gm-nav:hover { background: rgba(88,166,255,.35); color: #fff; }
+.gm-nav-l { left: 0; border-radius: 0 6px 6px 0; }
+.gm-nav-r { right: 0; border-radius: 6px 0 0 6px; }
 
-  .gm-thumbs {
-    display: flex;
-    gap: 6px;
-    margin-top: 8px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    scrollbar-width: thin;
-    scrollbar-color: #3d6c8d transparent;
-  }
-  .gm-thumb {
-    width: 96px;
-    height: 54px;
-    object-fit: cover;
-    flex-shrink: 0;
-    cursor: pointer;
-    border-radius: 4px;
-    opacity: 0.55;
-    border: 2px solid transparent;
-    transition: all 0.18s;
-  }
-  .gm-thumb:hover { opacity: 0.85; }
-  .gm-thumb.active { opacity: 1; border-color: #66c0f4; }
+.gm-thumbs {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+  overflow-x: auto;
+  padding-bottom: 3px;
+  scrollbar-width: thin;
+  scrollbar-color: #3d6c8d transparent;
+}
+.gm-thumb {
+  width: 84px; height: 47px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: .5;
+  border: 2px solid transparent;
+  transition: all .16s;
+}
+.gm-thumb:hover { opacity: .85; }
+.gm-thumb.active { opacity: 1; border-color: var(--c-accent); }
 
-  .gm-desc {
-    color: #9baab8;
-    font-size: 13.5px;
-    line-height: 1.65;
-    margin-top: 14px;
-  }
+.gm-desc {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #8b949e;
+}
 
-  .gm-side { display: flex; flex-direction: column; gap: 14px; }
+/* Бокова панель */
+.gm-side { display: flex; flex-direction: column; gap: 12px; }
 
-  .gm-meta {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 8px;
-    padding: 14px;
-  }
-  .gm-meta-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 5px 0;
-    font-size: 12.5px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .gm-meta-row:last-child { border-bottom: none; }
-  .gm-meta-row__label { color: #67c1f5; font-weight: 600; }
-  .gm-meta-row__val { color: #c7d5e0; text-align: right; max-width: 60%; word-break: break-word; }
+.gm-meta-box {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.gm-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--c-border);
+  gap: 8px;
+}
+.gm-meta-row:last-child { border-bottom: none; }
+.gm-meta-key { color: var(--c-accent); font-weight: 600; flex-shrink: 0; }
+.gm-meta-val { color: var(--c-text); text-align: right; word-break: break-word; max-width: 65%; }
 
-  .gm-rating-bar {
-    height: 4px;
-    border-radius: 2px;
-    background: rgba(255,255,255,0.08);
-    margin-top: 6px;
-    overflow: hidden;
-  }
-  .gm-rating-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.5s ease;
-  }
+.gm-rating-bar {
+  height: 3px;
+  background: rgba(255,255,255,.06);
+  border-radius: 2px;
+  margin: 0 12px 8px;
+  overflow: hidden;
+}
+.gm-rating-fill { height: 100%; border-radius: 2px; }
 
-  .gm-price-box {
-    background: linear-gradient(145deg, #1a2738, #16202d);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
-    padding: 16px;
-  }
-  .gm-price-inner {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 6px;
-  }
-  .gm-discount-badge {
-    background: #4c6b22;
-    color: #beee11;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-weight: 800;
-    font-size: 14px;
-  }
-  .gm-old-price { color: #6a7780; text-decoration: line-through; font-size: 13px; }
-  .gm-new-price { color: #fff; font-size: 26px; font-weight: 800; line-height: 1; }
-  .gm-free-label { font-size: 20px; font-weight: 800; }
+/* Ціна в модалці */
+.gm-price-box {
+  background: linear-gradient(135deg, rgba(88,166,255,.06), rgba(0,0,0,.3));
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.gm-price-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.gm-price-big { font-size: 28px; font-weight: 800; color: #fff; line-height: 1; }
+.gm-price-old-big { font-size: 14px; color: var(--c-muted); text-decoration: line-through; }
+.gm-price-disc-big {
+  font-size: 14px; font-weight: 800;
+  padding: 3px 8px; border-radius: 4px;
+  background: #4c6b22; color: #beee11;
+}
+.gm-price-label { font-size: 22px; font-weight: 800; }
+.gm-hist-info {
+  font-size: 11px;
+  color: var(--c-muted);
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding-top: 10px;
+  margin-top: 8px;
+  line-height: 2;
+}
+.gm-hist-val { color: var(--c-gold); font-weight: 700; }
+.gm-hist-val2 { color: var(--c-text); font-weight: 600; }
+.gm-steam-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, #1680c8, #0f3d9e);
+  color: #fff;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all .2s;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.gm-steam-btn:hover {
+  background: linear-gradient(90deg, #2090d8, #1a4dae);
+  box-shadow: 0 4px 18px rgba(22,128,200,.4);
+  transform: translateY(-1px);
+}
 
-  .gm-hist {
-    font-size: 11px;
-    color: #6a7780;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 8px;
-    margin-top: 8px;
-    line-height: 1.9;
-  }
-  .gm-hist-low { color: #ffd700; font-weight: 600; }
-  .gm-hist-2y  { color: #c7d5e0; font-weight: 600; }
+/* Системні вимоги */
+.gm-sysreq {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.gm-sysreq-col {
+  background: rgba(0,0,0,.25);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.gm-sysreq-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--c-muted);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--c-border);
+}
+.gm-sysreq-text {
+  font-size: 12px;
+  color: #8b949e;
+  line-height: 1.7;
+}
 
-  .gm-steam-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 12px;
-    background: linear-gradient(90deg, #1a90e0, #1040c0);
-    color: #fff;
-    text-decoration: none;
-    padding: 13px;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    transition: all 0.2s;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-  .gm-steam-btn:hover {
-    background: linear-gradient(90deg, #2aa0f0, #1a50d0);
-    box-shadow: 0 4px 20px rgba(26,144,224,0.4);
-    transform: translateY(-1px);
-  }
+/* ══ МОБІЛЬНА АДАПТАЦІЯ ══ */
+@media (max-width: 700px) {
+  .cat-wrap { padding: 16px 12px 40px; }
+  .cat-hero { flex-direction: column; align-items: flex-start; }
 
-  .gm-sysreq {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    background: #0d1520;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 8px;
-    padding: 16px;
-    font-size: 12px;
-    color: #8a9ab0;
-    line-height: 1.7;
-    margin-top: 4px;
-  }
-  .gm-sysreq__title {
-    color: #fff;
-    font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
+  /* List cards на мобілі */
+  .game-card-list { flex-direction: column; }
+  .gcl-img { width: 100%; min-height: 120px; border-radius: var(--radius) var(--radius) 0 0; max-height: 160px; }
+  .gcl-right { flex-direction: row; align-items: center; justify-content: space-between; padding: 0 12px 12px; }
+  .gcl-body { padding: 10px 12px 6px; }
 
-  /* --- МОБІЛЬНА ОПТИМІЗАЦІЯ --- */
-  @media screen and (max-width: 850px) {
-    .catalog-container { padding: 15px 10px; }
-    .catalog-header { display: none; }
-    .game-row {
-      grid-template-columns: 1fr;
-      grid-template-areas: 
-        "img"
-        "title"
-        "price";
-      gap: 0;
-      padding: 0 0 12px 0;
-      height: auto;
-      align-items: start;
-      overflow: hidden;
-    }
-    .game-img-small {
-      grid-area: img;
-      width: 100%;
-      height: 140px;
-      border-radius: 6px 6px 0 0;
-      mask-image: none;
-      object-fit: cover;
-      display: block;
-    }
-    .game-main-info {
-      grid-area: title;
-      font-size: 14px;
-      padding: 10px 12px 4px;
-      word-break: break-word;
-      overflow-wrap: break-word;
-    }
-    .col-center, .col-rating { display: none; }
-    .game-price-block {
-      grid-area: price;
-      justify-content: flex-start;
-      padding: 4px 12px 0 12px;
-      border-top: none;
-      width: 100%;
-      box-sizing: border-box;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .list-new-price { font-size: 15px; }
-    .filter-group { flex: 1 1 45%; }
+  /* Grid — 2 колонки на мобілі */
+  #catalogList.grid-view { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 
-    /* Modal mobile */
-    #gameModal { padding: 10px 8px 30px; }
-    .gm-body { padding: 0 14px 22px; }
-    .gm-grid { grid-template-columns: 1fr; }
-    .gm-hero { aspect-ratio: 16/7; }
-    .gm-cover { width: 68px; height: 96px; }
-    .gm-sysreq { grid-template-columns: 1fr; }
-  }
+  /* Modal */
+  #gameModal { padding: 10px 8px; }
+  .gm-banner { height: 110px; }
+  .gm-header { margin-top: -36px; padding: 0 14px 12px; gap: 12px; }
+  .gm-cover { width: 96px; height: 44px; }
+  .gm-title { font-size: 16px; }
+  .gm-body { grid-template-columns: 1fr; padding: 0 14px 20px; gap: 14px; }
+  .gm-sysreq { grid-template-columns: 1fr; }
+  .gm-price-big { font-size: 22px; }
+}
 
-  @media screen and (max-width: 480px) {
-    .filter-group { flex: 1 1 100%; }
-    .game-img-small { height: 120px; }
-    .gm-cover { width: 56px; height: 78px; }
-    .gm-title { font-size: 18px; }
-  }
+@media (max-width: 400px) {
+  #catalogList.grid-view { grid-template-columns: 1fr; }
+  .gm-cover { width: 80px; height: 37px; }
+}
 </style>
 
+<div class="cat-wrap">
 
-<div class="catalog-container">
-  <div class="filter-toggle-wrapper">
-    <button class="btn-filter-toggle" onclick="toggleFilters(this)">
-      <span class="icon">▼</span>
-      <span id="toggleText">Показати фільтри</span>
-    </button>
+  <!-- Шапка -->
+  <div class="cat-hero">
+    <div>
+      <h1 class="cat-hero__title">🇺🇦 Каталог ігор</h1>
+      <p class="cat-hero__sub">Українські відеоігри у Steam — ціни, рейтинги, фільтри</p>
+    </div>
+    <div class="cat-count">Знайдено: <span id="resultCount">0</span> ігор</div>
   </div>
 
-  <div class="filter-panel" id="filterPanel">
-    <div class="filter-group"><label>Пошук за назвою</label><input id="searchName" oninput="renderCatalog()" placeholder="Введіть назву..." type="text" /></div>
-    <div class="filter-group"><label>Жанр</label><select id="filterGenre" onchange="renderCatalog()"><option value="">Всі жанри</option></select></div>
-    <div class="filter-group"><label>Теги</label><select id="filterTags" onchange="renderCatalog()"><option value="">Всі теги</option></select></div>
-    <div class="filter-group"><label>Рік</label><div style="display: flex; gap: 8px;"><select id="yearFrom" onchange="renderCatalog()"><option value="">Від</option></select><select id="yearTo" onchange="renderCatalog()"><option value="">До</option></select></div></div>
-    <div class="filter-group"><label>Ціна (₴)</label><div style="display: flex; gap: 8px;"><input id="priceFrom" oninput="renderCatalog()" type="number" /><input id="priceTo" oninput="renderCatalog()" type="number" /></div></div>
-    <div class="filter-group"><label>Рейтинг (%)</label><input id="filterRating" max="100" oninput="updateRangeLabel(this); renderCatalog()" type="range" value="0" /><div class="range-val"><span>0%</span><span id="ratingVal">Усі</span><span>100%</span></div></div>
-    <div class="filter-group"><label>Знижка (%)</label><input id="filterDiscount" max="100" oninput="updateRangeLabel(this); renderCatalog()" type="range" value="0" /><div class="range-val"><span>0%</span><span id="discountVal">Будь-яка</span><span>100%</span></div></div>
-    <div class="filter-group"><label>Статус</label><select id="priceStatus" onchange="renderCatalog()"><option value="">Всі</option><option value="histLow">Історичний Мінімум</option><option value="low2Y">Мінімум за 2 роки</option></select></div>
+  <!-- Toolbar -->
+  <div class="cat-toolbar">
+    <div class="cat-search-row">
+      <input type="text" id="searchInput" class="cat-search" placeholder="Пошук за назвою...">
+      <button class="btn-toggle-filters" id="btnFilters" onclick="toggleFilters()">
+        <span>Фільтри</span>
+        <span class="tf-icon">▾</span>
+      </button>
+    </div>
+
+    <div class="cat-filters" id="filterPanel">
+      <!-- Жанр -->
+      <div class="flt-group">
+        <span class="flt-label">Жанр</span>
+        <select id="fltGenre" class="flt-select">
+          <option value="">Всі жанри</option>
+        </select>
+      </div>
+      <!-- Рік -->
+      <div class="flt-group">
+        <span class="flt-label">Рік</span>
+        <div style="display:flex;gap:5px;">
+          <select id="fltYearFrom" class="flt-select" style="flex:1;padding:8px 5px;"><option value="">Від</option></select>
+          <select id="fltYearTo" class="flt-select" style="flex:1;padding:8px 5px;"><option value="">До</option></select>
+        </div>
+      </div>
+      <!-- Ціна -->
+      <div class="flt-group">
+        <span class="flt-label">Ціна (₴)</span>
+        <div class="flt-price-row">
+          <input type="number" id="fltPriceMin" class="flt-input" placeholder="Від" min="0">
+          <input type="number" id="fltPriceMax" class="flt-input" placeholder="До" min="0">
+        </div>
+      </div>
+      <!-- Рейтинг -->
+      <div class="flt-group">
+        <span class="flt-label">Рейтинг мін.</span>
+        <div class="flt-range-wrap">
+          <input type="range" id="fltRating" class="flt-range" min="0" max="100" value="0">
+          <div class="flt-range-val"><span id="fltRatingVal">Будь-який</span></div>
+        </div>
+      </div>
+      <!-- Знижка -->
+      <div class="flt-group">
+        <span class="flt-label">Знижка мін.</span>
+        <div class="flt-range-wrap">
+          <input type="range" id="fltDiscount" class="flt-range" min="0" max="90" value="0">
+          <div class="flt-range-val"><span id="fltDiscountVal">Будь-яка</span></div>
+        </div>
+      </div>
+      <!-- Теги -->
+      <div class="flt-group" style="grid-column: 1/-1;">
+        <span class="flt-label">Теги</span>
+        <select id="fltTag" class="flt-select" style="max-width:260px;">
+          <option value="">Всі теги</option>
+        </select>
+      </div>
+      <!-- Статус -->
+      <div class="flt-group" style="grid-column: 1/-1;">
+        <span class="flt-label">Статус</span>
+        <div class="flt-chips" id="statusChips">
+          <button class="flt-chip active" data-status="">Всі</button>
+          <button class="flt-chip" data-status="released">Вийшли</button>
+          <button class="flt-chip" data-status="ea">Early Access</button>
+          <button class="flt-chip" data-status="free">Безкоштовні</button>
+          <button class="flt-chip" data-status="demo">Demo</button>
+          <button class="flt-chip" data-status="upcoming">Незабаром</button>
+          <button class="flt-chip" data-status="histlow">Іст. мінімум 🔥</button>
+        </div>
+      </div>
+      <!-- Reset -->
+      <div class="flt-group" style="justify-content:flex-end;">
+        <button class="btn-reset" onclick="resetFilters()">✕ Скинути фільтри</button>
+      </div>
+    </div>
   </div>
 
-  <div class="catalog-header">
-    <div></div> <div class="header-col" onclick="setSort('title')">Назва</div>
-    <div class="header-col col-center" onclick="setSort('year')">Рік</div>
-    <div class="header-col col-center" onclick="setSort('genre')">Жанр</div>
-    <div class="header-col col-center" onclick="setSort('rating')">Відгуки</div>
-    <div class="header-col" onclick="setSort('price')" style="text-align: right;">Ціна</div>
+  <!-- Сортування + вид -->
+  <div class="cat-sort-row">
+    <span class="sort-label">Сортування:</span>
+    <button class="sort-btn active" data-sort="title">Назва <span class="sort-dir" id="dir-title">↑</span></button>
+    <button class="sort-btn" data-sort="rating">Рейтинг <span class="sort-dir" id="dir-rating"></span></button>
+    <button class="sort-btn" data-sort="price">Ціна <span class="sort-dir" id="dir-price"></span></button>
+    <button class="sort-btn" data-sort="year">Рік <span class="sort-dir" id="dir-year"></span></button>
+    <button class="sort-btn" data-sort="discount">Знижка <span class="sort-dir" id="dir-discount"></span></button>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btnList" onclick="setView('list')" title="Список">☰</button>
+      <button class="view-btn" id="btnGrid" onclick="setView('grid')" title="Сітка">⊞</button>
+    </div>
   </div>
 
-  <div id="catalogList">Завантаження...</div>
+  <!-- Список ігор -->
+  <div id="catalogList" class="list-view">
+    <div class="cat-loader"><div class="spinner"></div> Завантаження каталогу...</div>
+  </div>
 </div>
 
-<!-- ══════════ НОВИЙ MODAL ══════════ -->
-<div id="gameModal" onclick="handleOverlayClick(event)">
+<!-- ══════════ МОДАЛЬНЕ ВІКНО ══════════ -->
+<div id="gameModal" onclick="handleOverlay(event)">
   <div class="gm-card">
     <button class="gm-close" onclick="closeModal()">✕</button>
 
-    <!-- Hero -->
-    <div class="gm-hero">
-      <div class="gm-hero__blur" id="gmHeroBg"></div>
-      <img class="gm-hero__img" id="gmHeroImg" src="" alt="">
-      <div class="gm-hero__gradient"></div>
+    <div class="gm-banner">
+      <div class="gm-banner__blur" id="gmBg"></div>
+      <div class="gm-banner__fade"></div>
     </div>
 
-    <!-- Body -->
+    <div class="gm-header">
+      <img class="gm-cover" id="gmCover" src="" alt="">
+      <div class="gm-header-info">
+        <h2 class="gm-title" id="gmTitle"></h2>
+        <div class="gm-badges" id="gmBadges"></div>
+      </div>
+    </div>
+
     <div class="gm-body">
-      <div class="gm-header">
-        <img class="gm-cover" id="gmCover" src="" alt="">
-        <div class="gm-title-block">
-          <h2 class="gm-title" id="gmTitle"></h2>
-          <div class="gm-badges" id="gmBadges"></div>
+      <!-- Галерея + опис -->
+      <div>
+        <div class="gm-mainview">
+          <button class="gm-nav gm-nav-l" onclick="changeSlide(-1)">&#10094;</button>
+          <img id="gmMain" src="" alt="Скріншот">
+          <button class="gm-nav gm-nav-r" onclick="changeSlide(1)">&#10095;</button>
         </div>
+        <div class="gm-thumbs" id="gmThumbs"></div>
+        <div class="gm-desc" id="gmDesc"></div>
       </div>
 
-      <div class="gm-grid">
-        <!-- Ліво: галерея + опис -->
-        <div>
-          <div class="gm-main-view">
-            <button class="gm-arrow gm-arrow--left" onclick="changeSlide(-1)">&#10094;</button>
-            <img id="gmMainView" src="" alt="Скріншот">
-            <button class="gm-arrow gm-arrow--right" onclick="changeSlide(1)">&#10095;</button>
-          </div>
-          <div class="gm-thumbs" id="gmThumbs"></div>
-          <div class="gm-desc" id="gmDesc"></div>
-        </div>
-
-        <!-- Право: мета + ціна -->
-        <div class="gm-side">
-          <div class="gm-meta" id="gmMeta"></div>
-          <div class="gm-price-box" id="gmPriceBox"></div>
-        </div>
-
-        <!-- Системні вимоги (повна ширина) -->
-        <div class="gm-sysreq" id="gmSysreq" style="display:none"></div>
+      <!-- Мета + ціна -->
+      <div class="gm-side">
+        <div class="gm-meta-box" id="gmMeta"></div>
+        <div class="gm-price-box" id="gmPrice"></div>
       </div>
+
+      <!-- Системні вимоги -->
+      <div class="gm-sysreq" id="gmSys" style="display:none"></div>
     </div>
   </div>
 </div>
 
 <script>
-  const fbUrl = "https://dovbushhub-default-rtdb.europe-west1.firebasedatabase.app/games.json";
-  let games = {};
-  let currentScreens = [];
-  let currentIdx = 0;
-  let currentSortField = 'title';
-  let sortDirection = 1;
+const FB_URL = "https://dovbushhub-default-rtdb.europe-west1.firebasedatabase.app/games.json";
 
-  function toggleFilters(btn) {
-    const panel = document.getElementById('filterPanel');
-    const text = document.getElementById('toggleText');
-    const isShowing = panel.classList.toggle('show');
-    btn.classList.toggle('active');
-    text.innerText = isShowing ? 'Сховати фільтри' : 'Показати фільтри';
+let games = {};
+let currentView = 'list';
+let currentSort = 'title';
+let sortDir = 1;
+let activeStatus = '';
+let screens = [];
+let screenIdx = 0;
+
+/* ════════ INIT ════════ */
+async function init() {
+  try {
+    const r = await fetch(FB_URL);
+    games = await r.json();
+    buildDropdowns();
+    render();
+  } catch(e) {
+    document.getElementById('catalogList').innerHTML =
+      '<div class="cat-empty"><div class="cat-empty-icon">⚠️</div>Помилка завантаження даних.</div>';
   }
+}
 
-  function fixDate(d) { return (!d || d === "" || d === "-") ? 'TBA' : new Date(d).toLocaleDateString('uk-UA'); }
-  function getYearNum(d) { let y = new Date(d).getFullYear(); return isNaN(y) ? 0 : y; }
-  function updateRangeLabel(el) { document.getElementById(el.id === 'filterRating' ? 'ratingVal' : 'discountVal').innerText = el.value > 0 ? el.value + '%' : (el.id === 'filterRating' ? 'Усі' : 'Будь-яка'); }
+/* ════════ DROPDOWN BUILDERS ════════ */
+function buildDropdowns() {
+  const genres = new Set(), tags = new Set(), years = new Set();
+  Object.values(games).forEach(g => {
+    if (g.genre) g.genre.split(',').forEach(v => genres.add(v.trim()));
+    if (g.tags)  g.tags.split(',').forEach(t => tags.add(t.trim()));
+    const y = yearNum(g.releaseDate);
+    if (y) years.add(y);
+  });
 
-  function setSort(field) {
-    if (currentSortField === field) { sortDirection *= -1; } 
-    else { currentSortField = field; sortDirection = 1; }
-    renderCatalog();
-  }
+  fillSelect('fltGenre', [...genres].sort());
+  fillSelect('fltTag', [...tags].sort());
+  const sortedYears = [...years].sort((a,b) => b - a);
+  fillSelect('fltYearFrom', sortedYears);
+  fillSelect('fltYearTo', sortedYears);
+}
 
-  async function loadGames() {
-    try {
-      const res = await fetch(fbUrl);
-      games = await res.json();
-      populateDropdowns();
-      renderCatalog();
-    } catch (e) { document.getElementById('catalogList').innerText = "Помилка завантаження даних."; }
-  }
+function fillSelect(id, arr) {
+  const el = document.getElementById(id);
+  arr.forEach(v => el.add(new Option(v, v)));
+}
 
-  function populateDropdowns() {
-    const genres = new Set(), tags = new Set(), years = new Set();
-    Object.values(games).forEach(g => {
-      if (g.genre) { g.genre.split(',').forEach(v => genres.add(v.trim())); }
-      if (g.tags) g.tags.split(',').forEach(t => tags.add(t.trim()));
-      let y = getYearNum(g.releaseDate); if (y) years.add(y);
+/* ════════ FILTERS ════════ */
+function toggleFilters() {
+  const panel = document.getElementById('filterPanel');
+  const btn   = document.getElementById('btnFilters');
+  const open  = panel.classList.toggle('show');
+  btn.classList.toggle('active', open);
+}
+
+function resetFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('fltGenre').value = '';
+  document.getElementById('fltTag').value = '';
+  document.getElementById('fltYearFrom').value = '';
+  document.getElementById('fltYearTo').value = '';
+  document.getElementById('fltPriceMin').value = '';
+  document.getElementById('fltPriceMax').value = '';
+  document.getElementById('fltRating').value = 0;
+  document.getElementById('fltDiscount').value = 0;
+  document.getElementById('fltRatingVal').textContent = 'Будь-який';
+  document.getElementById('fltDiscountVal').textContent = 'Будь-яка';
+  setStatusChip('');
+  render();
+}
+
+/* Status chips */
+document.getElementById('statusChips').addEventListener('click', e => {
+  const chip = e.target.closest('.flt-chip');
+  if (!chip) return;
+  setStatusChip(chip.dataset.status);
+  render();
+});
+
+function setStatusChip(val) {
+  activeStatus = val;
+  document.querySelectorAll('.flt-chip').forEach(c =>
+    c.classList.toggle('active', c.dataset.status === val));
+}
+
+/* Range labels */
+document.getElementById('fltRating').addEventListener('input', function() {
+  document.getElementById('fltRatingVal').textContent =
+    this.value > 0 ? this.value + '%' : 'Будь-який';
+  render();
+});
+document.getElementById('fltDiscount').addEventListener('input', function() {
+  document.getElementById('fltDiscountVal').textContent =
+    this.value > 0 ? this.value + '%' : 'Будь-яка';
+  render();
+});
+
+/* Решта input'ів */
+['searchInput','fltGenre','fltTag','fltYearFrom','fltYearTo','fltPriceMin','fltPriceMax'].forEach(id =>
+  document.getElementById(id).addEventListener('input', render)
+);
+
+/* ════════ SORT ════════ */
+document.querySelectorAll('.sort-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const field = btn.dataset.sort;
+    if (currentSort === field) sortDir *= -1;
+    else { currentSort = field; sortDir = 1; }
+    document.querySelectorAll('.sort-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.sort === field);
+      document.getElementById('dir-' + b.dataset.sort).textContent = '';
     });
-    const fill = (id, set) => [...set].sort().forEach(v => document.getElementById(id).add(new Option(v, v)));
-    fill('filterGenre', genres); fill('filterTags', tags);
-    [...years].sort((a,b)=>b-a).forEach(y => { document.getElementById('yearFrom').add(new Option(y, y)); document.getElementById('yearTo').add(new Option(y, y)); });
-  }
+    document.getElementById('dir-' + field).textContent = sortDir === 1 ? '↑' : '↓';
+    render();
+  });
+});
 
-  function renderCatalog() {
-    const f = {
-      name: document.getElementById('searchName').value.toLowerCase(),
-      genre: document.getElementById('filterGenre').value,
-      tag: document.getElementById('filterTags').value,
-      yFrom: document.getElementById('yearFrom').value,
-      yTo: document.getElementById('yearTo').value,
-      pFrom: parseFloat(document.getElementById('priceFrom').value) || 0,
-      pTo: parseFloat(document.getElementById('priceTo').value) || 999999,
-      rating: parseInt(document.getElementById('filterRating').value),
-      discount: parseInt(document.getElementById('filterDiscount').value),
-      status: document.getElementById('priceStatus').value
-    };
+/* ════════ VIEW ════════ */
+function setView(v) {
+  currentView = v;
+  const list = document.getElementById('catalogList');
+  list.className = v === 'list' ? 'list-view' : 'grid-view';
+  document.getElementById('btnList').classList.toggle('active', v === 'list');
+  document.getElementById('btnGrid').classList.toggle('active', v === 'grid');
+}
 
-    let list = Object.values(games).filter(g => {
-      const y = getYearNum(g.releaseDate);
-      let matchStatus = true;
-      if (f.status === 'histLow') matchStatus = g.currentPrice <= g.histLow;
-      if (f.status === 'low2Y') matchStatus = g.currentPrice <= g.low2Y;
-      const matchGenre = !f.genre || (g.genre && g.genre.split(',').map(s => s.trim()).includes(f.genre));
-      return g.title.toLowerCase().includes(f.name) && 
-             matchGenre && 
-             (!f.tag || (g.tags && g.tags.includes(f.tag))) && 
-             (!f.yFrom || y >= f.yFrom) && 
-             (!f.yTo || y <= f.yTo) && 
-             ( (g.stage === 'Upcoming' || g.stage === 'Demo') ? true : (g.currentPrice >= f.pFrom && g.currentPrice <= f.pTo) ) && 
-             (g.rating || 0) >= f.rating && 
-             (g.discount || 0) >= f.discount && 
-             matchStatus;
-    });
+/* ════════ HELPERS ════════ */
+function yearNum(d) { const y = new Date(d).getFullYear(); return isNaN(y) ? 0 : y; }
+function fmtDate(d) { return (!d || d === '-') ? 'TBA' : new Date(d).toLocaleDateString('uk-UA'); }
+function cleanTitle(t) { return (t || '').replace(/UA_DEV|UA/g, '').trim(); }
 
-    list.sort((a, b) => {
-      let valA, valB;
-      switch (currentSortField) {
-        case 'year': valA = getYearNum(a.releaseDate); valB = getYearNum(b.releaseDate); break;
-        case 'price': valA = a.currentPrice; valB = b.currentPrice; break;
-        case 'rating': valA = a.rating || 0; valB = b.rating || 0; break;
-        case 'genre': valA = a.genre || ''; valB = b.genre || ''; break;
-        default: valA = a.title.toLowerCase(); valB = b.title.toLowerCase();
-      }
-      return valA < valB ? -1 * sortDirection : (valA > valB ? 1 * sortDirection : 0);
-    });
+function ratingClass(r) {
+  if (!r) return 'none';
+  if (r >= 80) return 'green';
+  if (r >= 60) return 'yellow';
+  return 'red';
+}
+function ratingLabel(r) {
+  if (!r) return '—';
+  if (r >= 80) return 'Дуже позитивні';
+  if (r >= 60) return 'Змішані';
+  return 'Переважно негативні';
+}
+function ratingColor(r) {
+  if (!r) return '#8b949e';
+  if (r >= 80) return '#3fb950';
+  if (r >= 60) return '#d29922';
+  return '#f85149';
+}
 
-    document.getElementById('catalogList').innerHTML = list.map(g => {
-      const cleanTitle = g.title.replace(/UA_DEV|UA/g, '').trim();
-      const year = getYearNum(g.releaseDate) || '—';
-      const ratingColor = (g.rating >= 80) ? '#66C0F4' : (g.rating >= 50 ? '#A3A3A3' : '#A13D2D');
-      let discountColor = (g.currentPrice <= g.histLow) ? "#00a2ff" : (g.currentPrice <= g.low2Y ? "#4c6b22" : "#8a2a2a");
-      const stage = g.stage || 'Released';
-      
-      let titleHtml = cleanTitle;
-      if (stage.includes('Early Access')) {
-        titleHtml += ` <span class="badge-ea-list">(У дочасному доступі)</span>`;
-      }
+function stageOf(g) {
+  const s = (g.stage || '').toLowerCase();
+  if (s.includes('upcoming')) return 'upcoming';
+  if (s.includes('demo'))     return 'demo';
+  if (s.includes('free') || g.currentPrice === 0) return 'free';
+  if (s.includes('early access')) return 'ea';
+  return 'released';
+}
 
-      let priceHtml = '';
-      if (stage.includes('Upcoming')) {
-        priceHtml = `<div class="status-text-upcoming">Незабаром</div>`;
-      } else if (stage.includes('Demo')) {
-        priceHtml = `<div class="status-block"><span class="status-demo">Завантажити Демо</span></div>`;
-      } else if (stage.includes('Free')) {
-        priceHtml = `<div class="status-text-upcoming">Безкоштовно</div>`;
-      } else {
-        if (g.currentPrice === 0) {
-          priceHtml = `<span class="badge-free-list">Безкоштовно</span>`;
-        } else if (g.discount > 0) {
-          priceHtml = `
-            <div class="list-discount-box" style="background: ${discountColor}">-${g.discount}%</div>
-            <div style="display: flex; flex-direction: column; align-items: flex-end;">
-              <span class="list-old-price">${g.basePrice} ₴</span>
-              <span class="list-new-price">${g.currentPrice} ₴</span>
-            </div>`;
-        } else {
-          priceHtml = `<span class="list-new-price">${g.currentPrice} ₴</span>`;
-        }
-      }
+function priceBlock(g) {
+  const stage = stageOf(g);
+  if (stage === 'upcoming') return `<span class="price-soon">Незабаром</span>`;
+  if (stage === 'demo')     return `<span class="price-demo">Demo</span>`;
+  if (stage === 'free')     return `<span class="price-free">Безкоштовно</span>`;
+  if (!g.currentPrice)      return `<span class="price-free">Безкоштовно</span>`;
+  if (g.discount > 0) return `
+    <div class="price-block">
+      <span class="price-disc">-${g.discount}%</span>
+      <span class="price-old">${g.basePrice} ₴</span>
+      <span class="price-main">${g.currentPrice} ₴</span>
+    </div>`;
+  return `<span class="price-main">${g.currentPrice} ₴</span>`;
+}
 
-      return `
-        <div class="game-row" onclick="openGame('${g.appId}')">
-          <img src="${g.img}" class="game-img-small">
-          <div class="game-main-info" data-rating="${g.rating || '-'}">${titleHtml}</div>
-          <div class="col-center">${year}</div>
-          <div class="col-center" style="font-size:12px">${g.genre || '-'}</div>
-          <div class="col-rating" style="color:${g.rating ? ratingColor : '#888'}">${g.rating || '-'}</div>
-          <div class="game-price-block">${priceHtml}</div>
-        </div>`;
-    }).join('') || '<div style="text-align:center; padding:50px; color:#88929a;">Нічого не знайдено.</div>';
-  }
+/* ════════ RENDER ════════ */
+function render() {
+  const q       = document.getElementById('searchInput').value.toLowerCase().trim();
+  const genre   = document.getElementById('fltGenre').value;
+  const tag     = document.getElementById('fltTag').value;
+  const yFrom   = +document.getElementById('fltYearFrom').value || 0;
+  const yTo     = +document.getElementById('fltYearTo').value   || 9999;
+  const pMin    = +document.getElementById('fltPriceMin').value || 0;
+  const pMax    = +document.getElementById('fltPriceMax').value || 999999;
+  const minRat  = +document.getElementById('fltRating').value;
+  const minDisc = +document.getElementById('fltDiscount').value;
 
-  /* ══ НОВИЙ openGame ══ */
-  function openGame(id) {
-    const g = games[id];
-    if (!g) return;
+  let list = Object.values(games).filter(g => {
+    if (!g.title) return false;
+    const stage = stageOf(g);
+    const yr = yearNum(g.releaseDate);
 
-    currentScreens = (g.screenshots || []).filter(Boolean);
-    currentIdx = 0;
-
-    const heroSrc = currentScreens[0] || g.img;
-    document.getElementById('gmHeroBg').style.backgroundImage = `url(${heroSrc})`;
-    document.getElementById('gmHeroImg').src = heroSrc;
-    document.getElementById('gmHeroImg').alt = g.title;
-    document.getElementById('gmCover').src = g.img;
-    document.getElementById('gmCover').alt = g.title;
-    document.getElementById('gmTitle').textContent = g.title.replace(/UA_DEV|UA/g, '').trim();
-
-    /* Бейджі */
-    const stage = g.stage || 'Released';
-    let badgesHtml = '';
-    if (stage.includes('Early Access')) badgesHtml += '<span class="gm-badge gm-badge--ea">Early Access</span>';
-    if (stage.includes('Free') || g.currentPrice === 0) badgesHtml += '<span class="gm-badge gm-badge--free">Free to Play</span>';
-    if (stage.includes('Demo'))    badgesHtml += '<span class="gm-badge gm-badge--demo">Demo</span>';
-    if (stage.includes('Upcoming')) badgesHtml += '<span class="gm-badge gm-badge--coming">Незабаром</span>';
-    document.getElementById('gmBadges').innerHTML = badgesHtml;
-
-    /* Галерея */
-    document.getElementById('gmMainView').src = currentScreens[0] || g.img;
-    document.getElementById('gmThumbs').innerHTML = currentScreens.map((src, i) =>
-      `<img src="${src}" class="gm-thumb${i===0?' active':''}" onclick="setSlide(${i}, this)" loading="lazy">`
-    ).join('');
-
-    /* Опис */
-    document.getElementById('gmDesc').textContent = g.description || '';
-
-    /* Мета */
-    const dp = (g.devPublisher || '').split(',');
-    const devName = dp[0]?.trim() || 'Н/Д';
-    const pubName = dp[1]?.trim() || devName;
-
-    let displayDate = fixDate(g.releaseDate);
-    if (stage.includes('Upcoming')) {
-      const parts = stage.split(',');
-      if (parts.length > 1) displayDate = parts[1].trim();
+    /* статус-фільтр */
+    if (activeStatus === 'released' && stage !== 'released') return false;
+    if (activeStatus === 'ea'       && stage !== 'ea')       return false;
+    if (activeStatus === 'free'     && stage !== 'free')     return false;
+    if (activeStatus === 'demo'     && stage !== 'demo')     return false;
+    if (activeStatus === 'upcoming' && stage !== 'upcoming') return false;
+    if (activeStatus === 'histlow') {
+      if (!g.histLow || g.currentPrice > g.histLow) return false;
     }
 
-    let ratingHtml = '';
-    if (g.rating != null && g.rating > 0) {
-      const color = g.rating >= 80 ? '#57e357' : g.rating >= 60 ? '#ffd700' : '#ff6b6b';
-      const label = g.rating >= 80 ? 'Дуже позитивні' : g.rating >= 60 ? 'Змішані' : 'Переважно негативні';
-      ratingHtml = `
-        <div class="gm-meta-row">
-          <span class="gm-meta-row__label">Відгуки</span>
-          <span class="gm-meta-row__val" style="color:${color};font-weight:700">${g.rating}% — ${label}</span>
-        </div>
-        <div class="gm-rating-bar">
-          <div class="gm-rating-fill" style="width:${g.rating}%;background:linear-gradient(90deg,${color}88,${color})"></div>
-        </div>`;
+    /* пошук */
+    if (q && !cleanTitle(g.title).toLowerCase().includes(q)) return false;
+
+    /* жанр */
+    if (genre && !(g.genre || '').split(',').map(s => s.trim()).includes(genre)) return false;
+
+    /* тег */
+    if (tag && !(g.tags || '').includes(tag)) return false;
+
+    /* рік */
+    if (yr && yFrom && yr < yFrom) return false;
+    if (yr && yTo  && yr > yTo)   return false;
+
+    /* ціна (ігноруємо для безкоштовних/upcoming/demo) */
+    if (!['upcoming','demo','free'].includes(stage)) {
+      const price = g.currentPrice || 0;
+      if (price < pMin || price > pMax) return false;
     }
 
-    document.getElementById('gmMeta').innerHTML = `
-      <div class="gm-meta-row">
-        <span class="gm-meta-row__label">Жанр</span>
-        <span class="gm-meta-row__val">${g.genre || 'Н/Д'}</span>
+    /* рейтинг */
+    if (minRat > 0 && (g.rating || 0) < minRat) return false;
+
+    /* знижка */
+    if (minDisc > 0 && (g.discount || 0) < minDisc) return false;
+
+    return true;
+  });
+
+  /* Сортування */
+  list.sort((a, b) => {
+    let va, vb;
+    switch (currentSort) {
+      case 'rating':   va = a.rating   || 0; vb = b.rating   || 0; break;
+      case 'price':    va = a.currentPrice || 0; vb = b.currentPrice || 0; break;
+      case 'year':     va = yearNum(a.releaseDate); vb = yearNum(b.releaseDate); break;
+      case 'discount': va = a.discount || 0; vb = b.discount || 0; break;
+      default:         va = cleanTitle(a.title).toLowerCase(); vb = cleanTitle(b.title).toLowerCase();
+    }
+    return va < vb ? -sortDir : va > vb ? sortDir : 0;
+  });
+
+  document.getElementById('resultCount').textContent = list.length;
+
+  if (!list.length) {
+    document.getElementById('catalogList').innerHTML =
+      `<div class="cat-empty"><div class="cat-empty-icon">🔍</div>Нічого не знайдено. Спробуйте змінити фільтри.</div>`;
+    return;
+  }
+
+  const cl = document.getElementById('catalogList');
+  cl.className = currentView === 'list' ? 'list-view' : 'grid-view';
+
+  if (currentView === 'list') {
+    cl.innerHTML = list.map(g => buildListCard(g)).join('');
+  } else {
+    cl.innerHTML = list.map(g => buildGridCard(g)).join('');
+  }
+}
+
+/* ════════ КАРТКИ ════════ */
+function buildListCard(g) {
+  const stage = stageOf(g);
+  const rc = ratingClass(g.rating);
+  const yr = yearNum(g.releaseDate) || '—';
+  const genre1 = (g.genre || '').split(',')[0].trim();
+  const eaBadge = stage === 'ea' ? `<span class="badge-ea">Early Access</span>` : '';
+
+  return `
+  <div class="game-card-list" onclick="openGame('${g.appId}')">
+    <img class="gcl-img" src="${g.img}" alt="${cleanTitle(g.title)}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22148%22 height=%2284%22%3E%3Crect fill=%22%231c2333%22 width=%22100%25%22 height=%22100%25%22/%3E%3C/svg%3E'">
+    <div class="gcl-body">
+      <div class="gcl-title">${cleanTitle(g.title)} ${eaBadge}</div>
+      <div class="gcl-meta">
+        ${genre1 ? `<span class="gcl-genre">${genre1}</span>` : ''}
+        ${yr !== '—' ? `<span class="gcl-year">${yr}</span>` : ''}
+        ${g.rating ? `<span class="rating-dot ${rc}">${g.rating}%</span>` : ''}
       </div>
-      <div class="gm-meta-row">
-        <span class="gm-meta-row__label">Розробник</span>
-        <span class="gm-meta-row__val">${devName}</span>
+    </div>
+    <div class="gcl-right">
+      ${priceBlock(g)}
+    </div>
+  </div>`;
+}
+
+function buildGridCard(g) {
+  const stage = stageOf(g);
+  const rc = ratingClass(g.rating);
+  const genre1 = (g.genre || '').split(',')[0].trim();
+
+  return `
+  <div class="game-card-grid" onclick="openGame('${g.appId}')">
+    <img class="gcg-img" src="${g.img}" alt="${cleanTitle(g.title)}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22%3E%3Crect fill=%22%231c2333%22 width=%22100%25%22 height=%22100%25%22/%3E%3C/svg%3E'">
+    <div class="gcg-body">
+      <div class="gcg-title">${cleanTitle(g.title)}</div>
+      <div class="gcg-bottom">
+        <span class="gcg-genre">${genre1 || ''}</span>
+        ${g.rating ? `<span class="rating-dot ${rc}">${g.rating}%</span>` : ''}
       </div>
-      <div class="gm-meta-row">
-        <span class="gm-meta-row__label">Видавець</span>
-        <span class="gm-meta-row__val">${pubName}</span>
+      <div style="margin-top:6px;">${priceBlock(g)}</div>
+    </div>
+  </div>`;
+}
+
+/* ════════ MODAL ════════ */
+function openGame(id) {
+  const g = games[id];
+  if (!g) return;
+
+  screens = (g.screenshots || []).filter(Boolean);
+  screenIdx = 0;
+  const stage = stageOf(g);
+
+  /* Банер */
+  const hero = screens[0] || g.img;
+  document.getElementById('gmBg').style.backgroundImage = `url(${hero})`;
+
+  /* Cover + title */
+  document.getElementById('gmCover').src = g.img;
+  document.getElementById('gmCover').alt = cleanTitle(g.title);
+  document.getElementById('gmTitle').textContent = cleanTitle(g.title);
+
+  /* Бейджі */
+  let badges = '';
+  if (stage === 'ea')       badges += `<span class="gm-badge gm-badge-ea">Early Access</span>`;
+  if (stage === 'free')     badges += `<span class="gm-badge gm-badge-free">Free to Play</span>`;
+  if (stage === 'demo')     badges += `<span class="gm-badge gm-badge-demo">Demo</span>`;
+  if (stage === 'upcoming') badges += `<span class="gm-badge gm-badge-coming">Незабаром</span>`;
+  document.getElementById('gmBadges').innerHTML = badges;
+
+  /* Галерея */
+  document.getElementById('gmMain').src = screens[0] || g.img;
+  document.getElementById('gmThumbs').innerHTML = screens.map((s,i) =>
+    `<img src="${s}" class="gm-thumb${i===0?' active':''}" loading="lazy" onclick="setSlide(${i},this)">`
+  ).join('');
+
+  /* Опис */
+  document.getElementById('gmDesc').textContent = g.description || '';
+
+  /* Мета */
+  const dp = (g.devPublisher || '').split(',');
+  const dev = dp[0]?.trim() || 'Н/Д';
+  const pub = dp[1]?.trim() || dev;
+  let dateStr = fmtDate(g.releaseDate);
+  if (stage === 'upcoming') {
+    const parts = (g.stage || '').split(',');
+    if (parts.length > 1) dateStr = parts[1].trim();
+  }
+  const rc = ratingColor(g.rating);
+  const rl = ratingLabel(g.rating);
+
+  document.getElementById('gmMeta').innerHTML = `
+    <div class="gm-meta-row"><span class="gm-meta-key">Жанр</span><span class="gm-meta-val">${g.genre || 'Н/Д'}</span></div>
+    <div class="gm-meta-row"><span class="gm-meta-key">Розробник</span><span class="gm-meta-val">${dev}</span></div>
+    <div class="gm-meta-row"><span class="gm-meta-key">Видавець</span><span class="gm-meta-val">${pub}</span></div>
+    <div class="gm-meta-row"><span class="gm-meta-key">Реліз</span><span class="gm-meta-val">${dateStr}</span></div>
+    ${g.rating ? `
+    <div class="gm-meta-row">
+      <span class="gm-meta-key">Відгуки Steam</span>
+      <span class="gm-meta-val" style="color:${rc};font-weight:700">${g.rating}% — ${rl}</span>
+    </div>
+    <div class="gm-rating-bar">
+      <div class="gm-rating-fill" style="width:${g.rating}%;background:${rc}"></div>
+    </div>` : ''}
+    ${g.tags ? `<div class="gm-meta-row"><span class="gm-meta-key">Теги</span><span class="gm-meta-val" style="font-size:11px;">${g.tags}</span></div>` : ''}
+  `;
+
+  /* Ціна */
+  let priceHtml = '';
+  if (stage === 'upcoming') {
+    priceHtml = `<div class="gm-price-label" style="color:#d29922">⏳ Незабаром</div>`;
+  } else if (stage === 'demo') {
+    priceHtml = `<div class="gm-price-label" style="color:#a371f7">🎮 Demo</div>`;
+  } else if (stage === 'free' || !g.currentPrice) {
+    priceHtml = `<div class="gm-price-label" style="color:#3fb950">🆓 Безкоштовно</div>`;
+  } else {
+    priceHtml = `<div class="gm-price-main">`;
+    if (g.discount > 0) priceHtml += `<span class="gm-price-disc-big">-${g.discount}%</span><span class="gm-price-old-big">${g.basePrice} ₴</span>`;
+    priceHtml += `<span class="gm-price-big">${g.currentPrice} ₴</span></div>`;
+    if (g.histLow) {
+      priceHtml += `<div class="gm-hist-info">
+        Іст. мінімум: <span class="gm-hist-val">${g.histLow} ₴</span> (${fmtDate(g.histLowDate)})<br>
+        Мін. за 2 роки: <span class="gm-hist-2y">${g.low2Y || g.currentPrice} ₴</span>
+      </div>`;
+    }
+  }
+  priceHtml += `<a href="${g.link}" target="_blank" class="gm-steam-btn"><i class="fab fa-steam"></i> Відкрити у Steam</a>`;
+  document.getElementById('gmPrice').innerHTML = priceHtml;
+
+  /* Системні вимоги */
+  const sysEl = document.getElementById('gmSys');
+  if (g.sysReq) {
+    const [mn, rec] = g.sysReq.split('||');
+    sysEl.style.display = 'grid';
+    sysEl.innerHTML = `
+      <div class="gm-sysreq-col">
+        <div class="gm-sysreq-title">Мінімальні</div>
+        <div class="gm-sysreq-text">${(mn||'').replace(/\n/g,'<br>')}</div>
       </div>
-      <div class="gm-meta-row">
-        <span class="gm-meta-row__label">Реліз</span>
-        <span class="gm-meta-row__val">${displayDate}</span>
-      </div>
-      ${ratingHtml}
-    `;
-
-    /* Ціна */
-    let priceHtml = '';
-    if (stage.includes('Upcoming')) {
-      priceHtml = `<div class="gm-free-label" style="color:#f5c842">⏳ Незабаром</div>`;
-    } else if (stage.includes('Demo')) {
-      priceHtml = `<div class="gm-free-label" style="color:#c57ef5">🎮 Demo</div>`;
-    } else if (stage.includes('Free') || g.currentPrice === 0) {
-      priceHtml = `<div class="gm-free-label" style="color:#57e357">🆓 Безкоштовно</div>`;
-    } else {
-      priceHtml = `<div class="gm-price-inner">`;
-      if (g.discount > 0) priceHtml += `<span class="gm-discount-badge">-${g.discount}%</span>`;
-      if (g.discount > 0) priceHtml += `<span class="gm-old-price">${g.basePrice} ₴</span>`;
-      priceHtml += `<span class="gm-new-price">${g.currentPrice} ₴</span></div>`;
-      if (g.histLow) {
-        priceHtml += `
-          <div class="gm-hist">
-            Іст. мінімум: <span class="gm-hist-low">${g.histLow} ₴</span> (${fixDate(g.histLowDate)})<br>
-            Мінімум за 2 роки: <span class="gm-hist-2y">${g.low2Y || g.currentPrice} ₴</span>
-          </div>`;
-      }
-    }
-    priceHtml += `<a href="${g.link}" target="_blank" class="gm-steam-btn"><i class="fab fa-steam"></i> Відкрити в Steam</a>`;
-    document.getElementById('gmPriceBox').innerHTML = priceHtml;
-
-    /* Системні вимоги */
-    const sysEl = document.getElementById('gmSysreq');
-    if (g.sysReq) {
-      const reqs = g.sysReq.split('||');
-      sysEl.style.display = 'grid';
-      sysEl.innerHTML = `
-        <div>
-          <div class="gm-sysreq__title">Мінімальні вимоги</div>
-          ${(reqs[0] || '').replace(/\n/g, '<br>')}
-        </div>
-        <div>
-          <div class="gm-sysreq__title">Рекомендовані вимоги</div>
-          ${(reqs[1] || '—').replace(/\n/g, '<br>')}
-        </div>`;
-    } else {
-      sysEl.style.display = 'none';
-    }
-
-    /* Відкрити */
-    const modal = document.getElementById('gameModal');
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    modal.scrollTop = 0;
+      <div class="gm-sysreq-col">
+        <div class="gm-sysreq-title">Рекомендовані</div>
+        <div class="gm-sysreq-text">${(rec||'—').replace(/\n/g,'<br>')}</div>
+      </div>`;
+  } else {
+    sysEl.style.display = 'none';
   }
 
-  /* ══ Слайдер ══ */
-  function setSlide(idx, el) {
-    currentIdx = idx;
-    const src = currentScreens[idx];
-    document.getElementById('gmMainView').src = src;
-    document.getElementById('gmHeroBg').style.backgroundImage = `url(${src})`;
-    document.querySelectorAll('.gm-thumb').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  /* Відкрити */
+  const modal = document.getElementById('gameModal');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  modal.scrollTop = 0;
+}
+
+function setSlide(i, el) {
+  screenIdx = i;
+  const src = screens[i];
+  document.getElementById('gmMain').src = src;
+  document.getElementById('gmBg').style.backgroundImage = `url(${src})`;
+  document.querySelectorAll('.gm-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  el.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+}
+
+function changeSlide(step) {
+  if (!screens.length) return;
+  screenIdx = (screenIdx + step + screens.length) % screens.length;
+  const src = screens[screenIdx];
+  document.getElementById('gmMain').src = src;
+  document.getElementById('gmBg').style.backgroundImage = `url(${src})`;
+  const thumbs = document.querySelectorAll('.gm-thumb');
+  thumbs.forEach(t => t.classList.remove('active'));
+  if (thumbs[screenIdx]) {
+    thumbs[screenIdx].classList.add('active');
+    thumbs[screenIdx].scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
   }
+}
 
-  function changeSlide(step) {
-    if (!currentScreens.length) return;
-    currentIdx = (currentIdx + step + currentScreens.length) % currentScreens.length;
-    const src = currentScreens[currentIdx];
-    document.getElementById('gmMainView').src = src;
-    document.getElementById('gmHeroBg').style.backgroundImage = `url(${src})`;
-    const thumbs = document.querySelectorAll('.gm-thumb');
-    thumbs.forEach(t => t.classList.remove('active'));
-    if (thumbs[currentIdx]) {
-      thumbs[currentIdx].classList.add('active');
-      thumbs[currentIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
-  }
+function closeModal() {
+  document.getElementById('gameModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
-  /* ══ Закрити ══ */
-  function closeModal() {
-    document.getElementById('gameModal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
+function handleOverlay(e) {
+  if (e.target === document.getElementById('gameModal')) closeModal();
+}
 
-  function handleOverlayClick(e) {
-    if (e.target === document.getElementById('gameModal')) closeModal();
-  }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-  loadGames();
+init();
 </script>
