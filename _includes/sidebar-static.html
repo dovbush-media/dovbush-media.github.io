@@ -3,7 +3,7 @@
   <!-- OG Image -->
   <div class="sidebar-section sidebar-brand-img">
     <a href="/" aria-label="DovbushHub — головна">
-      <img src="/assets/images/og-image.jpg"
+      <img src="assets/images/logosidebar.webp"
            alt="DovbushHub — Каталог українських ігор"
            class="sidebar-og-img">
     </a>
@@ -20,20 +20,6 @@
       <span class="sidebar-donate-btn__label">Задонатити</span>
     </a>
   </div>
-
-  <!-- Популярні статті -->
-  <div class="sidebar-section">
-    <h3 class="sidebar-title">Популярні статті</h3>
-    {% for post in site.posts limit: 5 %}
-    <article class="sidebar-post">
-      <img src="{{ post.cover }}" alt="{{ post.title }}">
-      <div>
-        <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
-      </div>
-    </article>
-    {% endfor %}
-  </div>
-
 </aside>
 
 <style>
