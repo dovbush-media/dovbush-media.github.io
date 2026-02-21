@@ -201,15 +201,19 @@ description: Каталог українських відеоігор у Steam �
   background: rgba(0,0,0,.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain;
   padding: 16px; box-sizing: border-box;
+  width: 100vw;
 }
-#gameModal.open { display: flex; align-items: flex-start; justify-content: center; }
+#gameModal.open { display: block; }
 .gm-card {
-  background: var(--c-surface); width: 100%; max-width: 860px;
+  background: var(--c-surface);
+  width: 100%; max-width: 860px;
   border-radius: 12px; border: 1px solid var(--c-border);
   box-shadow: 0 24px 64px rgba(0,0,0,.8);
-  position: relative; overflow: hidden; margin: auto; box-sizing: border-box;
+  position: relative; overflow: hidden;
+  margin: 0 auto; box-sizing: border-box;
   animation: modalIn .25s cubic-bezier(.22,1,.36,1);
 }
+.gm-body > * { min-width: 0; box-sizing: border-box; }
 @keyframes modalIn { from{opacity:0;transform:translateY(18px) scale(.97);} to{opacity:1;transform:translateY(0) scale(1);} }
 .gm-close {
   position:absolute; top:10px; right:10px; z-index:20;
@@ -292,13 +296,14 @@ description: Каталог українських відеоігор у Steam �
   .gc-img { width:100%; min-height:100px; max-height:140px; border-radius:10px 10px 0 0; }
   .gc-right { flex-direction:row; align-items:center; justify-content:space-between; padding:0 12px 10px; min-width:unset; }
   .gc-body { padding:8px 12px 4px; }
-  #gameModal { padding:8px; }
-  .gm-card { border-radius:10px; }
+  #gameModal { padding: 0; }
+  .gm-card { border-radius:0; width:100%; max-width:100%; }
   .gm-banner { height:80px; }
   .gm-header { margin-top:-20px; padding:0 12px 12px; gap:10px; }
   .gm-cover { width:100px; height:56px; }
   .gm-title { font-size:14px; margin-bottom:5px; }
-  .gm-body { grid-template-columns:1fr; padding:0 12px 18px; gap:12px; }
+  .gm-body { grid-template-columns:1fr; padding:0 12px 18px; gap:12px; box-sizing:border-box; width:100%; }
+  .gm-mainview { width:100%; max-width:100%; box-sizing:border-box; }
   .gm-sysreq { grid-template-columns:1fr; }
   .gm-price-big { font-size:22px; }
 }
@@ -664,7 +669,10 @@ function openGame(id){
     sysEl.innerHTML=`<div class="gm-sysreq-col"><div class="gm-sysreq-title">Мінімальні</div><div class="gm-sysreq-text">${(mn||'').replace(/\n/g,'<br>')}</div></div><div class="gm-sysreq-col"><div class="gm-sysreq-title">Рекомендовані</div><div class="gm-sysreq-text">${(rec||'—').replace(/\n/g,'<br>')}</div></div>`;
   }else{sysEl.style.display='none';}
   const modal=document.getElementById('gameModal');
-  modal.classList.add('open');document.body.style.overflow='hidden';modal.scrollTop=0;
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+  document.documentElement.style.overflowX='hidden';
+  modal.scrollTop=0;
 }
 function setSlide(i,el){
   screenIdx=i;const src=screens[i];
@@ -683,7 +691,11 @@ function changeSlide(step){
   thumbs.forEach(t=>t.classList.remove('active'));
   if(thumbs[screenIdx]){thumbs[screenIdx].classList.add('active');thumbs[screenIdx].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
 }
-function closeModal(){document.getElementById('gameModal').classList.remove('open');document.body.style.overflow='';}
+function closeModal(){
+  document.getElementById('gameModal').classList.remove('open');
+  document.body.style.overflow='';
+  document.documentElement.style.overflowX='';
+}
 function handleOverlay(e){if(e.target===document.getElementById('gameModal'))closeModal();}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
