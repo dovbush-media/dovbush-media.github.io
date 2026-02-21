@@ -450,8 +450,31 @@ let games={},currentSort='title',sortDir=1,activeStatus='',screens=[],screenIdx=
 
 async function init(){
   try{
+    const CACHE_KEY='uagames_cache';
+
+    function lastUpdateTime(){
+      const now=new Date();
+      const h=now.getHours()+(now.getMinutes()/60);
+      const evening=new Date(now); evening.setHours(20,30,0,0);
+      const morning=new Date(now); morning.setHours(7,30,0,0);
+      if(h>=20.5) return evening.getTime();
+      if(h>=7.5)  return morning.getTime();
+      evening.setDate(evening.getDate()-1);
+      return evening.getTime();
+    }
+
+    const cached=localStorage.getItem(CACHE_KEY);
+    if(cached){
+      const {ts,data}=JSON.parse(cached);
+      if(ts>lastUpdateTime()){
+        games=data; buildDropdowns(); render(); return;
+      }
+    }
+
     const r=await fetch(FB_URL); games=await r.json();
+    localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),data:games}));
     buildDropdowns(); render();
+
   }catch(e){
     document.getElementById('catalogList').innerHTML='<div class="cat-empty"><div class="cat-empty-icon">⚠️</div>Помилка завантаження.</div>';
   }
