@@ -1,0 +1,109 @@
+<aside class="post-sidebar">
+
+  <!-- OG Image -->
+  <div class="sidebar-section sidebar-brand-img">
+    <a href="/" aria-label="DovbushHub — головна">
+      <img src="/assets/images/og-image.jpg"
+           alt="DovbushHub — Каталог українських ігор"
+           class="sidebar-og-img">
+    </a>
+  </div>
+
+  <!-- Donate button -->
+  <div class="sidebar-section sidebar-donate-block">
+    <p class="sidebar-donate-text">Подобається проєкт? Підтримай нас!</p>
+    <a href="https://donatello.to/Dovbush"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="sidebar-donate-btn">
+      <span class="sidebar-donate-btn__icon">❤️</span>
+      <span class="sidebar-donate-btn__label">Задонатити</span>
+    </a>
+  </div>
+
+  <!-- Популярні статті -->
+  <div class="sidebar-section">
+    <h3 class="sidebar-title">Популярні статті</h3>
+    {% for post in site.posts limit: 5 %}
+    <article class="sidebar-post">
+      <img src="{{ post.cover }}" alt="{{ post.title }}">
+      <div>
+        <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+</aside>
+
+<style>
+/* ── Sidebar brand image ── */
+.sidebar-brand-img {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  line-height: 0;
+}
+.sidebar-og-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  transition: transform .3s ease;
+}
+.sidebar-brand-img a:hover .sidebar-og-img {
+  transform: scale(1.02);
+}
+
+/* ── Donate block ── */
+.sidebar-donate-block {
+  text-align: center;
+  padding: 18px 16px !important;
+  background: linear-gradient(135deg, rgba(0,87,183,.15) 0%, rgba(255,215,0,.08) 100%);
+  border: 1px solid rgba(255,215,0,.2);
+  border-radius: 10px;
+}
+.sidebar-donate-text {
+  font-size: 13px;
+  color: #8b949e;
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+.sidebar-donate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #0057b7, #003f8a);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,215,0,.4);
+  box-shadow: 0 4px 16px rgba(0,87,183,.35);
+  transition: all .22s ease;
+  letter-spacing: .3px;
+}
+.sidebar-donate-btn:hover {
+  background: linear-gradient(90deg, #0067d7, #0050aa);
+  box-shadow: 0 6px 24px rgba(0,87,183,.55);
+  border-color: rgba(255,215,0,.7);
+  transform: translateY(-2px);
+  color: #ffd700;
+}
+.sidebar-donate-btn__icon {
+  font-size: 18px;
+  animation: heartbeat 1.6s ease-in-out infinite;
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14%       { transform: scale(1.2); }
+  28%       { transform: scale(1); }
+  42%       { transform: scale(1.15); }
+  56%       { transform: scale(1); }
+}
+.sidebar-donate-btn__label {
+  font-size: 14px;
+}
+</style>
