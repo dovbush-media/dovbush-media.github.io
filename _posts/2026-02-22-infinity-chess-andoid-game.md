@@ -3,7 +3,7 @@ title: "Шахи на стероїдах: Український раннер In
 description: "Нова гра Infinity Chess від українського розробника UniBake. Унікальний мікс шахів та нескінченного раннера, де тактика зустрічається з шаленою швидкістю."
 date: 2026-02-22T11:10:00.000+02:00
 layout: post
-cover: https://play-lh.googleusercontent.com/AxAirAODXbNeBvz48ROvBExE7uKdXtastpXBMx3jb8kas3-Bx-Usf6ZOyVp_-vmu-k9zzSmo7Z0oZkt7vSoC5Q=w5120-h2880-rw
+cover: https://play-lh.googleusercontent.com/AxAirAODXbNeBvz48ROvBExE7uKdXtastpXBMx3jb8kas3-Bx-Usf6ZOyVp_-vmu-k9zzSmo7Z0oZkt7vSoC5Q=w1920-h1080-rw
 category: Новини
 excerpt: "Забудьте про повільні роздуми над дошкою! В Infinity Chess ви маєте приймати рішення зі швидкістю світла, інакше вас розчавить стіна. Розповідаємо, як український розробник UniBake змусив шахові фігури бігти на виживання."
 ---
