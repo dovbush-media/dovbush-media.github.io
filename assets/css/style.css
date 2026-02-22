@@ -860,7 +860,7 @@ body {
 
 .share-btn.telegram { background: #0088cc; }
 .share-btn.facebook { background: #1877f2; }
-.share-btn.twitter { background: #1da1f2; }
+.share-btn.twitter { background: #000000; }
 
 .share-btn:hover {
   transform: scale(1.15);
