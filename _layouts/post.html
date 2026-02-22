@@ -74,8 +74,8 @@ layout: default
         <button class="share-btn facebook" aria-label="Поділитися в Facebook">
           <i class="fab fa-facebook"></i>
         </button>
-        <button class="share-btn twitter" aria-label="Поділитися в Twitter">
-          <i class="fab fa-twitter"></i>
+        <button class="share-btn x-corp" aria-label="Поділитися в X (Twitter)">
+            <i class="fa-brands fa-x-twitter"></i>
         </button>
       </div>
     </div>
@@ -120,7 +120,7 @@ layout: default
     <nav class="post-navigation">
       {% if page.previous %}
       <a href="{{ page.previous.url }}" class="nav-btn prev">
-        <i class="fas fa-arrow-left"></i> Новіша публікація
+        <i class="fas fa-arrow-left"></i> Старіша публікація
       </a>
       {% else %}
       <div></div>
@@ -132,7 +132,7 @@ layout: default
       
       {% if page.next %}
       <a href="{{ page.next.url }}" class="nav-btn next">
-        Старіша публікація <i class="fas fa-arrow-right"></i>
+        Новіша публікація <i class="fas fa-arrow-right"></i>
       </a>
       {% else %}
       <div></div>
@@ -146,7 +146,7 @@ layout: default
       </div>
       
       <div class="popular-list">
-        {% assign related_posts = site.posts | sample: 5 %}
+        {% assign related_posts = site.posts | sample: 6 %}
         {% for post in related_posts %}
         {% if post.url != page.url %}
         <article class="latest-item">
@@ -169,7 +169,7 @@ layout: default
   <!-- Sidebar -->
   <aside class="post-sidebar">
     <div class="sidebar-section">
-      <h3 class="sidebar-title">Популярні статті</h3>
+      <h3 class="sidebar-title">Останні матеріали</h3>
       
       {% for post in site.posts limit:5 %}
       {% if post.url != page.url %}
