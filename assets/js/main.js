@@ -199,36 +199,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Comment Form Validation
-  const commentForm = document.querySelector('.comment-form');
-  if (commentForm) {
-    commentForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const name = this.querySelector('input[name="name"]').value.trim();
-      const email = this.querySelector('input[name="email"]').value.trim();
-      const comment = this.querySelector('textarea[name="comment"]').value.trim();
-      
-      if (!name || !email || !comment) {
-        alert('Будь ласка, заповніть всі поля');
-        return;
-      }
-      
-      if (!isValidEmail(email)) {
-        alert('Будь ласка, введіть коректну email адресу');
-        return;
-      }
-      
-      // Here you would normally send the data to a server
-      alert('Дякуємо за коментар! (Форма демонстраційна)');
-      this.reset();
-    });
-  }
-
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-
   // Active Navigation Highlight
   const currentPath = window.location.pathname;
   const navLinks = document.querySelectorAll('.nav-menu a');
@@ -239,19 +209,6 @@ document.addEventListener('DOMContentLoaded', function() {
       link.classList.add('active');
     }
   });
-
-  // Load More Button
-  const loadMoreBtn = document.querySelector('.load-more-btn');
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', function() {
-      // In a real implementation, this would load more posts
-      this.textContent = 'Завантаження...';
-      setTimeout(() => {
-        this.textContent = 'Показати більше';
-        alert('У реальній версії тут завантажуватимуться нові пости');
-      }, 1000);
-    });
-  }
 
   // Keyboard Navigation for Sliders
   document.addEventListener('keydown', (e) => {
