@@ -36,9 +36,6 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
-# Permalink structure
-permalink: /:categories/:year/:month/:day/:title/
-
 # Timezone
 timezone: Europe/Kiev
 
