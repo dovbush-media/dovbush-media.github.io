@@ -36,8 +36,9 @@
   
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="/assets/css/style.css">
-  <!-- Homepage Additions -->
+  {% if page.url == "/" %}
   <link rel="stylesheet" href="/assets/css/homepage.css">
+  {% endif %}
   
   <!-- RSS Feed -->
   <link rel="alternate" type="application/rss+xml" title="DovbushHub RSS" href="/feed.xml">
