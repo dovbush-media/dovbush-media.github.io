@@ -12,7 +12,7 @@
   <meta property="og:description" content="{{ page.description | default: 'Український ігровий блог' }}">
   <meta property="og:image" content="{{ page.cover | default: page.image | default: site.url | append: '/assets/images/og-image.jpg' }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -21,7 +21,8 @@
   <meta name="twitter:image" content="{{ page.image | default: '/assets/images/og-image.jpg' }}">
   
   <title>{{ page.title | default: 'DovbushHub - Український ігровий блог' }}</title>
-  
+  <!-- canonical -->
+  <link rel="canonical" href="{{ site.url }}{{ page.url | remove: 'index.html' }}">
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/assets/images/favicon.png">
   
