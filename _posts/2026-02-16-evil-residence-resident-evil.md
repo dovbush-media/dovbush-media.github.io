@@ -4,6 +4,7 @@ description: "Огляд безкоштовної пародійної гри в
 date: 2026-02-16T15:25:00.000+02:00
 layout: post
 cover: https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4394010/3c673d52f41ee2dbd8dbc181545bef4a4fc122ab/header.jpg?t=1770968735
+category: Новини
 categories: news 
 excerpt: "Якщо у вас є вільні пів години та хочеться якісного геймерського стьобу — зверніть увагу на Evil Residence. Це безкоштовна пародія на Resident Evil від українського розробника, створена попри блекаути та обстріли." 
 tags: [українські ігри, Evil Residence, Steam, безкоштовні ігри, інді розробник, survival horror]
