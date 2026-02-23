@@ -6,6 +6,7 @@ layout: post
 cover: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4034580/0985079c73aee07d363b91efb9888216a14eed1a/ss_0985079c73aee07d363b91efb9888216a14eed1a.1920x1080.jpg?t=1770138408
 category: Огляди
 excerpt: "Пам’ятаєте часи, коли ми годинами грали в Gravity Defied? Житомирська студія Brinemedia взяла цю формулу, додала сучасний графон і створила драйвовий гоночний платформер. Читайте наш огляд демки Stunt Paradise 2."
+tags: [українські ігри, Stunt Paradise 2, Brinemedia, Steam, гонки, інді розробник]
 ---
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4034580/49fcddef91651a4888f70a3027e7e2d93bb805f4/header.jpg?t=1770138408" style="width: 400px; max-width: 100%;">
