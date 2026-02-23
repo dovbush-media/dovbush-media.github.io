@@ -6,6 +6,7 @@ layout: post
 cover: https://lh3.googleusercontent.com/u/0/d/17I_SiqaYL_uRbPCk4kk2qvZSpiJAN91z
 category: Статті
 excerpt: "Тема відключень світла знову зробила мобільну емуляцію мейнстрімом. Чи реально сьогодні пройти Zelda або ігри з PlayStation прямо на телефоні? Зібрали досвід спільноти та поради щодо виживання без розетки."
+tags: [емуляція, Android, Nintendo Switch, PS2, блекаут, мобільний геймінг]
 ---
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="https://lh3.googleusercontent.com/u/0/d/17I_SiqaYL_uRbPCk4kk2qvZSpiJAN91z" style="width: 400px; max-width: 100%;">
