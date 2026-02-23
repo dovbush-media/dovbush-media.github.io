@@ -6,6 +6,7 @@ layout: post
 cover: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4296850/a435b389d0db1f5027fcf53350a7d1c13e42fe47/ss_a435b389d0db1f5027fcf53350a7d1c13e42fe47.1920x1080.jpg?t=1771352326
 category: Новини
 excerpt: "Стерильні коридори, тиша та часова петля. The Rounds of Six — це український психологічний горор про 13-денний цикл у психіатричній лікарні. Допоможіть доктору Адамсу розірвати коло та дізнайтеся таємницю Відділення №6."
+tags: [українські ігри, The Rounds of Six, Steam, психологічний трилер, хорор, інді розробник]
 ---
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
