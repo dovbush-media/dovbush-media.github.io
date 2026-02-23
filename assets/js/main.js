@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Клавіатура
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('active')) return;
-      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'Escape')      closeLightbox();
       if (e.key === 'ArrowLeft')  goPrev();
       if (e.key === 'ArrowRight') goNext();
     });
@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Swipe на мобільних
     let touchStartX = 0;
     lightbox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-    lightbox.addEventListener('touchend',   (e) => {
+    lightbox.addEventListener('touchend',    (e) => {
       const diff = touchStartX - e.changedTouches[0].screenX;
       if (Math.abs(diff) > 50) { diff > 0 ? goNext() : goPrev(); }
     }, { passive: true });
@@ -487,7 +487,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     revealElements.forEach(el => revealObserver.observe(el));
   }
-});
 
   // ════════════════════════════════════
   // HOMEPAGE TABS
@@ -517,3 +516,4 @@ document.addEventListener('DOMContentLoaded', function() {
       siteHeader.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
   }
+});
