@@ -6,6 +6,7 @@ layout: post
 cover: https://lh3.googleusercontent.com/u/0/d/1VXRBOUwD5x3uJxCFHnWpqlkClsgsGlLa
 category: Статті
 excerpt: "Схоже, 2026-й таки стане роком Linux на десктопах! NVIDIA зробила крок назустріч пінгвінам, випустивши нативний клієнт GeForce NOW. Тепер PC Game Pass та 5K/120 FPS доступні власникам Steam Deck та Ubuntu без браузерних милиць."
+tags: [Linux, NVIDIA, GeForce NOW, Steam Deck, хмарний геймінг, новини заліза]
 ---
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
