@@ -1,11 +1,15 @@
 ---
 title: "Evil Residence: Коли Resident Evil зустрів Красуню та Чудовисько (і це безкоштовно!)"
+description: "Огляд безкоштовної пародійної гри від українського розробника ElvenNeko. Комічний survival horror про особняк у горах Аркслей та виживання в умовах ігрових кліше." 
 date: 2026-02-16T15:25:00.000+02:00
 layout: post
 cover: https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4394010/3c673d52f41ee2dbd8dbc181545bef4a4fc122ab/header.jpg?t=1770968735
-excerpt: "Народ, якщо у вас є вільні пів години та хочеться порції якісного геймерського стьобу, зверніть увагу на Evil Residence."
-category: Новини
+category: Новини 
+categories: news 
+excerpt: "Якщо у вас є вільні пів години та хочеться якісного геймерського стьобу — зверніть увагу на Evil Residence. Це безкоштовна пародія на Resident Evil від українського розробника, створена попри блекаути та обстріли." 
+tags: [українські ігри, Evil Residence, Steam, безкоштовні ігри, інді розробник, survival horror]
 ---
+
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4394010/3c673d52f41ee2dbd8dbc181545bef4a4fc122ab/header.jpg?t=1770968735" style="width: 400px; max-width: 100%;">
 </div>
