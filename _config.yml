@@ -21,6 +21,7 @@ defaults:
     values:
       layout: "post"
       category: "Новини"
+      categories: "news"
 
 # Exclude files
 exclude:
