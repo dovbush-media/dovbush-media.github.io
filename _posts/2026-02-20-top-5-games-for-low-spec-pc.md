@@ -6,6 +6,7 @@ layout: post
 cover: https://lh3.googleusercontent.com/u/0/d/1z-H3kMe5ZRt02aBMsGIEpi6MIFvyUd6T
 category: Топи
 excerpt: "Відсутність топової відеокарти не закриває перед тобою двері в онлайн. Зібрали 5 крутих ігор, які запустяться навіть на «цеглині», поки ми чекаємо на світло чи знижки."
+tags: [ігри для слабких ПК, Valorant, League of Legends, World of Tanks Blitz, онлайн ігри, оптимізація]
 ---
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="https://lh3.googleusercontent.com/u/0/d/1z-H3kMe5ZRt02aBMsGIEpi6MIFvyUd6T" style="width: 400px; max-width: 100%;">
