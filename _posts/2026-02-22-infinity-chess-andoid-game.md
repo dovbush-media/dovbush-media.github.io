@@ -6,6 +6,7 @@ layout: post
 cover: https://play-lh.googleusercontent.com/DBha1Vfs0JBoTlxbjloR-IiYaNz9llRzDWXirwKP1nfZj16JvAi0_xYEdUTlxHKGAOs=w480-h960-rw
 category: Новини
 excerpt: "Забудьте про повільні роздуми над дошкою! В Infinity Chess ви маєте приймати рішення зі швидкістю світла, інакше вас розчавить стіна. Розповідаємо, як український розробник UniBake змусив шахові фігури бігти на виживання."
+tags: [українські ігри, Infinity Chess, UniBake, мобільні ігри, шахи, інді розробник]
 ---
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
