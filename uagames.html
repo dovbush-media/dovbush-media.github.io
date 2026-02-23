@@ -130,6 +130,31 @@ keywords: українські ігри Steam, ігри від українсь�
 
 /* СОРТУВАННЯ */
 .cat-sort-row { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+/* Per-page selector */
+.per-page-wrap { display:flex; align-items:center; gap:6px; margin-left:auto; }
+.per-page-sel {
+  background: var(--c-card); border: 1px solid var(--c-border); border-radius:7px;
+  color: var(--c-text); font-size:13px; padding:7px 10px; cursor:pointer; outline:none;
+  transition: border-color .2s;
+}
+.per-page-sel:focus, .per-page-sel:hover { border-color: var(--c-accent); }
+/* Pagination */
+.pagination-wrap {
+  display: flex; align-items:center; justify-content:center;
+  gap: 6px; flex-wrap: wrap;
+  margin: 24px 0 8px; padding-top: 16px;
+  border-top: 1px solid var(--c-border);
+}
+.pg-btn {
+  min-width: 36px; height: 36px; padding: 0 10px;
+  background: var(--c-card); border: 1px solid var(--c-border);
+  border-radius: 7px; color: var(--c-muted); font-size:13px; font-weight:600;
+  cursor:pointer; transition: all .18s; display:flex; align-items:center; justify-content:center;
+}
+.pg-btn:hover:not(:disabled) { border-color: var(--c-accent); color: var(--c-accent); background: rgba(88,166,255,.07); }
+.pg-btn.active { background: var(--c-accent); border-color: var(--c-accent); color: #0d1117; }
+.pg-btn:disabled { opacity:.35; cursor:not-allowed; }
+.pg-ellipsis { color: var(--c-muted); font-size:13px; padding: 0 4px; }
 .sort-label { font-size: 11px; color: var(--c-muted); text-transform: uppercase; letter-spacing: .5px; font-weight: 700; }
 .sort-btn {
   background: var(--c-card);
@@ -403,11 +428,22 @@ keywords: українські ігри Steam, ігри від українсь�
     <button class="sort-btn" data-sort="price">💰 Ціна <span class="sort-dir-icon" id="dir-price"></span></button>
     <button class="sort-btn" data-sort="year">📅 Рік <span class="sort-dir-icon" id="dir-year"></span></button>
     <button class="sort-btn" data-sort="discount">🏷️ Знижка <span class="sort-dir-icon" id="dir-discount"></span></button>
+    <div class="per-page-wrap">
+      <span class="sort-label">Показати:</span>
+      <select id="perPageSel" class="per-page-sel">
+        <option value="100" selected>100</option>
+        <option value="200">200</option>
+        <option value="500">500</option>
+      </select>
+    </div>
   </div>
 
   <div id="catalogList">
     <div class="cat-loader"><div class="spinner"></div> Завантаження каталогу...</div>
   </div>
+
+  <!-- PAGINATION -->
+  <div id="paginationWrap" class="pagination-wrap" style="display:none"></div>
 </div>
 
 <!-- MODAL -->
@@ -448,6 +484,7 @@ keywords: українські ігри Steam, ігри від українсь�
 <script>
 const FB_URL="https://dovbushhub-default-rtdb.europe-west1.firebasedatabase.app/games.json";
 let games={},currentSort='title',sortDir=1,activeStatus='',screens=[],screenIdx=0;
+let currentPage=1, perPage=100, lastFilteredList=[];
 
 async function init(){
   try{
@@ -477,7 +514,7 @@ async function init(){
     buildDropdowns(); render();
 
   }catch(e){
-    document.getElementById('catalogList').innerHTML='<div class="cat-empty"><div class="cat-empty-icon">⚠️</div>Помилка завантаження.</div>';
+    document.getElementById('catalogList').innerHTML='<div class="cat-empty"><div class="cat-empty-icon">⚠️</div>Не вдалося завантажити каталог.<br><small style="color:var(--c-muted);display:block;margin:6px 0 14px">Перевірте з\'єднання з інтернетом і спробуйте ще раз.</small><button onclick="init()" style="background:var(--c-accent);color:#0d1117;border:none;border-radius:7px;padding:9px 20px;font-weight:700;cursor:pointer;font-size:13px">🔄 Повторити</button></div>';
   }
 }
 function buildDropdowns(){
@@ -559,7 +596,8 @@ function ratingCls(r){if(!r)return'none';return r>=80?'green':r>=60?'yellow':'re
 function ratingColor(r){if(!r)return'#8b949e';return r>=80?'#3fb950':r>=60?'#d29922':'#f85149';}
 function ratingLabel(r){if(!r)return'—';return r>=80?'Дуже позитивні':r>=60?'Змішані':'Переважно негативні';}
 
-function render(){
+function render(resetPage=true){
+  if(resetPage) currentPage=1;
   const q=document.getElementById('searchInput').value.toLowerCase().trim();
   const genre=document.getElementById('fltGenre').value;
   const dev=document.getElementById('fltDev').value;
@@ -609,12 +647,64 @@ function render(){
   document.getElementById('resultCount').textContent=list.length;
   if(!list.length){
     document.getElementById('catalogList').innerHTML='<div class="cat-empty"><div class="cat-empty-icon">🔍</div>Нічого не знайдено.</div>';
+    document.getElementById('paginationWrap').style.display='none';
     return;
   }
-  document.getElementById('catalogList').innerHTML=list.map(buildCard).join('');
+
+  lastFilteredList=list;
+  const totalPages=Math.ceil(list.length/perPage);
+  if(currentPage>totalPages)currentPage=1;
+  const start=(currentPage-1)*perPage;
+  const paginated=list.slice(start,start+perPage);
+
+  document.getElementById('catalogList').innerHTML=paginated.map(buildCard).join('');
+  renderPagination(totalPages);
 }
 
-function buildCard(g){
+function renderPagination(totalPages){
+  const wrap=document.getElementById('paginationWrap');
+  if(totalPages<=1){wrap.style.display='none';return;}
+  wrap.style.display='flex';
+  const p=currentPage;
+  let html='';
+
+  // Кнопка "Назад"
+  html+=`<button class="pg-btn" ${p===1?'disabled':''} onclick="goPage(${p-1})" aria-label="Попередня сторінка">&#8592;</button>`;
+
+  // Сторінки з ellipsis
+  const pages=[];
+  for(let i=1;i<=totalPages;i++){
+    if(i===1||i===totalPages||Math.abs(i-p)<=2) pages.push(i);
+    else if(pages[pages.length-1]!=='...') pages.push('...');
+  }
+  pages.forEach(pg=>{
+    if(pg==='...'){
+      html+=`<span class="pg-ellipsis">…</span>`;
+    } else {
+      html+=`<button class="pg-btn${pg===p?' active':''}" onclick="goPage(${pg})" aria-label="Сторінка ${pg}">${pg}</button>`;
+    }
+  });
+
+  // Кнопка "Вперед"
+  html+=`<button class="pg-btn" ${p===totalPages?'disabled':''} onclick="goPage(${p+1})" aria-label="Наступна сторінка">&#8594;</button>`;
+
+  wrap.innerHTML=html;
+}
+
+function goPage(n){
+  currentPage=n;
+  const totalPages=Math.ceil(lastFilteredList.length/perPage);
+  if(n<1||n>totalPages)return;
+  const start=(n-1)*perPage;
+  const paginated=lastFilteredList.slice(start,start+perPage);
+  document.getElementById('catalogList').innerHTML=paginated.map(buildCard).join('');
+  renderPagination(totalPages);
+  document.querySelector('.cat-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.getElementById('perPageSel').addEventListener('change',function(){
+  perPage=+this.value; currentPage=1; render();
+});
   const stage=stageOf(g);const yr=yearNum(g.releaseDate)||'—';
   const genre1=(g.genre||'').split(',')[0].trim();
   const rc=ratingCls(g.rating);const dc=discClass(g);
