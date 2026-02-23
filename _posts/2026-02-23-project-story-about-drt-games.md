@@ -1,7 +1,7 @@
 ---
 title: "Прожити тисячу життів: Як український соло-розробник створює RPG мрії"
 description: "Детальний огляд оновлень амбітного проєкту від DRT Games — суміші глобальної стратегії та RPG, де смерть персонажа лише відкриває шлях до наступного покоління."
-date: 2026-02-23T11:05:00.000+02:00
+date: 2026-02-23T10:54:00.000+02:00
 layout: post
 cover: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4347710/f5dfd41c8cef8e37190eaf900b0924439fb3dd2d/ss_f5dfd41c8cef8e37190eaf900b0924439fb3dd2d.1920x1080.jpg?t=1770080149
 category: Новини
