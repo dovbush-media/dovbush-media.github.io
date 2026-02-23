@@ -1,11 +1,12 @@
 ---
 title: "ТОП-5 ігор з найкращою зимовою атмосферою, де зима — повноцінний герой"
-description: "Топ 5 ігор для тих, хто скучив за хрускотом снігу під ногами та морозним повітрям."
+description: "Добірка ігор з найбільш реалістичною та захопливою зимовою атмосферою: від суворого виживання в The Long Dark до різдвяного Емпайр-Бей у Mafia II."
 date: 2026-02-19T19:57:00.000+02:00
 layout: post
 cover: https://lh3.googleusercontent.com/u/0/d/1nmQFW3weu55qVRJigo5s7oaqAXkWZtz4
 category: Топи
 excerpt: "Якщо ви скучили за хрускотом снігу під ногами та морозним повітрям, ми зібрали п'ятірку проєктів, де зима — це не просто декорація, а повноцінний герой гри."
+tags: [зимові ігри, The Long Dark, Frostpunk, Steep, Skyrim, Mafia 2]
 ---
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="https://lh3.googleusercontent.com/u/0/d/1nmQFW3weu55qVRJigo5s7oaqAXkWZtz4" style="width: 400px; max-width: 100%;">
