@@ -20,7 +20,7 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      category: "Новини"
+      category: "news"
 
 # Exclude files
 exclude:
