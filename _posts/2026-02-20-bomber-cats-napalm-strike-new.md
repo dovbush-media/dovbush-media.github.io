@@ -6,7 +6,7 @@ layout: post
 cover: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4156810/723a5923ce0e6d8605b65222e64e45628365e769/ss_723a5923ce0e6d8605b65222e64e45628365e769.1920x1080.jpg?t=1770473155
 category: Новини
 excerpt: "Що буде, якщо змішати Bomberman, Metal Slug та закинути котів у в'єтнамські джунглі? Одеська команда Radio Decadance готує справжній піксельний вибух під бадьорий драм-н-бейс. Реліз вже у березні!"
-tags: [українські ігри, Bomber Cats: Napalm Strike, Steam, рогалик, Radio Decadance]
+tags: [українські ігри, Bomber Cats Napalm Strike, Steam, рогалик, Radio Decadance]
 ---
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
