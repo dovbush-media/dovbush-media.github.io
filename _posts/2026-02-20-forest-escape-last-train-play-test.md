@@ -6,7 +6,7 @@ layout: post
 cover: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4090360/6f0033cc7ccc49e4248074cc3eadd62f390805b1/ss_6f0033cc7ccc49e4248074cc3eadd62f390805b1.1920x1080.jpg?t=1771251736
 category: Новини
 excerpt: "Творці Shatterline виходять на нову територію! Frag Lab представили Forest Escape: Last Train — похмуру суміш залізничного виживання та кооперативного горору. Чи зможете ви втримати локомотив на рейках, коли навколо панує чиєсь божевілля?"
-tags: [українські ігри, Forest Escape: Last Train, Steam, горор, Frag Lab, Unreal Engine 5]
+tags: [українські ігри, Forest Escape Last Train, Steam, горор, Frag Lab, Unreal Engine 5]
 ---
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
