@@ -6,7 +6,7 @@ layout: post
 cover: https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2927700/4cfca24629047f5c2fc1c230dfa864db6f5f558b/ss_4cfca24629047f5c2fc1c230dfa864db6f5f558b.1920x1080.jpg?t=1771251699
 category: Новини
 excerpt: "Бачити український прапор у світових топах — окремий вид задоволення! Fight Life: Vanguard — це покрокова тактика від наших розробників, де пафос божественних історій змішується з брудом найманої праці. Дізнайтеся, чому цей проєкт варто чекати у 2026-му."
-tags: [українські ігри, Fight Life: Vanguard, Steam, покрокова тактика, інді розробник, RPG]
+tags: [українські ігри, Fight Life Vanguard, Steam, покрокова тактика, інді розробник, RPG]
 ---
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
