@@ -32,7 +32,10 @@
 }
 .sidebar-og-img {
   width: 100%;
-  height: auto;
+  /* На мобільних висота буде 100px, на великих екранах — 140px */
+  height: clamp(100px, 15vh, 140px); 
+  object-fit: cover;    /* Обрізає краї, не деформуючи логотип */
+  object-position: center; 
   display: block;
   border-radius: 10px;
   transition: transform .3s ease;
