@@ -1,0 +1,34 @@
+name: Update Games Data
+
+on:
+  schedule:
+    # 06:30 UTC = 08:30 за Києвом
+    - cron: '30 6 * * *'
+    # 18:10 UTC = 20:10 за Києвом
+    - cron: '10 18 * * *'
+    # 18:30 UTC = 20:30 за Києвом
+    - cron: '30 18 * * *'
+  workflow_dispatch: # Цей рядок додає кнопку, щоб ти міг оновити базу вручну в будь-який момент
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch data from Firebase
+        run: |
+          # Завантажуємо JSON з Firebase і зберігаємо як games.json у корінь репозиторію
+          curl -s "https://dovbushhub-default-rtdb.europe-west1.firebasedatabase.app/games.json" > games.json
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+          git add games.json
+          # Перевіряємо, чи є зміни. Якщо файл оновився — комітимо і пушимо
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update games.json" && git push)
