@@ -1200,7 +1200,7 @@ function openGame(id){
   const chkBtn=document.getElementById('btnCheckPc');
   if(chkBtn)chkBtn.textContent='Перевірити на моєму ПК ▾';
   if(crRes)crRes.innerHTML='';
-  const hasAnyReq=!!(g.minGPU||g.minCPU||g.minRAM||g.recGPU||g.recCPU||g.recRAM||g.sysReq);
+  const hasAnyReq=!!(g.minGPU||g.minCPU||g.minRAM||g.recGPU||g.recCPU||g.recRAM);
   if(wrap)wrap.style.display=hasAnyReq?'block':'none';
   const modal=document.getElementById('gameModal');
   modal.classList.add('open');
