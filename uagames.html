@@ -1200,7 +1200,8 @@ function openGame(id){
   const chkBtn=document.getElementById('btnCheckPc');
   if(chkBtn)chkBtn.textContent='Перевірити на моєму ПК ▾';
   if(crRes)crRes.innerHTML='';
-  if(wrap)wrap.style.display=(g.minGPU||g.minRAM)?'block':'none';
+  const hasAnyReq=!!(g.minGPU||g.minCPU||g.minRAM||g.recGPU||g.recCPU||g.recRAM||g.sysReq);
+  if(wrap)wrap.style.display=hasAnyReq?'block':'none';
   const modal=document.getElementById('gameModal');
   modal.classList.add('open');
   document.body.style.overflow='hidden';
@@ -1282,12 +1283,20 @@ function acClose(dropId){const d=document.getElementById(dropId);if(d)d.classLis
 function findScore(type,name){
   if(!name)return 0;
   const db=hwDB[type];
+  if(!db)return 0;
   // 1. Точний збіг
   if(db[name]!==undefined)return db[name];
   // 2. Нормалізований (без @ GHz, lowercase)
   const norm=acNormalize(name);
   for(const[k,v]of Object.entries(db)){if(acNormalize(k)===norm)return v;}
-  // 3. Expand short GPU names: "RTX 4060"->"GeForce RTX 4060", "GTX 1060"->"GeForce GTX 1060"
+  // 3. Видаляємо мобільні суфікси і шукаємо точну мобільну версію
+  let cleanName=name.replace(/\s*\(Mobile\)/i,'').replace(/\s*Laptop GPU/i,'').replace(/\s*Mobile\b/i,'').trim();
+  if(cleanName!==name){
+    if(db[cleanName]!==undefined)return db[cleanName];
+    const cleanNorm=acNormalize(cleanName);
+    for(const[k,v]of Object.entries(db)){if(acNormalize(k)===cleanNorm)return v;}
+  }
+  // 4. Expand short GPU names: "RTX 4060"->"GeForce RTX 4060", "GTX 1060"->"GeForce GTX 1060"
   let expanded=name
     .replace(/^(RTX|GTX|GT)\s+/i,(m,p1)=>'GeForce '+p1.toUpperCase()+' ')
     .replace(/^RX\s+/i,'Radeon RX ')
@@ -1298,14 +1307,28 @@ function findScore(type,name){
     const en=acNormalize(expanded);
     for(const[k,v]of Object.entries(db)){if(acNormalize(k)===en)return v;}
   }
-  // 4. Часткове входження — найкоротший збіг
+  // 5. Часткове входження — пріоритет точнішому (коротшому ключу)
+  // ВАЖЛИВО: mobile-варіант НЕ повинен збігатися з desktop через часткове входження
+  const isMobile=/mobile|\(mobile\)|laptop gpu/i.test(name);
   const partial=Object.entries(db).filter(([k])=>{
     const kn=acNormalize(k);
+    const kIsMobile=/mobile|\(mobile\)|laptop gpu/i.test(k);
+    // Якщо запит мобільний — шукати тільки серед мобільних; якщо desktop — тільки desktop
+    if(isMobile!==kIsMobile)return false;
     return kn.includes(norm)||norm.includes(kn);
   });
   if(partial.length){
     partial.sort((a,b)=>a[0].length-b[0].length);
     return partial[0][1];
+  }
+  // 6. Якщо нічого — спробувати без урахування mobile/desktop розділення
+  const partialAny=Object.entries(db).filter(([k])=>{
+    const kn=acNormalize(k);
+    return kn.includes(norm)||norm.includes(kn);
+  });
+  if(partialAny.length){
+    partialAny.sort((a,b)=>a[0].length-b[0].length);
+    return partialAny[0][1];
   }
   return 0;
 }
