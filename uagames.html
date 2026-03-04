@@ -1390,9 +1390,39 @@ function doCheckPC(){
   const cpuName=document.getElementById('crCpu').value.trim();
   const gpuName=document.getElementById('crGpu').value.trim();
   const ramVal=parseInt(document.getElementById('crRam').value)||0;
-  if(cpuName||gpuName||ramVal){localStorage.setItem('myPC',JSON.stringify({cpu:cpuName,gpu:gpuName,ram:String(ramVal)}));updateMyPcButton();}
+
+  // Валідація
   const userGpu=findScore('gpu',gpuName);
   const userCpu=findScore('cpu',cpuName);
+
+  const crCpuEl=document.getElementById('crCpu');
+  const crGpuEl=document.getElementById('crGpu');
+  const crRamEl=document.getElementById('crRam');
+
+  const cpuInvalid = cpuName && userCpu===0;
+  const gpuInvalid = gpuName && userGpu===0;
+  const cpuEmpty   = !cpuName;
+  const gpuEmpty   = !gpuName;
+  const ramEmpty   = !ramVal;
+
+  // Підсвічування
+  crCpuEl.style.borderColor = (cpuInvalid||cpuEmpty) ? 'var(--c-red)' : '';
+  crGpuEl.style.borderColor = (gpuInvalid||gpuEmpty) ? 'var(--c-red)' : '';
+  crRamEl.style.borderColor = ramEmpty ? 'var(--c-red)' : '';
+
+  if(cpuEmpty||gpuEmpty||ramEmpty||cpuInvalid||gpuInvalid){
+    let msg='';
+    if(cpuEmpty||gpuEmpty||ramEmpty) msg='Заповни всі поля — CPU, GPU та RAM.';
+    else if(cpuInvalid&&gpuInvalid)  msg=`❌ CPU «${cpuName}» та GPU «${gpuName}» не знайдені в базі. Спробуй обрати зі списку.`;
+    else if(cpuInvalid)              msg=`❌ CPU «${cpuName}» не знайдено в базі. Спробуй обрати зі списку автодоповнення.`;
+    else if(gpuInvalid)              msg=`❌ GPU «${gpuName}» не знайдено в базі. Спробуй обрати зі списку автодоповнення.`;
+    document.getElementById('crResult').innerHTML=`<div style="color:var(--c-red);background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.3);border-radius:7px;padding:10px 14px;font-size:12px;margin-top:8px">⚠️ ${msg}</div>`;
+    return;
+  }
+
+  // Якщо дані валідні — скидаємо підсвічування і зберігаємо
+  crCpuEl.style.borderColor='';crGpuEl.style.borderColor='';crRamEl.style.borderColor='';
+  if(cpuName||gpuName||ramVal){localStorage.setItem('myPC',JSON.stringify({cpu:cpuName,gpu:gpuName,ram:String(ramVal)}));updateMyPcButton();}
   const minGpuS=g.minGPU?findScore('gpu',g.minGPU):0;
   const recGpuS=g.recGPU?findScore('gpu',g.recGPU):0;
   const minCpuS=g.minCPU?findScore('cpu',g.minCPU):0;
