@@ -1282,11 +1282,31 @@ function acClose(dropId){const d=document.getElementById(dropId);if(d)d.classLis
 function findScore(type,name){
   if(!name)return 0;
   const db=hwDB[type];
+  // 1. Точний збіг
   if(db[name]!==undefined)return db[name];
+  // 2. Нормалізований (без @ GHz, lowercase)
   const norm=acNormalize(name);
   for(const[k,v]of Object.entries(db)){if(acNormalize(k)===norm)return v;}
-  const partial=Object.entries(db).filter(([k])=>acNormalize(k).includes(norm)||norm.includes(acNormalize(k)));
-  if(partial.length)return partial[0][1];
+  // 3. Expand short GPU names: "RTX 4060"->"GeForce RTX 4060", "GTX 1060"->"GeForce GTX 1060"
+  let expanded=name
+    .replace(/^(RTX|GTX|GT)\s+/i,(m,p1)=>'GeForce '+p1.toUpperCase()+' ')
+    .replace(/^RX\s+/i,'Radeon RX ')
+    .replace(/^GeForce\s+(\d)/i,'GeForce GTX $1')
+    .replace(/GTX\s+2\d{3}/i,m=>m.replace('GTX','RTX'));
+  if(expanded!==name){
+    if(db[expanded]!==undefined)return db[expanded];
+    const en=acNormalize(expanded);
+    for(const[k,v]of Object.entries(db)){if(acNormalize(k)===en)return v;}
+  }
+  // 4. Часткове входження — найкоротший збіг
+  const partial=Object.entries(db).filter(([k])=>{
+    const kn=acNormalize(k);
+    return kn.includes(norm)||norm.includes(kn);
+  });
+  if(partial.length){
+    partial.sort((a,b)=>a[0].length-b[0].length);
+    return partial[0][1];
+  }
   return 0;
 }
 
