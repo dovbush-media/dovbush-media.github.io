@@ -823,6 +823,7 @@ keywords: українські ігри Steam, ігри від українсь�
 const FB_URL="./games.json";
 let games={},currentSort='title',sortDir=1,activeStatus='',activeStatusMode='include',screens=[],screenIdx=0;
 let currentPage=1, perPage=100, lastFilteredList=[];
+let currentGameForCheck=null;
 const excludeState={genre:false,dev:false,tag:false};
 
 function toggleExclude(field){
@@ -1179,6 +1180,16 @@ function openGame(id){
     const[mn,rec]=g.sysReq.split('||');sysEl.style.display='grid';
     sysEl.innerHTML=`<div class="gm-sysreq-col"><div class="gm-sysreq-title">Мінімальні</div><div class="gm-sysreq-text">${(mn||'').replace(/\n/g,'<br>')}</div></div><div class="gm-sysreq-col"><div class="gm-sysreq-title">Рекомендовані</div><div class="gm-sysreq-text">${(rec||'—').replace(/\n/g,'<br>')}</div></div>`;
   }else{sysEl.style.display='none';}
+  // Canrun блок
+  currentGameForCheck=g;
+  const wrap=document.getElementById('gmCanRunWrap');
+  const canForm=document.getElementById('canRunForm');
+  const crRes=document.getElementById('crResult');
+  if(canForm)canForm.classList.remove('open');
+  const chkBtn=document.getElementById('btnCheckPc');
+  if(chkBtn)chkBtn.textContent='Перевірити на моєму ПК ▾';
+  if(crRes)crRes.innerHTML='';
+  if(wrap)wrap.style.display=(g.minGPU||g.minRAM)?'block':'none';
   const modal=document.getElementById('gameModal');
   modal.classList.add('open');
   document.body.style.overflow='hidden';
@@ -1313,7 +1324,6 @@ function updateMyPcButton(){
 });
 
 /* ── Модалка canrun ── */
-let currentGameForCheck=null;
 function toggleCanRunForm(){
   const form=document.getElementById('canRunForm');
   const btn=document.getElementById('btnCheckPc');
@@ -1438,22 +1448,6 @@ function doCheckPC(){
       ${ramHTML?`<div class="cr-bar-group"><div class="cr-bar-group-label">💾 RAM</div>${ramHTML}</div>`:''}
     </div>
   </div>`;
-}
-
-/* ── Патч openGame для canrun ── */
-const _openGameOrig=openGame;
-function openGame(id){
-  _openGameOrig(id);
-  currentGameForCheck=games[id];
-  const wrap=document.getElementById('gmCanRunWrap');
-  const form=document.getElementById('canRunForm');
-  const result=document.getElementById('crResult');
-  form.classList.remove('open');
-  const btn=document.getElementById('btnCheckPc');
-  if(btn)btn.textContent='Перевірити на моєму ПК ▾';
-  if(result)result.innerHTML='';
-  const g=currentGameForCheck;
-  if(wrap)wrap.style.display=(g&&(g.minGPU||g.minRAM))?'block':'none';
 }
 
 loadHW();
