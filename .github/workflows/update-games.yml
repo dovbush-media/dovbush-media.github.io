@@ -3,9 +3,9 @@ name: Update Games Data
 on:
   schedule:
     # 05:55 UTC = 07:55 за Києвом
-    - cron: '55 5 * * *'
+    - cron: '50 5 * * *'
     # 18:25 UTC = 20:25 за Києвом
-    - cron: '25 18 * * *'
+    - cron: '20 18 * * *'
   workflow_dispatch: # Цей рядок додає кнопку, щоб ти міг оновити базу вручну в будь-який момент
 
 permissions:
