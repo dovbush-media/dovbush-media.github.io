@@ -900,7 +900,7 @@
 
 @media (max-width: 900px) {
   /* Hero */
-  .hero-cinema { height: 80svh; }
+  .hero-cinema { height: 72vh; }
   .hero-cinema__stats { display: none; }
   .hero-cinema__bottom-row { flex-direction: column; gap: 0; }
   .hero-cinema__inner { padding: 80px 1.5rem 3rem; }
@@ -1021,7 +1021,7 @@
 /* Offset main so it doesn't hide under fixed header */
 body > main { padding-top: 64px; }
 /* Hero goes full-screen, ignore top offset */
-.hero-cinema { margin-top: -64px; height: calc(100svh + 64px); box-sizing: border-box; }
+.hero-cinema { margin-top: -64px; height: calc(85vh + 64px); box-sizing: border-box; }
 
 /* Header scrolled effect via JS */
 @media (max-width: 900px) {
