@@ -402,52 +402,100 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
     
-    // Пошук при введенні
+    // Кеш постів — завантажуємо один раз
+    let postsCache = null;
+    async function getPosts() {
+      if (postsCache) return postsCache;
+      const r = await fetch('/search.json');
+      postsCache = await r.json();
+      return postsCache;
+    }
+
+    // Розумний скоринг: кожне слово запиту перевіряється окремо
+    // Підтримує: "укр ігри" → знайде "Українські ігри", часткові збіги (перші 3 символи)
+    function scorePost(post, words) {
+      const title   = (post.title    || '').toLowerCase();
+      const excerpt = (post.excerpt  || '').toLowerCase();
+      const cat     = (post.category || '').toLowerCase();
+      const tags    = (post.tags     || []).join(' ').toLowerCase();
+      let score = 0;
+
+      words.forEach(word => {
+        if (title.includes(word)) {
+          score += 10;
+        } else if (word.length >= 3) {
+          // Частковий збіг по першим символам — ловимо скорочення і опечатки
+          const prefix = word.slice(0, 3);
+          if (title.split(/\s+/).some(t => t.startsWith(prefix))) score += 4;
+        }
+        if (excerpt.includes(word)) score += 3;
+        if (cat.includes(word))     score += 2;
+        if (tags.includes(word))    score += 2;
+      });
+
+      // Бонус: всі слова є в заголовку → точний збіг фрази
+      if (words.every(w => title.includes(w))) score += 5;
+
+      return score;
+    }
+
+    // Debounce щоб не смикати fetch на кожну літеру
+    let searchTimer = null;
+
     searchInput.addEventListener('input', function() {
-      const query = this.value.toLowerCase().trim();
-      
-      if (query.length < 2) {
+      const raw = this.value.trim();
+      clearTimeout(searchTimer);
+
+      if (raw.length < 2) {
         searchResults.innerHTML = '';
         return;
       }
-      
-      // Отримуємо всі пости (потрібно згенерувати JSON)
-      fetch('/search.json')
-        .then(response => response.json())
-        .then(posts => {
-          const filtered = posts.filter(post => {
-            return post.title.toLowerCase().includes(query) ||
-                   post.excerpt.toLowerCase().includes(query) ||
-                   post.content.toLowerCase().includes(query) ||
-                   post.category.toLowerCase().includes(query);
-          });
-          
-          displayResults(filtered, query);
-        })
-        .catch(() => {
+
+      searchTimer = setTimeout(async () => {
+        try {
+          const posts = await getPosts();
+          const words = raw.toLowerCase().split(/\s+/).filter(Boolean);
+
+          const scored = posts
+            .map(post => ({ post, score: scorePost(post, words) }))
+            .filter(({ score }) => score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 8)
+            .map(({ post }) => post);
+
+          displayResults(scored, raw);
+        } catch (e) {
           searchResults.innerHTML = '<div class="search-no-results">Помилка пошуку</div>';
-        });
+        }
+      }, 180);
     });
-    
+
     function displayResults(posts, query) {
       if (posts.length === 0) {
         searchResults.innerHTML = '<div class="search-no-results">Нічого не знайдено</div>';
         return;
       }
-      
-      const html = posts.slice(0, 10).map(post => `
+
+      const html = posts.map(post => `
         <a href="${post.url}" class="search-result-item">
           <div class="search-result-title">${highlightText(post.title, query)}</div>
           <div class="search-result-excerpt">${highlightText(post.excerpt, query)}</div>
         </a>
       `).join('');
-      
+
       searchResults.innerHTML = html;
     }
-    
+
     function highlightText(text, query) {
-      const regex = new RegExp(`(${query})`, 'gi');
-      return text.replace(regex, '<mark style="background: var(--accent-yellow); color: var(--bg-primary); padding: 2px 4px; border-radius: 3px;">$1</mark>');
+      // Підсвічуємо кожне слово окремо
+      const words = query.trim().split(/\s+/).filter(Boolean);
+      let result = text;
+      words.forEach(word => {
+        const safe  = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(${safe})`, 'gi');
+        result = result.replace(regex, '<mark style="background: var(--accent-yellow); color: var(--bg-primary); padding: 2px 4px; border-radius: 3px;">$1</mark>');
+      });
+      return result;
     }
   }
 
