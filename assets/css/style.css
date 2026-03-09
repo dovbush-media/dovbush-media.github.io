@@ -160,16 +160,31 @@ body {
 .burger-menu {
   display: none;
   flex-direction: column;
+  justify-content: center;
   gap: 5px;
   cursor: pointer;
-  padding: 1rem;
+  padding: 0;
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.burger-menu:hover {
+  background: rgba(0, 87, 183, 0.22);
+  border-color: var(--accent-blue);
 }
 
 .burger-line {
-  width: 25px;
-  height: 3px;
+  width: 20px;
+  height: 2px;
   background: var(--text-primary);
+  border-radius: 2px;
   transition: all 0.3s ease;
+  margin: 0 auto;
 }
 
 /* ========================================
@@ -1668,12 +1683,23 @@ body {
   }
   
   .popular-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
-  
+
+  .popular-list {
+    flex-direction: column;
+    overflow: visible;
+  }
+
   .popular-list .latest-item {
-    min-width: 280px;
-    max-width: 280px;
+    min-width: unset;
+    max-width: 100%;
+    grid-template-columns: 90px 1fr;
+  }
+
+  .popular-list .latest-item .latest-image {
+    width: 90px;
+    height: 60px;
   }
   
   /* Footer */
@@ -1715,10 +1741,14 @@ body {
 /* Дуже маленькі екрани */
 @media (max-width: 480px) {
   .post-card,
-  .post-card.fade-in,
-  .popular-list .latest-item {
+  .post-card.fade-in {
     min-width: 250px;
     max-width: 250px;
+  }
+
+  .popular-list .latest-item {
+    min-width: unset;
+    max-width: 100%;
   }
   
   .post-image {
