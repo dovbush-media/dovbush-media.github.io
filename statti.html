@@ -13,7 +13,9 @@ description: Ця категорія містить статті про ігри
   {% assign statti_posts = site.posts | where: "category", "Статті" %}
   {% for post in statti_posts %}
   <article class="latest-item" data-post-index="{{ forloop.index0 }}">
-    <img src="{{ post.cover }}" alt="{{ post.title }}" class="latest-image">
+    <div class="latest-image-wrap">
+      <img src="{{ post.cover }}" alt="{{ post.title }}" class="latest-image">
+    </div>
     <div class="latest-content">
       <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
       <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
