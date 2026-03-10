@@ -33,7 +33,7 @@
    ────────────────────────────────────────────────────────── */
 .hero-cinema {
   position: relative;
-  height: 85vh;
+  height: 90vh;
   min-height: 560px;
   display: flex;
   align-items: stretch;
@@ -996,7 +996,10 @@
   font-size: 1.15rem;
   letter-spacing: -0.02em;
   color: var(--text-primary);
-  margin-right: auto;
+  margin-right: 3rem;
+  display: flex;
+  align-items: center;
+  height: 64px;
 }
 .site-header-new__logo span { color: var(--accent-yellow); }
 
@@ -1007,6 +1010,8 @@
   max-height: none !important;
   overflow: visible !important;
   background: transparent !important;
+  height: 64px;
+  align-items: center;
 }
 .site-header-new .nav-menu a {
   padding: 0.55rem 0.9rem !important;
@@ -1021,7 +1026,7 @@
 /* Offset main so it doesn't hide under fixed header */
 body > main { padding-top: 64px; }
 /* Hero goes full-screen, ignore top offset */
-.hero-cinema { margin-top: -64px; height: calc(85vh + 64px); box-sizing: border-box; }
+.hero-cinema { margin-top: -64px; height: calc(90vh + 64px); box-sizing: border-box; }
 
 /* Header scrolled effect via JS */
 @media (max-width: 900px) {
