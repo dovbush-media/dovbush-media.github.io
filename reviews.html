@@ -15,7 +15,9 @@ description: Детальні огляди українських відеоіг
   {% assign review_posts = site.posts | where: "category", "Огляди" %}
   {% for post in review_posts %}
   <article class="latest-item" data-post-index="{{ forloop.index0 }}">
+    <div class="latest-image-wrap">
     <img src="{{ post.cover }}" alt="{{ post.title }}" class="latest-image">
+    </div>
     <div class="latest-content">
       <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
       <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
