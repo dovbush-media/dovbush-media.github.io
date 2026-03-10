@@ -559,9 +559,8 @@ body {
 
 .latest-image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
-  flex-shrink: 0;
 }
 
 .latest-content {
@@ -1130,7 +1129,6 @@ body {
 
 .posts-list .latest-item {
   background: var(--bg-card);
-  height: 200px;
 }
 
 /* ========================================
@@ -1513,12 +1511,19 @@ body {
    АНІМАЦІЇ
    ======================================== */
 
-/* fadeInUp animation removed */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-/* fade-in — елементи завжди видимі */
 .fade-in {
-  opacity: 1;
-  transform: none;
+  animation: fadeInUp 0.6s ease forwards;
 }
 
 .post-card.fade-in {
@@ -2004,17 +2009,19 @@ body {
    ======================================== */
 
 /* Початковий стан — елементи невидимі */
-/* Reveal animation removed — elements always visible */
 .reveal {
-  opacity: 1;
-  transform: none;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
 }
 
+/* Коли елемент входить у viewport */
 .reveal.visible {
   opacity: 1;
-  transform: none;
+  transform: translateY(0);
 }
 
-.reveal-delay-1 { transition-delay: 0s; }
-.reveal-delay-2 { transition-delay: 0s; }
-.reveal-delay-3 { transition-delay: 0s; }
+/* Затримки для каскадного ефекту */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
