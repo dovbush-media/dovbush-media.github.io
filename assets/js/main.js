@@ -166,9 +166,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }, observerOptions);
 
-  // Observe all post cards and latest items (except posts-list and popular-posts)
+  // Observe all post cards and latest items (except posts-list and popular-posts — анімація там глючить)
   document.querySelectorAll('.post-card, .latest-item, .section-slider').forEach(el => {
-    // Не анімуємо елементи в posts-list та popular-posts — там анімація глючить
     if (el.closest('.posts-list') || el.closest('.popular-posts')) return;
     observer.observe(el);
   });
