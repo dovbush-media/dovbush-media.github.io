@@ -24,15 +24,13 @@ tags: [Ukrainian Games Festival, GDC 2026, українські ігри, GSC Ga
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="https://pbs.twimg.com/media/HC-UqYZXwAASI8I?format=jpg&name=4096x4096" style="width: 400px; max-width: 100%;">
 </div>
-<p><span>&nbsp;&nbsp;&nbsp;</span>На сцені досвідом ділилися:</p>
+<p><span>&nbsp;&nbsp;&nbsp;</span>На сцені досвідом ділилися (Говорили про найболючіше: як видавати ігри, коли у твоїй країні повномасштабна війна, і як не здаватися перед шаленими перешкодами):</p>
 <ul>
   <li><strong>Марія Григорович</strong><span>&nbsp;</span>виконавча продюсерка та креативна директорка GSC Game World (так, ті самі творці нашого улюбленого «Сталкера»)</li>
   <li><strong>Олена Лобова</strong><span>&nbsp;</span>з Burny Games</li>
   <li><strong>Хлоя Джусті</strong><span>&nbsp;</span>представниця ID@Xbox (що критично важливо для розуміння просування інді-ігор на консолях)</li>
   <li><strong>Ірена Перейра</strong><span>&nbsp;</span>CEO Unleashed Worlds</li>
 </ul>
-
-<p><span>&nbsp;&nbsp;&nbsp;</span>Говорили про найболючіше: як видавати ігри, коли у твоїй країні повномасштабна війна, і як не здаватися перед шаленими перешкодами.</p>
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="https://pbs.twimg.com/media/HDIDmx3XIAAG_pS?format=jpg&name=4096x4096" style="width: 400px; max-width: 100%;">
