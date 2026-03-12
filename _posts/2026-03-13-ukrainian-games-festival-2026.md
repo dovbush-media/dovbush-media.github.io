@@ -31,6 +31,7 @@ tags: [Ukrainian Games Festival, GDC 2026, українські ігри, GSC Ga
   <li><strong>Хлоя Джусті</strong><span>&nbsp;</span>представниця ID@Xbox (що критично важливо для розуміння просування інді-ігор на консолях)</li>
   <li><strong>Ірена Перейра</strong><span>&nbsp;</span>CEO Unleashed Worlds</li>
 </ul>
+
 <p><span>&nbsp;&nbsp;&nbsp;</span>Говорили про найболючіше: як видавати ігри, коли у твоїй країні повномасштабна війна, і як не здаватися перед шаленими перешкодами.</p>
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
@@ -45,7 +46,7 @@ tags: [Ukrainian Games Festival, GDC 2026, українські ігри, GSC Ga
   <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2933200/header_ukrainian.jpg?t=1771774787" style="width: 400px; max-width: 100%;">
 </div>
   
-  <li><strong><span>&nbsp;</span><a href="https://store.steampowered.com/app/2933200/Tukoni_Xraniteli_Lisu/" target="_blank"> <span style="color: blue;"><b>Туконі: Хранителі Лісу</b></span> </a></strong></li>
+  <li><strong><span>&nbsp;</span><a href="https://store.steampowered.com/app/2933200/Tukoni_Xraniteli_Lisu/" target="_blank">Туконі: Хранителі Лісу</a></strong></li>
   
   <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1539140/c12356fb270480b67cc76211470f8d0b5f07f7db/header.jpg?t=1772712122" style="width: 400px; max-width: 100%;">
