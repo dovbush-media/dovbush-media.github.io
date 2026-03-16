@@ -73,7 +73,7 @@ tags: [українські ігри, Steam, безкоштовні ігри, і
   <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2726320/ss_4be6ffdc7c55ba01aa02773900675424b0f51ae5.1920x1080.jpg?t=1752772527" style="width: 400px; max-width: 100%;">
 </div>
 <p><span>&nbsp;&nbsp;&nbsp;</span>У грі аж 8 різних кінцівок, тому досліджувати цей абсурдний світ справді цікаво. Головна порада — частіше зберігайтеся, бо можна зловити неприємний баг і застрягти в текстурах дерева. Але за атмосферу та креатив — моя щира повага авторам!</p>
-<p><span>&nbsp;&nbsp;&nbsp;</span>🔗<strong>Посилання:</strong>&nbsp;<i><a href="https://store.steampowered.com/app/4090360/Forest_Escape_Last_Train/" target="_blank"><span style="color: red;">Сторінка гри у Steam</span></a></i></p>
+<p><span>&nbsp;&nbsp;&nbsp;</span>🔗<strong>Посилання:</strong>&nbsp;<i><a href="https://store.steampowered.com/app/2726320/Melinij/" target="_blank"><span style="color: red;">Сторінка гри у Steam</span></a></i></p>
 
 <h3>🎮 Підсумок</h3>
 <p><span>&nbsp;&nbsp;&nbsp;</span>Ось така вийшла підбірка. Українські інді-розробники продовжують експериментувати, і це не може не тішити.❤️</p>
