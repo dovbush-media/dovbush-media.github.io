@@ -1,0 +1,92 @@
+---
+layout: default
+title: Гайди - DovbushHub
+description: Детальні гайди до відеоігор
+---
+
+<div class="category-header">
+  <h1 class="category-title">Гайди</h1>
+  <p class="category-description">
+    Детальні гайди до відеоігор
+  </p>
+</div>
+
+<div class="posts-list" id="postsList">
+  {% assign guides_posts = site.posts | where: "category", "Гайди" %}
+  
+  {% for post in guides_posts %}
+  <article class="latest-item" data-post-index="{{ forloop.index0 }}">
+    <div class="latest-image-wrap">
+    <img src="{{ post.cover }}" alt="{{ post.title }}" class="latest-image">
+    </div>
+    <div class="latest-content">
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+      <div class="latest-meta">
+        <span><i class="far fa-calendar"></i> {{ post.date | date: "%d.%m.%Y" }}</span>
+        <span><i class="fas fa-folder"></i> {{ post.category }}</span>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+<div class="pagination" id="pagination"></div>
+
+<script>
+(function() {
+  const POSTS_PER_PAGE = 6;
+  let currentPage = 1;
+
+  const allPosts = Array.from(document.querySelectorAll('#postsList .latest-item'));
+  const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+
+  function showPage(page) {
+    currentPage = page;
+    const start = (page - 1) * POSTS_PER_PAGE;
+    const end = start + POSTS_PER_PAGE;
+
+    allPosts.forEach((post, i) => {
+      post.style.display = (i >= start && i < end) ? '' : 'none';
+    });
+
+    renderPagination();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderPagination() {
+    const pag = document.getElementById('pagination');
+    if (totalPages <= 1) { pag.innerHTML = ''; return; }
+
+    let html = '';
+
+    // Попередня
+    if (currentPage > 1) {
+      html += `<button class="page-btn" onclick="goPage(${currentPage - 1})">← Попередня</button>`;
+    } else {
+      html += `<button class="page-btn" disabled style="opacity:0.35; cursor:not-allowed;">← Попередня</button>`;
+    }
+
+    // Номери сторінок
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="page-btn${i === currentPage ? ' active' : ''}" onclick="goPage(${i})">${i}</button>`;
+    }
+
+    // Наступна
+    if (currentPage < totalPages) {
+      html += `<button class="page-btn" onclick="goPage(${currentPage + 1})">Наступна →</button>`;
+    } else {
+      html += `<button class="page-btn" disabled style="opacity:0.35; cursor:not-allowed;">Наступна →</button>`;
+    }
+
+    pag.innerHTML = html;
+  }
+
+  window.goPage = showPage;
+
+  // Ініціалізація
+  if (allPosts.length > 0) {
+    showPage(1);
+  }
+})();
+</script>
