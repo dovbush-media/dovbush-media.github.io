@@ -10,7 +10,7 @@ tags: [Ukrainian Games Festival, GDC 2026, українські ігри, GSC Ga
 ---
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  <img src="https://pbs.twimg.com/card_img/2029990316946649088/OpWRMGWu?format=jpg&name=small" style="width: 400px; max-width: 100%;">
+  <img src="https://pbs.twimg.com/media/HByUj0fbYAAn8f3?format=jpg&name=large" style="width: 400px; max-width: 100%;">
 </div>
 
 <p><span>&nbsp;&nbsp;&nbsp;</span>Привіт, спільното! Поки весь ігровий світ гуде про Game Developers Conference (GDC) у Сан-Франциско, наші розробники роблять там власну, надзвичайно круту історію. 10 та 11 березня прямо в серці світової ігрової індустрії — на 530 Bush Street — прогримів дводенний поп-ап івент Ukrainian Games Festival 2026. І знаєте що? Це був тотальний розрив!</p>
