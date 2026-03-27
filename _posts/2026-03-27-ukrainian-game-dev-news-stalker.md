@@ -29,7 +29,6 @@ tags: [STALKER 2, The Sinking City 2, Plarium, кіберспорт, Remote Reap
 <h2>The Sinking City 2: Лавкрафт уже близько 🐙</h2>
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2825860/05f1db0ecea4914621f13ebaa81710e505de2c6b/header.jpg?t=1761138715" style="width: 400px; max-width: 100%;">
-  <img src=" " style="width: 400px; max-width: 100%;">
 </div>
 <p><span>&nbsp;&nbsp;&nbsp;</span>Якщо ж вам ближча похмура лавкрафтівщина, то маю гарні новини від київської Frogwares. Студія <a href="https://kutok.io/editorial/the_sinking_city_2_vse_shche_planuut_vypustyty_u_pershii_polovyni_roku-58e0" target="_blank"> <span style="color: blue;"><b>підтвердила</b></span></a>, що сиквел The Sinking City вийде вже в першій половині цього року (орієнтовно до кінця червня). Точної дати розробники поки не називають, щоб уникнути зайвих перенесень, але обіцяють повноцінний survival horror у дусі класичних частин Resident Evil.</p>
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
